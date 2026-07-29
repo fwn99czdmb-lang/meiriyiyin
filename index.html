@@ -1,0 +1,2331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>每日一饮鲜炖银耳 · 运营工作台</title>
+<style>
+:root {
+  --bg: #FFF8F0;
+  --card: #FFFFFF;
+  --primary: #C47F3A;
+  --primary-light: #F5E6D3;
+  --accent: #B8453A;
+  --text: #3E2723;
+  --text-light: #8B6F5E;
+  --border: #EDE0D4;
+  --shadow: 0 2px 12px rgba(62,39,35,0.06);
+  --radius: 14px;
+  --radius-sm: 10px;
+  --nav-height: 56px;
+  --header-height: 72px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  max-width: 480px;
+  margin: 0 auto;
+  padding-left: 42px;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
+
+/* Header */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: linear-gradient(135deg, #F5E6D3 0%, #E8D5C0 50%, #F0DDC8 100%);
+  padding: 10px 16px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.header h1 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.5px;
+}
+.header .sub {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+.header .badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* Tab Nav */
+.tab-nav {
+  position: sticky;
+  top: var(--header-height);
+  z-index: 99;
+  display: flex;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex: 0 0 auto;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--text-light);
+  border: none;
+  background: none;
+  white-space: nowrap;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  font-weight: 500;
+  min-width: 60px;
+  text-align: center;
+}
+.tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  font-weight: 600;
+}
+
+/* Main Content */
+.main {
+  padding: 12px 14px 80px;
+}
+.section { display: none; }
+.section.active { display: block; }
+
+/* Cards */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.card-title .icon { font-size: 18px; }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-outline { background: #fff; color: var(--primary); border: 1.5px solid var(--primary); }
+.btn-accent { background: var(--accent); color: #fff; }
+.btn-sm { padding: 5px 14px; font-size: 12px; }
+.btn-block { display: flex; width: 100%; }
+
+/* Form elements */
+.input, .select, .textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: inherit;
+  background: #fff;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.input:focus, .select:focus, .textarea:focus { border-color: var(--primary); }
+.textarea { resize: vertical; min-height: 80px; }
+.label { font-size: 13px; color: var(--text-light); margin-bottom: 4px; display: block; font-weight: 500; }
+.form-group { margin-bottom: 12px; }
+
+/* Tags */
+.tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  margin: 2px 4px 2px 0;
+}
+.tag-warm { background: #FFF3E0; color: #E65100; }
+.tag-cool { background: #E3F2FD; color: #1565C0; }
+.tag-green { background: #E8F5E9; color: #2E7D32; }
+.tag-pink { background: #FCE4EC; color: #C62828; }
+
+/* Copy text area */
+.copy-box {
+  background: #FAF6F0;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  font-size: 14px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  margin: 10px 0;
+  position: relative;
+  color: var(--text);
+}
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 4px 12px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.copy-btn:active { opacity: 0.8; }
+
+/* Version tabs */
+.version-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.version-tab {
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 12px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.version-tab.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+/* Ledger */
+.ledger-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.ledger-stat {
+  background: linear-gradient(135deg, #F5E6D3, #FFF8F0);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  text-align: center;
+}
+.ledger-stat .val {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary);
+}
+.ledger-stat .lbl {
+  font-size: 11px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+.ledger-list { max-height: 300px; overflow-y: auto; }
+.ledger-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.ledger-item:last-child { border-bottom: none; }
+.ledger-item .date { color: var(--text-light); font-size: 12px; }
+.ledger-item .income { color: #2E7D32; font-weight: 600; }
+.ledger-item .expense { color: var(--accent); font-weight: 600; }
+
+/* Review list */
+.review-item {
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow);
+}
+.review-item .date { font-size: 12px; color: var(--text-light); }
+.review-item h4 { font-size: 14px; margin: 4px 0 8px; }
+.review-item p { font-size: 13px; color: var(--text); line-height: 1.6; }
+.review-item .insight {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: #FFF3E0;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #E65100;
+}
+
+/* Skill cards */
+.skill-card {
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 8px;
+  box-shadow: var(--shadow);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.skill-num {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  background: var(--primary-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--primary);
+}
+.skill-content { flex: 1; }
+.skill-content h5 { font-size: 14px; margin-bottom: 4px; }
+.skill-content p { font-size: 12px; color: var(--text-light); line-height: 1.5; }
+
+/* News cards */
+.news-card {
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow);
+  border-left: 3px solid var(--primary);
+}
+.news-card .news-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.news-card .news-body { font-size: 13px; color: var(--text); line-height: 1.6; }
+.news-card .news-insight {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: #FFF8E1;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #F57F17;
+  font-weight: 500;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(62,39,35,0.88);
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-size: 13px;
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; }
+
+/* Bottom bar */
+.bottom-bar {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  background: #fff;
+  border-right: 1px solid var(--border);
+  border-radius: 0 12px 12px 0;
+  padding: 10px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 100;
+  box-shadow: 2px 0 12px rgba(62,39,35,0.06);
+}
+.bottom-bar .btn {
+  writing-mode: vertical-rl;
+  letter-spacing: 2px;
+  padding: 10px 6px;
+  font-size: 11px;
+  border-radius: 8px;
+  min-width: auto;
+  width: 36px;
+  border: none;
+  color: var(--text-light);
+  background: transparent;
+  font-weight: 500;
+}
+.bottom-bar .btn:hover, .bottom-bar .btn:active {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+/* Empty state */
+.empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-light);
+  font-size: 13px;
+}
+.empty .icon { font-size: 40px; display: block; margin-bottom: 8px; }
+
+/* Product chips */
+.product-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.product-chip {
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 12px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  color: var(--text-light);
+  cursor: pointer;
+}
+.product-chip.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+/* Monthly summary */
+.month-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.month-selector .month-label {
+  font-size: 15px;
+  font-weight: 600;
+  flex: 1;
+  text-align: center;
+}
+.month-selector .nav-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
+
+/* Filter bar */
+.filter-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.filter-chip {
+  padding: 5px 12px;
+  border-radius: 14px;
+  font-size: 11px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+  color: var(--text-light);
+}
+.filter-chip.active {
+  background: var(--primary-light);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Detail overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+}
+.overlay-content {
+  background: #fff;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  border-radius: 20px 20px 0 0;
+  padding: 20px 16px 30px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.overlay-handle {
+  width: 36px;
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+  margin: 0 auto 16px;
+}
+.overlay-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+/* History date */
+.history-date {
+  font-size: 12px;
+  color: var(--text-light);
+  padding: 8px 0 4px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 6px;
+}
+
+@media (max-width: 360px) {
+  .tab-btn { padding: 10px 10px; font-size: 12px; }
+  .header h1 { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <h1>🥣 每日一饮鲜炖银耳</h1>
+  <div class="sub">临沂鲁商中心 · 运营工作台 <span class="badge">老板娘专属</span></div>
+</div>
+
+<!-- Tab Nav -->
+<nav class="tab-nav" id="tabNav">
+  <button class="tab-btn active" data-tab="brand">🥣 品牌</button>
+  <button class="tab-btn" data-tab="copywriting">📝 文案</button>
+  <button class="tab-btn" data-tab="news">📊 资讯</button>
+  <button class="tab-btn" data-tab="review">🎬 复盘</button>
+  <button class="tab-btn" data-tab="ledger">💡 灵感</button>
+  <button class="tab-btn" data-tab="skills">✂️ 剪辑</button>
+</nav>
+
+<!-- Main Content -->
+<div class="main" id="mainContent">
+
+  <!-- ========== 模块1: 朋友圈文案 ========== -->
+  <div class="section" id="section-copywriting">
+    <div class="card">
+      <div class="card-title"><span class="icon">🥣</span> 朋友圈文案生成器</div>
+      <div class="form-group">
+        <span class="label">选产品</span>
+        <div class="product-chips" id="productChips">
+          <button class="product-chip active" data-product="银耳">鲜炖银耳</button>
+          <button class="product-chip" data-product="银耳冻">鲜果银耳冻</button>
+          <button class="product-chip" data-product="冬瓜露">冬瓜露</button>
+          <button class="product-chip" data-product="芋圆">手工芋圆</button>
+          <button class="product-chip" data-product="桃胶">桃胶银耳</button>
+          <button class="product-chip" data-product="木薯">木薯糖水</button>
+          <button class="product-chip" data-product="季节">时令季节</button>
+          <button class="product-chip" data-product="功效">银耳科普</button>
+          <button class="product-chip" data-product="下午茶">下午茶情绪</button>
+          <button class="product-chip" data-product="日常">门店日常</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <span class="label">文案风格</span>
+        <div class="version-tabs" id="styleTabs">
+          <button class="version-tab active" data-style="all">全部三版</button>
+          <button class="version-tab" data-style="warm">走心氛围感</button>
+          <button class="version-tab" data-style="short">精简短文案</button>
+          <button class="version-tab" data-style="interact">互动引流</button>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" onclick="generateCopywriting()">✨ 一键生成文案</button>
+      <div id="copywritingResult" style="margin-top:12px;"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🕐</span> 历史生成记录</div>
+      <div id="copywritingHistory" class="empty"><span class="icon">📋</span>还没生成过文案呢～</div>
+    </div>
+  </div>
+
+  <!-- ========== 模块2: 行业资讯 ========== -->
+  <div class="section" id="section-news">
+    <div class="card">
+      <div class="card-title"><span class="icon">📈</span> 今日短视频流量趋势</div>
+      <p style="font-size:12px;color:var(--text-light);margin-bottom:12px;">📅 <span id="trendDate"></span> · 糖水/美食/同城实体赛道风向</p>
+      <div id="trendContent"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">📊</span> 今日糖水饮品行业资讯简报</div>
+      <p style="font-size:12px;color:var(--text-light);margin-bottom:12px;">📅 <span id="newsDate"></span> · 聚焦新式糖水 / 鲜炖甜品 / 同城实体 / 夏季饮品赛道</p>
+      <div id="newsContent"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">📚</span> 今日门店运营知识</div>
+      <p style="font-size:12px;color:var(--text-light);margin-bottom:12px;">📅 <span id="opsDate"></span> · 鲜炖糖水实体店经营实战经验</p>
+      <div id="opsContent"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">💹</span> 今日经济学小知识</div>
+      <p style="font-size:12px;color:var(--text-light);margin-bottom:12px;">📅 <span id="econDate"></span> · 用经济学思维看懂生意 · 结合当下经济变化</p>
+      <div id="econContent"></div>
+    </div>
+  </div>
+
+  <!-- ========== 模块3: 短视频复盘 ========== -->
+  <div class="section" id="section-review">
+    <div class="card">
+      <div class="card-title"><span class="icon">🎬</span> 录入今日数据</div>
+      <div class="form-group">
+        <span class="label">日期</span>
+        <input type="date" class="input" id="reviewDate">
+      </div>
+      <div class="form-group">
+        <span class="label">平台</span>
+        <select class="select" id="reviewPlatform">
+          <option value="抖音">抖音</option>
+          <option value="视频号">视频号</option>
+          <option value="双平台">双平台</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <span class="label">播放量</span>
+        <input type="number" class="input" id="reviewViews" placeholder="如：1520">
+      </div>
+      <div class="form-group">
+        <span class="label">点赞数</span>
+        <input type="number" class="input" id="reviewLikes" placeholder="如：68">
+      </div>
+      <div class="form-group">
+        <span class="label">评论数</span>
+        <input type="number" class="input" id="reviewComments" placeholder="如：12">
+      </div>
+      <div class="form-group">
+        <span class="label">同城流量占比（%）</span>
+        <input type="number" class="input" id="reviewLocal" placeholder="如：65" min="0" max="100">
+      </div>
+      <div class="form-group">
+        <span class="label">转化/到店咨询数</span>
+        <input type="number" class="input" id="reviewConversion" placeholder="如：3">
+      </div>
+      <div class="form-group">
+        <span class="label">视频主题（一句话描述）</span>
+        <input type="text" class="input" id="reviewTopic" placeholder="如：银耳慢炖过程展示">
+      </div>
+      <button class="btn btn-primary btn-block" onclick="addReview()">📊 生成复盘分析</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">📋</span> 历史复盘记录</div>
+      <div style="margin-bottom:10px;">
+        <input type="date" class="input" id="reviewSearchDate" onchange="filterReviews()" placeholder="按日期筛选">
+      </div>
+      <div id="reviewHistory"><div class="empty"><span class="icon">📭</span>还没有复盘记录</div></div>
+    </div>
+  </div>
+
+  <!-- ========== 模块4: 视频灵感记录 ========== -->
+  <div class="section" id="section-ledger">
+    <div class="ledger-summary" id="ledgerSummary">
+      <div class="ledger-stat">
+        <div class="val" id="totalDeposit">0</div>
+        <div class="lbl">💡 灵感总数</div>
+      </div>
+      <div class="ledger-stat">
+        <div class="val" id="totalExpense">0</div>
+        <div class="lbl">📅 本月灵感</div>
+      </div>
+      <div class="ledger-stat">
+        <div class="val" id="currentBalance" style="color:var(--primary);">0</div>
+        <div class="lbl">🎬 已拍成视频</div>
+      </div>
+      <div class="ledger-stat">
+        <div class="val" id="monthExpense">0</div>
+        <div class="lbl">📋 待拍摄</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">💡</span> 记录一个新灵感</div>
+      <div class="form-group">
+        <span class="label">日期</span>
+        <input type="date" class="input" id="ledgerDate">
+      </div>
+      <div class="form-group">
+        <span class="label">灵感标题（简短描述）</span>
+        <input type="text" class="input" id="ledgerDeposit" placeholder="如：银耳出胶延时摄影、老顾客故事第3期">
+      </div>
+      <div class="form-group">
+        <span class="label">拍摄类型</span>
+        <select class="select" id="ledgerExpense">
+          <option value="口播">口播</option>
+          <option value="拍摄">产品拍摄</option>
+          <option value="日常">日常vlog</option>
+          <option value="情绪">情绪文案</option>
+          <option value="科普">知识科普</option>
+          <option value="互动">顾客互动</option>
+          <option value="创意">创意短片</option>
+          <option value="同城">同城话题</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <span class="label">灵感详细描述（想到什么写什么）</span>
+        <textarea class="textarea" id="ledgerNote" placeholder="如：拍银耳从下锅到出胶的全过程，手机架在锅边延时摄影，配治愈BGM。结尾加一句话"4小时的等待，都在这一碗里了"。发布时打#延时摄影 #银耳 #临沂美食" rows="3"></textarea>
+      </div>
+      <button class="btn btn-primary btn-block" onclick="addLedger()">💡 保存灵感</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">📋</span> 灵感记录本</div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:0;">
+          <input type="date" class="input" id="ledgerSearchDate" onchange="renderLedgerDetail()" placeholder="按日期筛选" style="font-size:12px;">
+        </div>
+        <div style="flex:1;min-width:0;">
+          <select class="select" id="ledgerTypeFilter" onchange="renderLedgerDetail()" style="font-size:12px;">
+            <option value="all">全部类型</option>
+            <option value="口播">口播</option>
+            <option value="拍摄">产品拍摄</option>
+            <option value="日常">日常vlog</option>
+            <option value="情绪">情绪文案</option>
+            <option value="科普">知识科普</option>
+            <option value="互动">顾客互动</option>
+            <option value="创意">创意短片</option>
+            <option value="同城">同城话题</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <button class="btn btn-primary btn-sm" onclick="generateScript()" style="flex:1;">🎬 一键生成今日拍摄脚本</button>
+        <button class="btn btn-outline btn-sm" onclick="exportInspirations()" style="flex:1;">📤 整理输出灵感</button>
+        <button class="btn btn-accent btn-sm" onclick="clearInspirations()" style="flex:0;">🗑️</button>
+      </div>
+      <div id="scriptPreview" style="margin-bottom:12px;"></div>
+      <div class="month-selector" id="ledgerMonthSelector">
+        <button class="nav-btn" onclick="changeLedgerMonth(-1)">◀</button>
+        <span class="month-label" id="ledgerMonthLabel">2026年7月</span>
+        <button class="nav-btn" onclick="changeLedgerMonth(1)">▶</button>
+      </div>
+      <div id="ledgerDetail"><div class="empty"><span class="icon">💡</span>还没有记录灵感～想到什么赶紧记下来！</div></div>
+    </div>
+  </div>
+
+  <!-- ========== 模块5: 剪辑技巧 ========== -->
+  <div class="section" id="section-skills">
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <div class="card-title"><span class="icon">🔥</span> 今日视频热点选题</div>
+      <p style="font-size:12px;color:var(--text-light);margin-bottom:12px;">📅 <span id="hotDate"></span> · 适合糖水实体店的当日热门话题</p>
+      <div id="hotContent"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">✂️</span> 今日剪辑技巧</div>
+      <p style="font-size:12px;color:var(--text-light);margin-bottom:12px;">🎯 适配剪映 · 实体店短视频</p>
+      <div class="filter-bar" id="skillFilter">
+        <button class="filter-chip active" data-filter="all">全部</button>
+        <button class="filter-chip" data-filter="基础">基础操作</button>
+        <button class="filter-chip" data-filter="调色">调色技巧</button>
+        <button class="filter-chip" data-filter="转场">转场特效</button>
+        <button class="filter-chip" data-filter="文字">文字字幕</button>
+        <button class="filter-chip" data-filter="音频">音频处理</button>
+        <button class="filter-chip" data-filter="运镜">运镜拍摄</button>
+        <button class="filter-chip" data-filter="情绪">💛 情绪文案</button>
+      </div>
+      <div id="skillsContent"></div>
+    </div>
+  </div>
+
+  <!-- ========== 模块6: 品牌理念（独立展示） ========== -->
+  <div class="section active" id="section-brand">
+    <!-- 品牌宣言 -->
+    <div class="card" style="background:linear-gradient(135deg,#FFF8F0,#F5E6D3);text-align:center;">
+      <div style="font-size:40px;margin-bottom:8px;">🥣</div>
+      <div style="font-size:24px;font-weight:700;color:var(--primary);letter-spacing:3px;margin-bottom:4px;">每日一饮鲜炖银耳</div>
+      <div style="font-size:13px;color:var(--text-light);margin-bottom:12px;">临沂鲁商中心 · 始于2022</div>
+      <div style="font-size:18px;font-weight:700;color:var(--accent);letter-spacing:2px;margin-bottom:6px;">好原料 · 当天熬 · 不将就</div>
+      <div style="width:40px;height:2px;background:var(--primary-light);margin:12px auto;"></div>
+      <div style="font-size:13px;color:var(--text);line-height:2;text-align:left;padding:0 8px;">
+        <strong>我们的坚持——</strong><br>
+        用真正放心的好原材料，新鲜现切水果，没有任何添加剂。<br>
+        所有小料和原料，每天现炖现煮。<br>
+        超时超过效期的小料，倒掉也不用，只为保证口感。
+      </div>
+    </div>
+
+    <!-- 三大原则 -->
+    <div class="card">
+      <div class="card-title"><span class="icon">📜</span> 三不原则</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;gap:10px;align-items:center;background:#FFF5F5;border-radius:12px;padding:14px;">
+          <div style="font-size:28px;flex-shrink:0;">❌</div>
+          <div>
+            <div style="font-weight:700;font-size:14px;color:var(--accent);">不用烂水果</div>
+            <div style="font-size:12px;color:var(--text-light);">水果当天新鲜现切，蔫的烂的白给都不要</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;background:#FFF5F5;border-radius:12px;padding:14px;">
+          <div style="font-size:28px;flex-shrink:0;">❌</div>
+          <div>
+            <div style="font-weight:700;font-size:14px;color:var(--accent);">不加添加剂</div>
+            <div style="font-size:12px;color:var(--text-light);">不加香精色素防腐剂，吃食材本来的味道</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;background:#FFF5F5;border-radius:12px;padding:14px;">
+          <div style="font-size:28px;flex-shrink:0;">❌</div>
+          <div>
+            <div style="font-weight:700;font-size:14px;color:var(--accent);">不过夜小料</div>
+            <div style="font-size:12px;color:var(--text-light);">超最佳口感期的小料，倒了也不凑合上桌</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 三大承诺 -->
+    <div class="card">
+      <div class="card-title"><span class="icon">✅</span> 三大承诺</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;gap:10px;align-items:center;background:#F0FAF0;border-radius:12px;padding:14px;">
+          <div style="font-size:28px;flex-shrink:0;">🥭</div>
+          <div>
+            <div style="font-weight:700;font-size:14px;color:#2E7D32;">鲜果现切</div>
+            <div style="font-size:12px;color:var(--text-light);">水果到店现切，不隔夜不预制</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;background:#F0FAF0;border-radius:12px;padding:14px;">
+          <div style="font-size:28px;flex-shrink:0;">🔥</div>
+          <div>
+            <div style="font-weight:700;font-size:14px;color:#2E7D32;">每日现熬</div>
+            <div style="font-size:12px;color:var(--text-light);">所有汤底小料当天现炖现煮，不买半成品不兑浓缩液</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;background:#F0FAF0;border-radius:12px;padding:14px;">
+          <div style="font-size:28px;flex-shrink:0;">⏰</div>
+          <div>
+            <div style="font-weight:700;font-size:14px;color:#2E7D32;">到点就倒</div>
+            <div style="font-size:12px;color:var(--text-light);">过了最佳口感期的小料，倒了不心疼，上桌才心疼</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 关于我们 -->
+    <div class="card">
+      <div class="card-title"><span class="icon">🏠</span> 关于我们</div>
+      <div style="font-size:13px;color:var(--text);line-height:2;">
+        2022年，从家里的一口锅开始。<br>
+        老板娘在厨房慢炖银耳，老板骑着电动车一单一单送。<br><br>
+        后来在鲁商中心开了实体店。<br>
+        地方变了，锅变大了，但规矩没变——<br><br>
+        <strong>用好原料，是良心。</strong><br>
+        <strong>每天现熬，是态度。</strong><br>
+        <strong>不将就，是本分。</strong><br><br>
+        我们不整花活，不打价格战。<br>
+        只做一件事：让每一碗端出去，自己都愿意喝。<br><br>
+        📍临沂鲁商中心 · 每日一饮鲜炖银耳
+      </div>
+    </div>
+
+    <!-- 产品系列 -->
+    <div class="card">
+      <div class="card-title"><span class="icon">🍽️</span> 我们的产品</div>
+
+      <!-- 鲜炖银耳系列 -->
+      <div style="font-weight:700;font-size:14px;color:var(--primary);margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+        <span>🥣</span> 鲜炖银耳系列（招牌）
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;">
+        <div style="background:#FFF8F0;border-radius:8px;padding:10px;text-align:center;font-size:12px;">
+          <div style="font-weight:600;">红枣莲子银耳汤</div>
+          <div style="color:var(--text-light);font-size:10px;">经典基础款·胶质满满</div>
+        </div>
+        <div style="background:#FFF8F0;border-radius:8px;padding:10px;text-align:center;font-size:12px;">
+          <div style="font-weight:600;">红枣银耳炖奶</div>
+          <div style="color:var(--text-light);font-size:10px;">银耳+牛奶·丝滑加倍</div>
+        </div>
+        <div style="background:#FFF8F0;border-radius:8px;padding:10px;text-align:center;font-size:12px;">
+          <div style="font-weight:600;">雪梨银耳汤</div>
+          <div style="color:var(--text-light);font-size:10px;">雪梨清甜·润燥首选</div>
+        </div>
+        <div style="background:#FFF8F0;border-radius:8px;padding:10px;text-align:center;font-size:12px;">
+          <div style="font-weight:600;">椴木银耳汤</div>
+          <div style="color:var(--text-light);font-size:10px;">椴木培育·胶质更厚</div>
+        </div>
+        <div style="background:#FFF8F0;border-radius:8px;padding:10px;text-align:center;font-size:12px;">
+          <div style="font-weight:600;">桃胶银耳汤</div>
+          <div style="color:var(--text-light);font-size:10px;">桃胶+银耳·双重胶质</div>
+        </div>
+        <div style="background:#FFF8F0;border-radius:8px;padding:10px;text-align:center;font-size:12px;">
+          <div style="font-weight:600;">椰奶雪糯米银耳</div>
+          <div style="color:var(--text-light);font-size:10px;">椰奶+糯米·口感丰富</div>
+        </div>
+        <div style="background:#FFF8F0;border-radius:8px;padding:10px;text-align:center;font-size:12px;">
+          <div style="font-weight:600;">桃胶黑钻银耳捞</div>
+          <div style="color:var(--text-light);font-size:10px;">黑钻+桃胶·豪华搭配</div>
+        </div>
+        <div style="background:#FFF8F0;border-radius:8px;padding:10px;text-align:center;font-size:12px;">
+          <div style="font-weight:600;">木苏桃胶大满贯</div>
+          <div style="color:var(--text-light);font-size:10px;">桃胶+多料·一碗满足</div>
+        </div>
+      </div>
+
+      <!-- 鲜果银耳冻系列 -->
+      <div style="font-weight:700;font-size:14px;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+        <span>🍓</span> 鲜果银耳冻系列（热销爆款）
+      </div>
+      <div style="background:linear-gradient(135deg,#FFF0F0,#FFF8F0);border-radius:10px;padding:12px;margin-bottom:14px;text-align:center;">
+        <div style="font-size:13px;color:var(--text);line-height:1.8;">
+          银耳冻冻 + 椰奶 + <strong>当季新鲜水果</strong><br>
+          <span style="font-size:11px;color:var(--accent);">🔥 目前店里卖得最好的系列！</span><br>
+          <span style="font-size:11px;color:var(--text-light);">水果随季节更换，永远是最新鲜的那一口</span>
+        </div>
+      </div>
+
+      <!-- 手工芋圆系列 -->
+      <div style="font-weight:700;font-size:14px;color:var(--primary);margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+        <span>🍠</span> 手工芋圆糖水系列
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;">
+        <div style="background:#FFF8F0;border-radius:8px;padding:10px;text-align:center;font-size:12px;">
+          <div style="font-weight:600;">芋圆红豆烧仙草</div>
+          <div style="color:var(--text-light);font-size:10px;">经典搭配·手工现搓</div>
+        </div>
+        <div style="background:#FFF8F0;border-radius:8px;padding:10px;text-align:center;font-size:12px;">
+          <div style="font-weight:600;">芋圆芋泥椰奶捞</div>
+          <div style="color:var(--text-light);font-size:10px;">芋泥绵密·椰奶香浓</div>
+        </div>
+      </div>
+
+      <!-- 解暑系列 -->
+      <div style="font-weight:700;font-size:14px;color:var(--primary);margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+        <span>🍈</span> 夏日解暑系列
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;">
+        <div style="background:#FFF8F0;border-radius:8px;padding:10px;text-align:center;font-size:12px;">
+          <div style="font-weight:600;">冬瓜露</div>
+          <div style="color:var(--text-light);font-size:10px;">纯冬瓜慢熬·3天保鲜</div>
+        </div>
+        <div style="background:#FFF8F0;border-radius:8px;padding:10px;text-align:center;font-size:12px;">
+          <div style="font-weight:600;">冬瓜露银耳</div>
+          <div style="color:var(--text-light);font-size:10px;">冬瓜露+银耳·清爽润养</div>
+        </div>
+        <div style="background:#FFF8F0;border-radius:8px;padding:10px;text-align:center;font-size:12px;">
+          <div style="font-weight:600;">木薯糖水</div>
+          <div style="color:var(--text-light);font-size:10px;">Q弹木薯·冰镇更爽</div>
+        </div>
+        <div style="background:#FFF8F0;border-radius:8px;padding:10px;text-align:center;font-size:12px;">
+          <div style="font-weight:600;">自选搭配款</div>
+          <div style="color:var(--text-light);font-size:10px;">小料随心配·你的糖水你做主</div>
+        </div>
+      </div>
+
+      <div style="text-align:center;font-size:12px;color:var(--text-light);margin-top:4px;">
+        🥣 以上所有产品 · 每日现熬 · 零添加 · 好原料
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom Bar -->
+<div class="bottom-bar" id="bottomBar">
+  <button class="btn btn-outline btn-sm" onclick="switchTab('brand')">🥣 品牌</button>
+  <button class="btn btn-outline btn-sm" onclick="switchTab('copywriting')">📝 文案</button>
+  <button class="btn btn-outline btn-sm" onclick="switchTab('news')">📊 资讯</button>
+  <button class="btn btn-outline btn-sm" onclick="switchTab('review')">🎬 复盘</button>
+  <button class="btn btn-outline btn-sm" onclick="switchTab('ledger')">💡 灵感</button>
+  <button class="btn btn-outline btn-sm" onclick="switchTab('skills')">✂️ 剪辑</button>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============ 全局状态 ============
+const STORE = {
+  ledger: (JSON.parse(localStorage.getItem('dailyyiyin_ledger') || '[]')).filter(r => r.title !== undefined || r.type !== undefined),
+  reviews: JSON.parse(localStorage.getItem('dailyyiyin_reviews') || '[]'),
+  copyHistory: JSON.parse(localStorage.getItem('dailyyiyin_copyHistory') || '[]'),
+  currentTab: 'brand',
+  currentProduct: '银耳',
+  currentStyle: 'all',
+  ledgerMonth: new Date().getMonth(),
+  ledgerYear: new Date().getFullYear(),
+};
+
+function save(key) {
+  localStorage.setItem('dailyyiyin_' + key, JSON.stringify(STORE[key]));
+}
+
+// ============ Toast ============
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+// ============ Tab切换 ============
+function switchTab(tab) {
+  STORE.currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.section').forEach(s => s.classList.toggle('active', s.id === 'section-' + tab));
+  document.querySelectorAll('.bottom-bar .btn').forEach(b => {
+    const emoji = getTabEmoji(tab);
+    if (b.textContent.includes(emoji)) {
+      b.style.background = 'var(--primary-light)';
+      b.style.color = 'var(--primary)';
+      b.style.fontWeight = '700';
+    } else {
+      b.style.background = 'transparent';
+      b.style.color = 'var(--text-light)';
+      b.style.fontWeight = '500';
+    }
+  });
+  if (tab === 'news') { renderTrend(); renderNews(); renderOps(); renderEcon(); }
+  if (tab === 'skills') { renderHot(); renderSkills(); }
+  if (tab === 'ledger') renderLedgerSummary();
+  if (tab === 'review') document.getElementById('reviewDate').value = today();
+  document.getElementById('mainContent').scrollTop = 0;
+}
+function getTabEmoji(tab) {
+  const map = { copywriting:'📝', news:'📊', review:'🎬', ledger:'💡', skills:'✂️', brand:'🥣' };
+  return map[tab] || '';
+}
+
+// Tab按钮点击
+document.getElementById('tabNav').addEventListener('click', e => {
+  if (e.target.classList.contains('tab-btn')) switchTab(e.target.dataset.tab);
+});
+document.querySelectorAll('.bottom-bar .btn').forEach(b => {
+  b.addEventListener('click', function() {
+    const tab = Object.keys({copywriting:'📝',news:'📊',review:'🎬',ledger:'💡',skills:'✂️',brand:'🥣'}).find(k => getTabEmoji(k) === this.textContent.trim().slice(0,2));
+    if (tab) switchTab(tab);
+  });
+});
+
+// ============ 工具函数 ============
+function today() { return new Date().toISOString().split('T')[0]; }
+function fmt(n) { return Number(n || 0).toFixed(2); }
+function fmtDate(d) { const p = d.split('-'); return p[1] + '/' + p[2]; }
+function nowMonth() { const d = new Date(); return d.getFullYear() + '年' + (d.getMonth()+1) + '月'; }
+
+// ============ 模块1: 朋友圈文案 ============
+const COPY_TEMPLATES = {
+  银耳: {
+    warm: `【慢炖一锅银耳，炖的是日子】
+
+从22年在家里的小厨房开始，每天守着这锅银耳，看着胶质一点点熬出来，心里就踏实。
+
+咱家银耳不整那些花里胡哨的，就是老老实实每日现熬、零添加。夏天在空调房里待久了嗓子发干，来一杯微凉的鲜炖银耳，润润的滑滑的，比啥都舒坦。
+
+不是啥神药，就是一碗用心熬的糖水。
+
+📍临沂鲁商中心·每日一饮鲜炖银耳
+🥣 今日已出锅，趁鲜来喝～`,
+    short: `空调吹多了嗓子干？来杯微凉的鲜炖银耳～
+每日现熬·零添加·满满天然胶质
+📍鲁商中心·每日一饮鲜炖银耳
+🥣 今天这锅刚出锅！`,
+    interact: `姐妹们问个事儿——你们在空调房待一天，嗓子会不会也发干发紧？
+
+俺家这锅鲜炖银耳，每天守着熬到胶质满满，微凉来一杯，从嗓子润到心里。好多老顾客说比喝水管用多了（当然咱不说治病哈，就是日常润着）😊
+
+📍临沂鲁商中心·每日一饮鲜炖银耳
+🥣 今日已出锅，路过捎一杯？
+
+评论区说说：你夏天最离不开的饮品是啥？👇`,
+    question: '你夏天在空调房最离不开什么饮品？',
+  },
+  冬瓜露: {
+    warm: `【夏天的命，是冬瓜露给的】
+
+纯冬瓜慢熬出来的露，一滴多余的水都不掺。煮沸密封、冷藏保存，3天内喝完，就是图个新鲜。
+
+热得冒烟的时候，来一杯冰爽的冬瓜露，那个清甜是从喉咙一路凉到心底的舒服。
+
+不加香精不兑水，喝过就知道不一样。
+
+📍鲁商中心·每日一饮鲜炖银耳
+🍈 冬瓜露今日有货，来晚了真没有～`,
+    short: `热炸了？来杯纯冬瓜露降降温！
+纯冬瓜慢熬·零添加·3天保鲜
+📍鲁商中心·每日一饮鲜炖银耳
+🍈 趁凉喝，爽到心底！`,
+    interact: `临沂这天儿也太热了吧！！出门五分钟感觉要化了…
+
+咱家纯冬瓜露每天现熬，啥都不加就是冬瓜本瓜，冷藏后那个清爽劲儿，一杯下去整个人都活过来了😭
+
+📍鲁商中心·每日一饮鲜炖银耳
+🍈 今天这锅刚出锅，3天内喝完最新鲜！
+
+来聊聊：你觉得临沂夏天最离不开啥降温神器？👇`,
+    question: '临沂夏天你最离不开什么降温饮品？',
+  },
+  雪梨: {
+    warm: `【润，从一碗雪梨百合开始】
+
+雪梨切块、百合洗净，文火慢炖到清甜入汤。没有科技与狠活，就是食材本来的味道。
+
+这个季节，给家里老人孩子带一碗回去，清清润润的，比喝饮料踏实。
+
+📍鲁商中心·每日一饮鲜炖银耳
+🍐 今日现炖，趁热或微凉都好喝～`,
+    short: `雪梨+百合，清润一整天～
+每日现炖·零添加·食材本味
+📍鲁商中心·每日一饮鲜炖银耳
+🍐 趁鲜来一碗！`,
+    interact: `有没有和我一样的——夏天不想喝奶茶，就想喝点清清爽爽的糖水？
+
+咱家雪梨百合糖水，就是雪梨+百合慢慢炖，不加糖精不勾兑，喝的就是食材本来的甜。老人小孩都能喝，比饮料安心多了～
+
+📍鲁商中心·每日一饮鲜炖银耳
+🍐 今天炖了一大锅，来尝尝？
+
+评论区举手：你最喜欢的传统糖水是啥？🙋‍♀️`,
+    question: '你最喜欢的传统糖水是什么？',
+  },
+  芋圆: {
+    warm: `【手工搓的芋圆，每一颗都不一样】
+
+机器做的是一个模子，手搓的有大有小、有圆有扁——但就是这颗颗不一样，才有人情味呀。
+
+芋头蒸熟、加粉、手搓、现煮，配上烧仙草，满满一碗，是咱临沂人自己的下午茶。
+
+📍鲁商中心·每日一饮鲜炖银耳
+🍠 手工芋圆烧仙草，每日限量～`,
+    short: `手工芋圆+烧仙草=夏天的快乐！
+手工现搓·芋头本味·每日限量
+📍鲁商中心·每日一饮鲜炖银耳
+🍠 来晚了真没有～`,
+    interact: `今天在后厨搓芋圆，突然想起小时候看奶奶做芋圆的样子……
+
+咱家芋圆都是手工一颗颗搓的，蒸熟的芋头加粉揉面，煮出来QQ弹弹，配烧仙草那叫一个绝！机器做的跟这个没法比～
+
+📍鲁商中心·每日一饮鲜炖银耳
+🍠 手工芋圆烧仙草，今天搓了三盘！
+
+你小时候吃过家里做的手工芋圆吗？👇`,
+    question: '你吃过最难忘的手工甜品是什么？',
+  },
+  日常: {
+    warm: `【一家小店，一锅糖水，一份日子】
+
+从2022年在家私房慢炖，老公骑着电动车一单一单送，到现在鲁商中心有了自己的小店。变的是地方，不变的是每天守着那锅银耳的心。
+
+经常有老顾客说："还是那个味儿。"
+
+这句话，比啥都值。
+
+📍鲁商中心·每日一饮鲜炖银耳
+🥣 每天现熬，等你来坐坐～`,
+    short: `开了店才懂，老顾客一句"还是那个味儿"比啥都甜。
+每日现熬·零添加·临沂人的糖水铺
+📍鲁商中心·每日一饮鲜炖银耳`,
+    interact: `今天有个老顾客从河东专门跑过来喝银耳，说"就馋你家这个胶质感"。一下子把我感动得不行😭
+
+从22年在家熬到现在开店，最开心的就是被大家惦记着这个味道。谢谢每一个老铁呀！
+
+📍鲁商中心·每日一饮鲜炖银耳
+🥣 今天照常营业，来坐坐～
+
+你第一次来咱家喝的是啥？还记得不？👇`,
+    question: '你还记得第一次来咱家喝的什么吗？',
+  },
+  银耳冻: {
+    warm: `【这碗鲜果银耳冻，是咱家夏天的人气王】
+
+银耳熬出胶，做成银耳冻冻，DuangDuang的那种～浇上椰奶，再铺满当天现切的当季新鲜水果。每一勺舀下去，有冻冻的Q弹、椰奶的香浓、水果的清甜。
+
+水果跟着季节走，这个月是芒果蜜瓜，下个月可能是荔枝水蜜桃——反正啥应季就用啥，不将就。
+
+🔥 最近来店里的姑娘们几乎人手一碗，你还没试过？
+
+📍鲁商中心·每日一饮鲜炖银耳
+🍓 鲜果银耳冻，每日限量～`,
+    short: `银耳冻冻+椰奶+当季鲜果=夏天最火的一碗！
+🍓 鲜果银耳冻系列·每日现做
+📍鲁商中心·每日一饮鲜炖银耳`,
+    interact: `问个事——你们吃甜品喜欢纯糖水那种，还是喜欢有冻冻有水果口感丰富的那种？
+
+我家这个鲜果银耳冻，最近卖疯了！银耳熬成冻冻，DuangDuang的，配上椰奶和当天现切的新鲜水果，一勺下去啥都有，口感绝了😍
+
+水果跟着季节换，这周是芒果+蜜瓜，下周可能是荔枝季！
+
+📍鲁商中心·每日一饮鲜炖银耳
+🍓 来吃过银耳冻的举个手🙋‍♀️`,
+    question: '你最喜欢什么水果搭配甜品？',
+  },
+  桃胶: {
+    warm: `【一碗桃胶银耳，是给自己的仪式感】
+
+桃胶泡发要十几个小时，银耳要熬到拉丝。两样好东西放在一起，胶质叠胶质，每一口都是满满的自然滋养。
+
+咱家还有桃胶黑钻银耳捞、木苏桃胶大满贯——桃胶控来了真的会挑花眼。
+
+不整虚的，就是好料+时间，熬出来的味道。
+
+📍鲁商中心·每日一饮鲜炖银耳
+🥣 桃胶系列今日有货～`,
+    short: `桃胶+银耳=胶质加倍！
+桃胶黑钻银耳捞·木苏桃胶大满贯
+📍鲁商中心·每日一饮鲜炖银耳`,
+    interact: `有没有跟我一样，吃糖水特别喜欢那种胶胶糯糯口感的？
+
+我家桃胶银耳系列——桃胶泡发十几个小时，银耳熬到拉丝，两个"胶质王"放一起，那个口感绝了！桃胶黑钻银耳捞、木苏桃胶大满贯，都是料堆出来的实在～
+
+📍鲁商中心·每日一饮鲜炖银耳
+🥣 桃胶控来报到！👇`,
+    question: '你喜欢桃胶的口感吗？',
+  },
+  木薯: {
+    warm: `【木薯糖水——懂的人才懂的快乐】
+
+木薯煮到半透明，Q弹中带一点糯，冰镇以后那个口感，夏天来一碗真的太爽了。
+
+不是什么花里胡哨的东西，就是小时候那种实实在在的好吃。配银耳也行，单喝也行，解暑第一名。
+
+📍鲁商中心·每日一饮鲜炖银耳
+🍠 木薯糖水，今天煮了一大锅～`,
+    short: `Q弹木薯糖水，夏天的快乐！
+冰镇更爽·每日现煮
+📍鲁商中心·每日一饮鲜炖银耳`,
+    interact: `有人认识木薯吗？小时候家里煮的那种，半透明、Q弹Q弹的～
+
+我家木薯糖水就是那个味儿，每天现煮，冰镇以后那个清爽，夏天来一碗从头凉到脚！
+
+配银耳喝也行，单喝也行。你喝过木薯糖水吗？👇`,
+    question: '你小时候喝过木薯糖水吗？',
+  },
+  季节: {
+    warm: `【顺应时令，吃对东西，是对身体最好的照顾】
+
+夏天有冬瓜露解暑，秋天有雪梨银耳润燥，冬天有红枣银耳炖奶暖身，春天有鲜果银耳冻尝鲜——一年四季，咱家锅里熬的东西也跟着季节走。
+
+不是刻意讲究，是老祖宗的智慧——什么季节吃什么，身体最知道。
+
+这个季节，店里最应景的是____，每天现熬，趁鲜来一碗。
+
+📍鲁商中心·每日一饮鲜炖银耳
+🍂 跟着季节喝糖水，比啥都实在～`,
+    short: `什么季节喝什么，身体最知道～
+应季鲜炖·每日现熬·零添加
+📍鲁商中心·每日一饮鲜炖银耳`,
+    interact: `你们有没有发现——夏天喝冬瓜露就是比冬天爽，秋天喝银耳就是比夏天润？
+
+这就是"应季"的道理呀～咱家菜单跟着季节走：夏天解暑系列、秋天润燥系列、冬天暖身系列、春天尝鲜系列。每个季节来店里，都有当季最对味的那一碗。
+
+📍鲁商中心·每日一饮鲜炖银耳
+🍂 这个季节你最想喝啥？👇`,
+    question: '你吃东西会跟着季节换吗？',
+  },
+  功效: {
+    warm: `【银耳的好，是日积月累的润】
+
+银耳自古以来就是润肺养肺的好东西。《本草纲目》里都记着呢——"润肺生津，滋阴养胃"。不是药，但每天喝一碗，肺里润润的，嗓子舒舒服服的，比啥都实在。
+
+尤其是长期在空调房里待着的、说话多的、嗓子容易发干的——银耳的胶质会附着在喉咙上形成一层保护膜，喝下去整个人都觉得通透。
+
+⚠️ 咱不宣传治病哈，银耳就是日常食疗养护。但坚持喝的人都知道——有些好，是润物细无声的。
+
+📍鲁商中心·每日一饮鲜炖银耳
+🥣 每日现熬，润肺养胃，从一碗银耳开始～`,
+    short: `润肺生津·滋阴养胃
+每日现熬银耳·空调房必备
+⚠️日常食疗养护，非药物
+📍鲁商中心·每日一饮鲜炖银耳`,
+    interact: `你们有没有这种感觉——在空调房待一天，嗓子干得像砂纸？
+
+银耳的好处就在这儿了！天然的胶质喝下去，在喉咙上形成一层保护膜，润润的滑滑的，比喝多少水都管用。不是药，就是老祖宗传下来的食疗智慧～
+
+《本草纲目》里说银耳"润肺生津，滋阴养胃"。翻译成大白话就是：对肺好、对胃好、对嗓子好。
+
+📍鲁商中心·每日一饮鲜炖银耳
+🥣 今天这锅刚熬好，胶质拉丝～
+
+评论区说说：你平时怎么保护嗓子？👇`,
+    question: '你平时怎么保护嗓子？空调房里会喝什么？',
+  },
+  下午茶: {
+    warm: `【下午三点，是这一天最难熬的时候】
+
+手里的活还没干完，脑子已经开始发木，嘴巴里总觉得缺点什么——不是饿，就是想给自己一个小小的奖励。
+
+这时候最想要的不是奶茶（太腻），不是咖啡（太苦），是一碗微凉的鲜炖银耳——胶质滑过喉咙的那一刻，整个人才觉得"啊，我又可以了"。
+
+不是什么大餐，但足够让你在接下来的两个小时里，觉得今天也没那么难。
+
+📍鲁商中心·每日一饮鲜炖银耳
+🕒 下午茶时间，给自己一碗银耳的犒赏～`,
+    short: `下午三点，脑子发木，嘴巴缺什么？
+不是奶茶不是咖啡——是那碗微凉滑喉的银耳。
+🕒 下午茶时间·鲁商中心·每日一饮鲜炖银耳`,
+    interact: `说个真事——每天下午三点左右，店里会来一波"续命"的客人。
+
+有的是附近上班溜出来的，有的是刚接完孩子的宝妈，有的是逛街逛累了的姑娘。每个人进来的时候表情都差不多——累、乏、需要一口甜的但不是齁甜的那种。
+
+然后一碗银耳下去，表情就变了——"啊～缓过来了。"
+
+这就是下午茶的魔力。不是吃饱，是给下午的自己打一针"我还可以"。
+
+📍鲁商中心·每日一饮鲜炖银耳
+🕒 下午茶时间，你最想喝啥犒劳自己？👇`,
+    question: '你的下午茶首选是什么？奶茶、咖啡、还是糖水？',
+  },
+};
+
+function generateCopywriting() {
+  const product = STORE.currentProduct;
+  const style = STORE.currentStyle;
+  const templates = COPY_TEMPLATES[product];
+  if (!templates) return;
+
+  let html = '';
+  const styles = style === 'all' ? ['warm','short','interact'] : [style];
+  const labels = { warm: '💛 走心氛围感版', short: '⚡ 精简短文案版', interact: '💬 互动引流版' };
+
+  styles.forEach(s => {
+    const text = templates[s];
+    html += `
+      <div style="margin-bottom:14px;">
+        <div style="font-weight:600;font-size:13px;margin-bottom:6px;color:var(--primary);">${labels[s]}</div>
+        <div class="copy-box" id="copy-${s}">
+          ${text}
+          <button class="copy-btn" onclick="copyText('copy-${s}')">📋 复制</button>
+        </div>
+      </div>`;
+  });
+
+  document.getElementById('copywritingResult').innerHTML = html;
+
+  // 保存历史
+  const record = { date: today(), product, style, time: new Date().toLocaleTimeString() };
+  STORE.copyHistory.unshift(record);
+  if (STORE.copyHistory.length > 50) STORE.copyHistory.pop();
+  save('copyHistory');
+  renderCopyHistory();
+  showToast('✅ 文案生成好啦！');
+}
+
+function copyText(id) {
+  const el = document.getElementById(id);
+  const btn = el.querySelector('.copy-btn');
+  const text = el.textContent.replace('📋 复制','').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✅ 已复制';
+    setTimeout(() => btn.textContent = '📋 复制', 1500);
+  }).catch(() => showToast('复制失败，请手动复制'));
+}
+
+function renderCopyHistory() {
+  const container = document.getElementById('copywritingHistory');
+  if (STORE.copyHistory.length === 0) {
+    container.innerHTML = '<div class="empty"><span class="icon">📋</span>还没生成过文案呢～</div>';
+    return;
+  }
+  const labels = { warm:'走心版', short:'精简版', interact:'互动版', all:'全部三版' };
+  const pLabels = { 银耳:'🥣鲜炖银耳', 银耳冻:'🍓鲜果银耳冻', 冬瓜露:'🍈冬瓜露', 芋圆:'🍠手工芋圆', 桃胶:'💎桃胶银耳', 木薯:'🍠木薯糖水', 季节:'🍂时令季节', 功效:'💊银耳科普', 下午茶:'🕒下午茶情绪', 日常:'🏠门店日常' };
+  container.innerHTML = STORE.copyHistory.slice(0, 20).map(r => `
+    <div class="ledger-item">
+      <div>
+        <span style="font-weight:600;">${pLabels[r.product]||r.product}</span>
+        <span style="font-size:11px;color:var(--text-light);margin-left:6px;">${labels[r.style]||r.style}</span>
+      </div>
+      <div class="date">${fmtDate(r.date)} ${r.time}</div>
+    </div>
+  `).join('');
+}
+
+// 产品选择
+document.getElementById('productChips').addEventListener('click', e => {
+  if (e.target.classList.contains('product-chip')) {
+    document.querySelectorAll('#productChips .product-chip').forEach(c => c.classList.remove('active'));
+    e.target.classList.add('active');
+    STORE.currentProduct = e.target.dataset.product;
+  }
+});
+document.getElementById('styleTabs').addEventListener('click', e => {
+  if (e.target.classList.contains('version-tab')) {
+    document.querySelectorAll('#styleTabs .version-tab').forEach(c => c.classList.remove('active'));
+    e.target.classList.add('active');
+    STORE.currentStyle = e.target.dataset.style;
+  }
+});
+
+// ============ 模块2: 行业资讯 ============
+
+// --- 短视频流量趋势（每日更新） ---
+function getTrendData() {
+  const d = new Date();
+  const seed = d.getDate() + d.getMonth() * 31;
+  const allTrends = [
+    // 数据集A
+    [
+      { title:'银耳糖水"延时摄影"类视频流量上涨', body:'近7天抖音上银耳慢炖延时摄影类视频平均播放量提升35%，"从清水到出胶"的过程类内容完播率显著高于普通产品展示。用户对"看得见的制作过程"信任感持续走高。', insight:'今天就可以拍一条：手机架在锅边，延时拍银耳从下锅到出胶的全过程，配治愈BGM，15秒搞定。' },
+      { title:'"老板娘口播"人设号转化率领先', body:'数据显示，同城实体店中"老板娘真人出镜口播"类型的账号，粉丝到店转化率比纯产品号高出2-3倍。用户更愿意信任一个有温度的真实面孔。', insight:'今天选题：老板娘对着镜头聊一个熬银耳的小故事，不用化妆不用布景，真实就好。' },
+      { title:'视频号"同城推荐"算法调整', body:'视频号近期加强了同城内容的推荐权重，带有精准地理位置标签的视频可获得额外曝光。发布时务必添加店铺位置。', insight:'每次发视频检查：①位置标签开没开 ②标题有没有"临沂" ③话题有没有#临沂美食。' },
+      { title:'"治愈系"标签搜索量持续增长', body:'抖音、小红书"治愈系美食""治愈系vlog"等标签近30天搜索量同比增长60%+。糖水品类天然适配治愈调性，是当前最大的内容红利。', insight:'视频标题可以加上"治愈""温暖""慢生活"等关键词，封面选暖色调画面，更容易被推荐。' },
+      { title:'同城探店类视频互动率下降', body:'纯探店类内容同质化严重，平均互动率下滑。用户更偏爱"有故事""有知识""有情绪"的差异化内容。', insight:'别做纯探店，要做"探店+故事"或"探店+知识"。比如"带你看一碗银耳怎么熬出来的"比"这家糖水店真好喝"强十倍。' },
+    ],
+    // 数据集B
+    [
+      { title:'"手工制作过程"类视频完播率最高', body:'本周数据显示，展示手工制作全过程的视频（如手搓芋圆、慢熬冬瓜露）平均完播率比口播类高出18%。动作画面天然比静态说话更能留住观众。', insight:'今天拍一条手搓芋圆的视频：镜头对着手部特写，从芋头蒸熟→加粉→揉面→搓圆→下锅，全程不讲话，纯画面+BGM。' },
+      { title:'抖音"附近页"流量入口开放', body:'抖音近期优化了"附近"Tab的推荐算法，实体店发布的视频有更高概率出现在周边用户的推荐流中。这是目前零成本的同城获客渠道。', insight:'坚持每天发一条带定位的视频，发布时间选在中午11:00-12:00或下午17:00-18:00，同城上班族刷手机高峰。' },
+      { title:'"餐饮老板日常"成为新流量密码', body:'越来越多餐饮店主通过分享"开店日常"（备料、打扫、算账、和顾客聊天）获得高流量。用户喜欢窥探"店背后的故事"。', insight:'今天可以随手拍一段：早上到店开灯、系围裙、洗银耳的第一组画面。不用精致，越日常越真实越好。' },
+      { title:'夏季"清爽饮品测评"话题热度攀升', body:'随着高温持续，用户对"清爽解暑饮品"的搜索需求激增。冬瓜露、冰镇糖水类内容正值流量窗口期。', insight:'今天拍一条冬瓜露的"测评向"视频：倒出一杯，描述口感，"纯冬瓜熬的，喝完喉咙是凉的但胃不凉"，突出微凉健康的特点。' },
+      { title:'视频号"直播预约"功能可提前蓄客', body:'视频号支持发布直播预约视频，提前24小时通知粉丝。开播前发一条预告视频，可有效提升开播时的初始观众数。', insight:'如果想试试直播熬银耳，提前一天发个预告："明天下午3点直播熬银耳，来云监工～"简单一句话就行。' },
+    ],
+    // 数据集C
+    [
+      { title:'"对比向"视频正在流行', body:'"兑出来的vs熬出来的""三年前的我和现在的我"等对比类视频在美食赛道表现突出，用户对"反差感"内容有天然的停留欲望。', insight:'今天选题：拍一个"你以为的糖水vs我们店的糖水"对比，一边是粉冲的，一边是慢熬出胶的，视觉反差拉满。' },
+      { title:'"老顾客故事"UGC内容裂变效果强', body:'鼓励老顾客拍视频分享"我和这家店的故事"，此类UGC内容信任度是商家自拍的3倍以上。多个品牌已开始布局"顾客证言"类内容。', insight:'在店里放个小立牌："拍视频分享你和每日一饮的故事，@我们，下次来送一份小料。"低成本的UGC裂变。' },
+      { title:'三四线城市同城短视频竞争度仍低', body:'相比一二线城市，临沂等三四线城市的同城美食短视频内容供给仍不饱和，优质内容更容易脱颖而出。', insight:'现在是窗口期！坚持日更、保持质量，半年内在临沂同城美食赛道就能建立认知壁垒。' },
+      { title:'"知识科普+产品"组合内容持续吃香', body:'"银耳为什么出胶""冬瓜露和冬瓜茶的区别"等知识科普类视频，既传递价值又自然带出产品，用户反感度最低。', insight:'今天科普选题："为什么我家银耳推荐微凉喝？"解释冰镇会锁住胶质影响口感，顺便展示正确的饮用方式。' },
+      { title:'"季节性内容"搜索量提前启动', body:'数据显示，8月初"秋季润燥""秋天喝什么"等关键词搜索量开始爬升。提前布局秋季内容可抢占搜索流量。', insight:'现在就可以拍"夏天快过去了，秋天润燥喝什么"的预告类视频，提前卡位秋季流量。' },
+    ],
+    // 数据集D
+    [
+      { title:'"一人食"话题持续火热', body:'抖音"一人食"话题累计播放量超千亿，糖水作为典型的"一人食"品类，天然适配这个内容方向。', insight:'今天拍一条"一个人的下午茶"：一碗银耳+一本书+店里的角落，文案"一个人也要好好对待自己"。' },
+      { title:'"沉浸式"视频制作门槛低效果好', body:'"沉浸式做糖水""沉浸式开店"类视频不需要口播，只需要环境音+画面，制作成本极低但氛围感拉满。', insight:'今天试试"沉浸式熬银耳"：固定机位，收环境音（水沸腾声、搅拌声），不加BGM不加旁白，就3分钟。' },
+      { title:'评论区互动直接影响推荐量', body:'平台算法越来越看重"评论互动率"。在视频结尾或评论区主动提问，能显著提升视频进入下一级推荐池的概率。', insight:'每条视频结尾加一句提问，并在发布后10分钟内自己先在评论区留一条引导性评论。' },
+      { title:'"实体店日常vlog"完播率稳定', body:'以"今天店里发生了什么"为主线的日常vlog，虽然单条不一定爆，但完播率和粉丝粘性非常稳定，适合长期经营。', insight:'今天可以尝试第一条vlog："早上8点到晚上8点，一家糖水店的一天"，用手机随手拍，不用刻意编排。' },
+      { title:'"夏季限定"稀缺感内容转化率高', body:'带有"限时""限量""这个夏天最后一杯"等稀缺感词语的视频，转化率比普通视频高出40%。', insight:'冬瓜露作为夏季限定产品，可以在视频标题中强调"夏天快结束了，这杯冬瓜露且喝且珍惜"。' },
+    ],
+    // 数据集E
+    [
+      { title:'"糖水自由"话题在小红书爆发', body:'小红书"糖水自由"话题近期热度飙升，用户晒出自己常去的糖水铺，形成同城打卡风潮。', insight:'鼓励顾客在小红书发打卡笔记，可以做个"小红书打卡专属小料"作为奖励。' },
+      { title:'"今天喝什么"系列连载效果好', body:'多个美食账号通过"连续30天推荐一款饮品"的连载形式，成功培养用户追更习惯，账号涨粉稳定。', insight:'可以尝试"每日一饮今日推荐"连载，每天推荐一款店里的产品，简单口播30秒即可。' },
+      { title:'视频号"合集"功能提升复播率', body:'视频号支持将同类视频加入合集，用户看完一条会自动播放下一条，有效提升账号整体播放量。', insight:'把视频按主题建合集："银耳的故事""老板娘日常""糖水制作过程"，方便新粉一口气看完。' },
+      { title:'"情感共鸣"类文案互动量最高', body:'数据分析显示，引发情感共鸣的文案（如"想家了""小时候的味道""一个人的城市"）互动率比纯产品文案高出3倍。', insight:'今天朋友圈/视频文案方向：从"想家"切入——"每次喝这碗银耳，就想起我妈在厨房里熬糖水的样子。"' },
+      { title:'同城"附近的人"搜索习惯增强', body:'越来越多用户在抖音/视频号搜索"附近+美食""附近+糖水"来发现周边店铺，精准地理位置标签至关重要。', insight:'视频标题务必包含"临沂鲁商中心""临沂糖水"等关键词，这是用户主动搜索时的入口。' },
+    ],
+  ];
+  return allTrends[seed % 5];
+}
+
+function renderTrend() {
+  document.getElementById('trendDate').textContent = today();
+  const data = getTrendData();
+  document.getElementById('trendContent').innerHTML = data.map((t, i) => `
+    <div class="news-card" style="border-left-color:var(--accent);">
+      <div class="news-title">🔥 ${i+1}. ${t.title}</div>
+      <div class="news-body">${t.body}</div>
+      <div class="news-insight" style="background:#FFF0F0;color:var(--accent);">🎯 今日行动：${t.insight}</div>
+    </div>
+  `).join('');
+}
+
+// --- 行业资讯（每日更新） ---
+function renderNews() {
+  document.getElementById('newsDate').textContent = today();
+  const newsData = getNewsData();
+  document.getElementById('newsContent').innerHTML = newsData.map((n, i) => `
+    <div class="news-card">
+      <div class="news-title">${i+1}. ${n.title}</div>
+      <div class="news-body">${n.body}</div>
+      <div class="news-insight">💡 核心启示：${n.insight}</div>
+    </div>
+  `).join('');
+}
+
+// --- 门店运营知识（每日更新） ---
+function getOpsData() {
+  const d = new Date();
+  const seed = d.getDate() + d.getMonth() * 31;
+  const allOps = [
+    // 数据集A
+    [
+      { title:'鲜炖银耳的"最佳饮用时间"怎么传达给顾客', body:'很多顾客买了银耳带回去放很久才喝，口感大打折扣。在杯子上贴一个手写小标签"建议今天喝完，口感最好哦～"，比口头提醒管用十倍。既体现了对品质的坚持，又让顾客感受到用心。', insight:'今天就试试：手写5张"最佳赏味期：今天"的小标签贴在杯子上' },
+      { title:'淡季不躺平：用"限定款"制造稀缺感', body:'7-8月是糖水淡季，但恰恰是推"季节限定"的好时机。比如"荔枝银耳冻——荔枝季过了就没了""夏日最后一波蜜瓜银耳"。限定款有三个好处：①给老顾客一个"再不来就没了"的理由 ②朋友圈有内容可发 ③即使不买也会被记住。', insight:'本周推一款"季节限定"：用当季最火的水果做银耳冻，标明"限时供应"' },
+      { title:'收银台是利润最高的"货架"', body:'数据显示，收银台旁的陈列能提升30%以上的连带销售。在收银台放一个小竹篮，摆上独立包装的零添加果干或茶包，顾客等付钱的那几秒钟顺手就拿一包。不需要推销，放那儿就行。', insight:'明天在收银台放一个竹编小篮子，试摆冻干柠檬片或山楂条' },
+      { title:'顾客说"太贵了"怎么回应', body:'不用解释成本，不用降价。温柔地说一句："是比奶茶贵一点，但银耳是熬了4个小时的，不是粉冲的。你喝完这个嗓子舒服一下午，比喝奶茶值。"把价格对比从"银耳vs奶茶"转化为"4小时熬制vs三分钟冲泡"。', insight:'把这句话记在心里，下次顾客说贵的时候自然地说出来' },
+      { title:'老顾客是最好的推销员', body:'一个老顾客带来的新顾客，转化率是短视频的5倍。怎么让老顾客帮你拉人？①设计一个"闺蜜卡"——带朋友来两人都减2元 ②老顾客发小红书/抖音@你，送一份小料。成本几乎为零，但口碑裂变效果极好。', insight:'本周设计一张"闺蜜同行卡"，带朋友来两人各减2元' },
+    ],
+    // 数据集B
+    [
+      { title:'鲜果银耳冻的"水果轮换"怎么做', body:'银耳冻的核心卖点是"当季鲜果"，水果要跟着季节走。建议：①提前一周预告下周换什么水果（制造期待）②换水果那天发一条"上新预告"朋友圈 ③旧水果下架前做一波"最后三天"促销。轮换本身就成了营销节奏。', insight:'做一个"水果日历"：7月芒果蜜瓜→8月荔枝水蜜桃→9月秋月梨石榴，提前规划' },
+      { title:'社群运营：每天只发一条，但每天都发', body:'社群不用天天刷屏，但每天至少一条。内容轮换：周一发今日菜单、周三发顾客好评、周五发周末限定预告、周日发一周回顾。保持存在感但不打扰，顾客想喝的时候第一时间想到你。', insight:'今天开始执行社群"每日一条"计划，固定时间发（建议下午4点）' },
+      { title:'外卖包装就是移动广告', body:'外卖袋/杯子上印店名和一句话是基本操作。进阶玩法：①在袋子里放一张手写感谢卡 ②附一张"下次到店减2元"的小卡片 ③杯子上的文案定期更换（比如这周是"好原料，不将就"，下周换"4小时慢熬"）。', insight:'检查一下现在的包装——有没有一句话能让顾客记住你？' },
+      { title:'如何处理差评：不回怼，回温度', body:'遇到差评，第一反应不要解释。标准回应模板："谢谢你的反馈，是我们没做好。下次来我当面跟你道歉，这碗银耳我重新熬给你。"把负面变正面，围观的顾客看到你的态度反而更信任你。', insight:'把这条回复模板存到手机备忘录，万一遇到直接用' },
+      { title:'冬瓜露的"3天保鲜"是卖点不是缺点', body:'很多顾客问"为什么你家冬瓜露只能放3天？"这时候不要道歉，要骄傲地说："因为没有防腐剂呀！纯冬瓜熬的，就跟家里做的一样。"短保质期=真零添加，这是最大的信任背书。', insight:'在冬瓜露的杯子上加一行小字"零添加·3天保鲜·跟家里熬的一样"' },
+    ],
+    // 数据集C
+    [
+      { title:'银耳冻为什么是店里的人气王', body:'分析一下银耳冻爆的原因：①口感独特——冻冻DuangDuang的，其他糖水店没有 ②颜值高——水果+椰奶+冻冻三层分明，拍照好看 ③新鲜感——水果跟着季节换，每次来都不一样。这三个点是你所有新品开发的参考标准。', insight:'复盘银耳冻的成功要素，用到下一个新品的开发思路上' },
+      { title:'桃胶系列怎么推给"非养生人群"', body:'桃胶的认知门槛比银耳高——年轻人知道银耳但不太了解桃胶。推广策略：不要讲"滋补养生"，要讲"口感"。"双重胶质，比普通银耳更Q弹""黑钻+桃胶，每一勺都是料"。用美食语言代替养生语言。', insight:'桃胶系列的朋友圈文案改一下，把"滋补"换成"Q弹""满满胶质"' },
+      { title:'顾客问你"哪个最好喝"怎么回答', body:'不要说"都挺好"，要给一个具体答案再加一个引导。"如果你第一次来，我推荐红枣莲子银耳汤，经典款不出错。如果你喜欢水果口感，鲜果银耳冻是我们的爆款，姑娘们人手一碗。"给选择而不是给菜单。', insight:'准备一套"首客推荐话术"，每个店员都会说' },
+      { title:'木薯糖水的小众出圈策略', body:'木薯糖水认知度低，但恰恰是差异化武器。策略：①在视频号发一条"你认识木薯吗？"科普+制作视频 ②店里放试喝小杯 ③文案打"小时候的味道""懂的人才懂的快乐"。小众产品不需要所有人喜欢，只需要让喜欢的人超爱。', insight:'本周拍一条木薯糖水的科普短视频，从"你认识木薯吗"切入' },
+      { title:'自选搭配款是"客单价利器"', body:'自选模式让顾客有掌控感，同时天然拉高客单价——选着选着就多了。策略：①小料分装展示，视觉丰富 ②每种小料标一个好听的名字 ③"推荐搭配"小立牌引导新手。', insight:'检查小料展示区——是不是每种小料都让人看了想加？' },
+    ],
+    // 数据集D
+    [
+      { title:'雨天/阴天是糖水店的"黄金销售日"', body:'天气不好的时候，外卖订单反而会涨——大家不想出门但想喝点暖的。雨天策略：①提前在社群发"下雨天，在家等银耳" ②雨天外卖附赠一块姜糖或暖宝宝贴 ③朋友圈发银耳热气腾腾的照片配"外面下雨，店里有光"。', insight:'下次下雨天试试这三招，转化率至少提升20%' },
+      { title:'"银耳+茶包"组合为什么是完美搭配', body:'买银耳的顾客本身就是注重健康的人，对养生茶包天然有好感。推组合装的核心：①不要叫"套餐"，叫"今日润燥CP"更有感觉 ②组合价比单买便宜2-3元 ③茶包选小包装，顾客喝完了回来单买。', insight:'设计一个"银耳+桂花雪梨茶"的CP组合，定价比单买便宜3元' },
+      { title:'顾客回访：一周后问一句就够了', body:'老顾客维护不需要天天发消息。加微信后一周，发一条："上周的银耳喝着怎么样？这周有新到的芒果银耳冻，给你留一碗？"简单一句话，既关心又带货，不让人反感。', insight:'翻一下最近一周的新客微信，挑3个发一条回访问候' },
+      { title:'芋圆系列怎么拍才诱人', body:'芋圆的视觉卖点是"Q弹"和"手工感"。拍摄技巧：①勺子舀起来的时候慢动作拍，芋圆弹跳的瞬间最诱人 ②特写手搓芋圆的过程，大小不一反而是卖点 ③芋泥+椰奶搅拌的漩涡画面。', insight:'下次拍芋圆的时候试试慢动作+特写，比静态照片转化率高' },
+      { title:'为什么你不需要和奶茶店比价格', body:'奶茶9.9一杯，你卖15。不用焦虑——你的顾客不是同一群人。喝奶茶的人图快、图爽、图糖分。喝银耳的人图健康、图品质、图"对自己好一点"。定位不同，不打架。你的对手不是蜜雪冰城，是顾客心里的"今天要不要犒劳自己"。', insight:'把这句话记住：银耳卖的不是解渴，是"对自己好一点"' },
+    ],
+    // 数据集E
+    [
+      { title:'新品上架前一定要做的三件事', body:'①先让老顾客免费试吃，收集真实反馈 ②在社群发预告，制造期待 ③上架第一周做"尝鲜价"。很多店新品失败不是因为产品不好，是因为没有预热。顾客不知道你有新品，自然不会来。', insight:'下次上新品之前，提前3天在社群和朋友圈预热' },
+      { title:'朋友圈发"顾客好评截图"的黄金时间', body:'晚上8-9点发顾客好评截图效果最好——这个时间段大家刷手机最放松，看到真实好评容易产生信任和冲动消费。配上文案"今天收到的最暖心的话，谢谢你呀"，比硬广效果好十倍。', insight:'今晚就翻一下最近的顾客好评，截一张发朋友圈' },
+      { title:'椰奶雪糯米银耳的差异化卖点', body:'椰奶雪糯米银耳在临沂不多见，这是你的差异化产品。推广时强调三点：①雪糯米的Q弹口感 ②椰奶的东南亚风情 ③银耳的胶质基底——三个层次一口吃到。不要只说"好喝"，要说"一口下去，三种口感"。', insight:'椰奶雪糯米的文案改成"一口三重口感：糯米的Q弹+椰奶的香浓+银耳的顺滑"' },
+      { title:'夏季快结束了，现在就该布局秋季产品', body:'8月是夏秋过渡期，聪明人现在就开始想秋天卖什么。秋季关键词：润燥、温补、桂花、秋梨、南瓜。建议提前研发"桂花银耳羹""秋梨银耳炖奶"，9月一到立刻上新，抢占第一波秋季流量。', insight:'这周开始试做桂花银耳和秋梨炖奶，8月底上架' },
+      { title:'实体店最值钱的资产是"老板娘的人设"', body:'连锁店有资金、有供应链、有品牌——但有一件事他们永远做不过你：真实。老板娘亲自熬、亲自送、亲自回复每一条评论，这种"有温度的真实"是大品牌花再多钱也买不到的。好好保护这个人设，它是你最大的壁垒。', insight:'永远不要把自己包装成连锁品牌的样子。真实、接地气、有温度——这才是你最值钱的东西' },
+    ],
+  ];
+  return allOps[seed % 5];
+}
+
+function renderOps() {
+  document.getElementById('opsDate').textContent = today();
+  const data = getOpsData();
+  document.getElementById('opsContent').innerHTML = data.map((o, i) => `
+    <div class="news-card" style="border-left-color:#2E7D32;">
+      <div class="news-title">📚 ${i+1}. ${o.title}</div>
+      <div class="news-body">${o.body}</div>
+      <div class="news-insight" style="background:#E8F5E9;color:#2E7D32;">✅ 今日行动：${o.insight}</div>
+    </div>
+  `).join('');
+}
+
+// --- 经济学小知识（每日更新） ---
+function getEconData() {
+  const d = new Date();
+  const seed = d.getDate() + d.getMonth() * 31;
+  const allEcon = [
+    [
+      { title:'为什么小店越"小"越赚钱——边际成本思维', body:'经济学里有个概念叫"边际成本"——每多卖一件产品的额外成本。奶茶店多卖一杯，原料+杯子成本3块，卖15，边际利润12。但你家银耳不一样——多卖一碗的边际成本极低（银耳已经熬好了），所以每一碗的利润都在递增。这就是为什么"小而精"的单品店比大而全的餐厅更容易赚钱。当前经济环境下，消费者更愿意为"专注"买单。', insight:'与其加很多新品，不如把银耳做到极致。少即是多。' },
+      { title:'沉没成本——为什么"倒掉小料"是正确的', body:'经济学里"沉没成本"是指已经花出去、收不回来的钱。你家过期的芋圆——买原料的钱已经是沉没成本了。如果为了"不浪费"而上给顾客，损失的是口碑和复购，那才是真正的浪费。当前消费降级趋势下，顾客对品质更敏感，一次不好的体验就会永远失去一个顾客。', insight:'倒了不可惜，上了才可惜。这是经济学，不是浪费。' },
+      { title:'价格弹性——为什么你家银耳不需要降价', body:'经济学里的"价格弹性"衡量顾客对价格敏感度。奶茶价格弹性高——涨1块就有人不买。但你家银耳价格弹性低——顾客买的是"健康""品质""对自己好一点"，多2块少2块影响不大。尤其当前经济环境下，消费者"该省省该花花"——日常奶茶可以省，但犒劳自己的那碗银耳不会省。', insight:'别跟奶茶打价格战。你的顾客不是价格敏感型，是品质敏感型。' },
+      { title:'信息不对称——你的核心竞争力', body:'信息不对称是指买卖双方知道的信息不一样。顾客不知道一碗银耳要熬4小时、不知道芋圆是手搓的、不知道小料到点就倒。但你知道。你的任务不是降价，是把这些"不对称的信息"变成顾客看得见的内容——视频拍出来、文案写出来。当前短视频时代，消除信息不对称的成本极低，但回报极高。', insight:'每一条视频、每一条朋友圈，都是在消除信息不对称。让顾客"看见"你的成本。' },
+      { title:'复利效应——为什么每天发一条视频很重要', body:'金融里的复利是指"利滚利"。运营也是——每天发一条视频，今天100播放，明天200，一个月后可能5000。不是某一条视频爆了，而是每天积累的粉丝、权重、信任，像滚雪球一样越滚越大。当前抖音和视频号的算法对"日更账号"有明显加权，断更一天都会影响推荐。', insight:'日更不是可有可无，是复利。断更一天，损失的不只是今天的流量。' },
+    ],
+    [
+      { title:'机会成本——你最大的成本不是房租', body:'机会成本是指你为了做一件事而放弃的其他选择的价值。你花2小时在店里刷手机的机会成本，可能是少拍了一条视频、少回复了3个顾客、少试了一款新品。时间是你最稀缺的资源——当前经济环境下，实体店老板的时间分配直接决定收入差距。', insight:'今天花30分钟做一件"高机会成本"的事：拍视频、回访老顾客、或研发新品。' },
+      { title:'比较优势——为什么你不该什么都自己做', body:'经济学里的比较优势：即使你每件事都比别人做得好，也应该只做自己最擅长的那件事，其他的交给别人。你最擅长熬银耳、跟顾客聊天——这是别人替代不了的。但剪辑视频、设计海报、记账——这些可以学、可以找工具、可以外包。当前AI工具爆发期，很多事交给工具做，成本几乎为零。', insight:'你最值钱的是"老板娘"这个身份，别把时间花在谁都能做的事上。' },
+      { title:'供需关系——为什么鲜果银耳冻能卖爆', body:'供需决定价格，也决定热度。鲜果银耳冻在临沂的供给几乎是零——没人做。但需求是存在的——年轻人想吃好看、好吃、健康的甜品。供不应求=排队=口碑传播=更高的定价权。当前消费市场"供给过剩、优质供给不足"，你的机会就在"优质供给"这个缺口里。', insight:'找到临沂没有人做、但顾客需要的东西——这就是你的蓝海。' },
+      { title:'交易成本——让顾客"省心"就是竞争力', body:'交易成本是指完成一笔交易除了价格之外的所有成本：找店的时间成本、选择困难的心理成本、担心不好吃的信任成本。你把位置发清楚、把菜单拍好看、把好评展示出来——每减少一点交易成本，就多一个顾客。当前经济环境下，消费者决策更谨慎，降低交易成本比降价更有效。', insight:'检查你的朋友圈和视频号——新顾客能不能在10秒内知道你在哪、卖什么、多少钱？' },
+      { title:'品牌溢价——为什么有人愿意多花钱买你的银耳', body:'同样一碗银耳，超市3块、你家15。多出来的12块就是"品牌溢价"。品牌溢价从哪来？信任——顾客相信你用的是好原料、相信你每天现熬、相信你不会糊弄。信任不是一天建成的，但毁掉只需要一次。当前经济下行期，消费者更看重"确定性"——确定好吃、确定健康、确定不踩雷。', insight:'每一次坚持品质，都是在往"信任账户"里存钱。这个账户的利息，就是品牌溢价。' },
+    ],
+    [
+      { title:'口红效应——经济越难，小确幸越好卖', body:'经济学经典理论：经济不景气时，口红销量反而上升。因为大家买不起大件，但更需要"小确幸"来安慰自己。一碗15块的银耳就是典型的"口红效应"产品——不贵，但能让人觉得自己被善待了。当前经济环境下，"小确幸消费"是少数还在增长的赛道。', insight:'你的银耳不是解渴的，是"对自己好一点"的情绪消费。抓住这个定位。' },
+      { title:'棘轮效应——顾客的嘴会越来越刁', body:'棘轮效应：消费习惯一旦形成，很难倒退。顾客喝过你家的零添加银耳之后，再喝粉冲的糖水就会觉得"不对劲"。这就是你的护城河——不是价格，不是位置，是顾客被养刁的嘴。当前消费升级和降级并存——顾客可能少买东西，但买的东西品质要求更高。', insight:'别担心顾客嫌贵。担心顾客喝完你的银耳后，再也喝不惯别家的。' },
+      { title:'长尾效应——小众产品也能活得很好', body:'长尾理论：互联网时代，小众产品的总销量可以超过热门产品。木薯糖水在临沂可能只有5%的人喜欢，但这5%的人会反复买、会主动传播。你不需要取悦所有人，只需要让喜欢你的人超级喜欢。当前短视频算法让"小众"更容易找到同好，长尾效应比以往任何时候都强。', insight:'木薯糖水、桃胶银耳——这些小众款，正是你差异化的武器。' },
+      { title:'锚定效应——第一印象决定顾客愿意花多少钱', body:'心理学+经济学：人对价格的判断不是绝对的，而是相对的。如果顾客第一次来看到的是"桃胶大满贯28元"，那"红枣银耳15元"就显得很划算。这就是"锚定"——用一个高价产品做参照物，让主力产品显得超值。当前消费谨慎时期，锚定策略比直接降价更高明。', insight:'菜单设计上，把价格最高的产品放在最上面，顾客往下看就觉得"这个划算"。' },
+      { title:'路径依赖——为什么老顾客是最值钱的资产', body:'经济学里的路径依赖：一旦习惯了某条路径，就很难切换到另一条。顾客习惯了每周来你家喝银耳，换一家店需要"切换成本"——要重新搜、重新试、重新建立信任。当前经济环境下，获取新顾客的成本越来越高，维护老顾客的性价比远高于拉新。', insight:'新客是流量，老客是资产。把80%的精力放在老顾客身上。' },
+    ],
+    [
+      { title:'二八定律——20%的产品贡献80%的利润', body:'帕累托法则：你家可能20%的产品（鲜炖银耳+鲜果银耳冻）贡献了80%的利润。这不代表其他产品不重要——它们的作用是"丰富选择""吸引不同人群""让菜单看起来完整"。但你的精力分配应该是：80%时间打磨核心产品，20%时间维护辅助产品。', insight:'盘点一下：你家哪些产品贡献了最多利润？把你的时间和原料向它们倾斜。' },
+      { title:'稀缺效应——"限量"为什么比"打折"管用', body:'稀缺性创造价值。钻石不稀缺（储量很大），但戴比尔斯控制供应量制造稀缺。你家"冬瓜露3天保鲜""芋圆每日限量""季节限定水果银耳冻"——这些都是天然的稀缺性。当前消费环境下，稀缺比便宜更有吸引力——顾客怕错过，而不是怕买贵。', insight:'推产品时说"今天只有8碗"比"今天打8折"更有吸引力。' },
+      { title:'飞轮效应——小店的增长不需要爆发', body:'亚马逊创始人贝佐斯提出：增长像推飞轮，一开始很重很慢，但每一圈都在积累动能。你发一条视频→有人看到→来店里→觉得好→推荐朋友→更多人知道→视频播放更高→更多人看到。当前算法时代，飞轮转起来以后会越来越快。关键是——开始推，并且不要停。', insight:'你已经在推飞轮了。每天发视频、维护老客、保证品质——飞轮会自己加速。' },
+      { title:'棘轮+口红双重效应下的2026年小店策略', body:'2026年消费市场呈现两极分化：必需品消费降级（拼多多、折扣店崛起），但"悦己消费"韧性极强（健康食品、体验消费仍在增长）。你家银耳属于后者——不是必需品，但是"让自己开心"的必需品。策略：不降价，提品质；不扩张，深挖老客；不追热点，做自己。', insight:'2026年做实体店，不是比谁跑得快，是比谁活得久。品质和信任，是穿越周期的唯一通行证。' },
+      { title:'博弈论——和隔壁奶茶店的"竞合"关系', body:'博弈论说：竞争不一定是零和游戏。隔壁奶茶店和你的关系，可能是互补——顾客买奶茶顺便来碗银耳，或者喝完银耳去买杯奶茶。与其把隔壁当对手，不如聊聊互推——"在你家买奶茶的顾客，拿小票来我家减2元"，反之亦然。当前实体商业环境下，抱团比单打独斗更聪明。', insight:'这个月找一家互补的店（奶茶/轻食/花店），聊聊互相导流的可能。' },
+    ],
+    [
+      { title:'通货膨胀下的"菜单定价"策略', body:'2026年物价温和上涨，原料成本在涨。但直接涨价会让老顾客不舒服。经济学建议：不要涨招牌产品，而是在新品上定高一点。比如银耳冻新出的时候定18元，顾客觉得"新品尝鲜价"合理。老产品不涨价维持信任，新产品有利润空间——两全其美。', insight:'下次推新品时，价格可以比老产品高20%-30%，顾客接受度远高于老品涨价。' },
+      { title:'逆向思维——淡季才是最好的布局期', body:'行为经济学发现：大多数人在旺季拼命、淡季躺平。但聪明人在淡季布局——7月没人推糖水的时候，你每天发视频、维护老客、研发秋季新品。等9月旺季来了，你已经跑在前面了。当前餐饮行业"淡旺季差距"正在拉大，淡季布局的收益也在拉大。', insight:'7-8月别躺平。每天做一件对手不做的事：发视频、回访老客、试新品。' },
+      { title:'消费者剩余——让顾客觉得"赚到了"', body:'消费者剩余=顾客愿意付的钱-实际付的钱。一碗银耳顾客心里觉得值20块，你卖15，顾客就有5块钱的"剩余感"=觉得赚到了。怎么提高顾客的心理价位？展示你的成本：拍熬银耳4小时的过程、展示原料品质、让顾客看见你倒了过期小料。顾客越了解你的成本，越觉得物超所值。', insight:'这周的短视频主题：让顾客"看见"一碗银耳背后的成本。' },
+      { title:'凯恩斯"动物精神"——信心比黄金重要', body:'经济学家凯恩斯说：经济不只是冷冰冰的数据，人的"动物精神"——信心、情绪、冲动——同样驱动消费。你发朋友圈的语气是"生意好难"还是"今天银耳熬得特别好"，会影响顾客来不来。当前经济不确定性高，消费者的信心需要你来给——一个温暖的老板娘比一个焦虑的老板娘更有吸引力。', insight:'从今天开始，朋友圈和视频里的语气——积极、温暖、有底气。你的信心会传染。' },
+      { title:'"懒人经济"下的糖水店机会', body:'2026年"懒人经济"持续升级——外卖、预制菜、半成品的需求还在涨。你家银耳可以延伸出"外带银耳包"（干银耳+配料+说明卡），让顾客回家自己炖。这不是抢自己生意——到店的还是到店，不来店的多了个认识你的入口。当前即时零售增速超过到店消费，值得关注。', insight:'考虑做一批"银耳DIY包"，在社群试试水。先做20份，成本极低。' },
+    ],
+  ];
+  return allEcon[seed % 5];
+}
+
+function renderEcon() {
+  document.getElementById('econDate').textContent = today();
+  const data = getEconData();
+  document.getElementById('econContent').innerHTML = data.map((e, i) => `
+    <div class="news-card" style="border-left-color:#6A1B9A;">
+      <div class="news-title">💹 ${i+1}. ${e.title}</div>
+      <div class="news-body">${e.body}</div>
+      <div class="news-insight" style="background:#F3E5F5;color:#6A1B9A;">🧠 ${e.insight}</div>
+    </div>
+  `).join('');
+}
+
+function getNewsData() {
+  const d = new Date();
+  const daySeed = d.getDate();
+  // 根据日期轮换资讯内容，保持新鲜感
+  const allNews = [
+    [
+      { title:'新式糖水赛道持续升温', body:'2026年夏季，新式糖水品牌融资热度不减。资本更青睐"手工现制+零添加"定位的品牌，传统糖水铺正在被重新定义。消费者从单纯"解暑"转向"健康润养+情绪价值"双需求。', insight:'咱家"每日现熬零添加"定位正好踩在风口上，短视频内容可以多强调"手工现制"的过程感，这是大连锁做不到的差异化。' },
+      { title:'同城实体餐饮"淡季不躺平"成共识', body:'多地餐饮协会调研显示，7-8月虽是传统淡季，但坚持同城短视频日更的门店，淡季营收降幅比不运营的少40%以上。', insight:'淡季不是躺平的理由，恰恰是拉开差距的窗口期。老板娘坚持每天发视频的思路完全正确，保持节奏别断更。' },
+      { title:'银耳饮品市场教育加速', body:'多个饮品品牌推出银耳系列产品线，社交媒体上"银耳润燥""银耳胶质"相关话题播放量持续走高。消费者对银耳的健康认知正在被市场教育。', insight:'这是好事！大品牌帮咱教育市场，咱只要做好品质和服务，同城顾客自然会找过来。朋友圈和视频里可以适当科普银耳胶质知识。' },
+      { title:'夏季"微凉饮品"概念走红', body:'与大量冰镇奶茶形成对比，"微凉""常温"饮品在小红书等平台讨论度上升，用户更关注肠胃友好型饮品。', insight:'鲜炖银耳"推荐微凉饮用"的定位非常契合这个趋势，朋友圈文案可以强调"不伤胃的清凉"。' },
+      { title:'临沂同城短视频流量红利仍在', body:'数据显示，三四线城市视频号同城推荐流量占比持续走高，本地生活类内容平均播放量同比增长显著。', insight:'继续深耕同城标签（#临沂美食 #临沂鲁商中心），视频号同城流量目前是性价比最高的免费流量入口。' },
+    ],
+    [
+      { title:'手工甜品"可视化制作"成爆款密码', body:'抖音上"手工芋圆制作全过程""银耳慢炖延时"类视频近期数据表现亮眼，用户对"看得见的制作过程"信任度更高。', insight:'后厨实拍类内容可以多做！拍银耳从下锅到出胶的全过程，拍手工搓芋圆的特写，这种内容天然有信任感。' },
+      { title:'糖水铺"下午茶场景"内容缺口明显', body:'目前糖水类短视频内容多为产品展示，缺少"消费场景"类内容。下午茶、闺蜜小聚、带娃歇脚等场景内容供给不足。', insight:'咱可以拍"鲁商中心附近上班族下午来喝银耳""闺蜜逛街累了来碗芋圆"这类场景化内容，差异化突围。' },
+      { title:'零添加糖水保质期管理受关注', body:'消费者对"零添加"产品的保质期越来越理性，3-5天短保产品被认为是"真正零添加"的标志。', insight:'冬瓜露"3天内喝完"的规定正好可以作为宣传点，短保=新鲜=零添加，这个逻辑顾客能懂。' },
+      { title:'实体店"老板娘IP"持续吃香', body:'多个城市出现以"老板娘人设"出圈的同城网红店，真实、亲切、有故事的店主形象转化率远高于纯产品号。', insight:'老板娘本人出镜口播就是最好的IP！继续保持真诚接地气的风格，讲讲开店故事、熬糖水日常，比请达人划算。' },
+      { title:'夏季糖水外卖包装升级趋势', body:'高温天气下糖水外卖包装面临挑战，密封防漏+保温袋成为标配，部分品牌已采用可降解环保材料。', insight:'外卖包装细节可以在视频里展示一下，让顾客看到咱对品质的用心，这也是信任感的加分项。' },
+    ],
+    [
+      { title:'"深夜糖水铺"概念在南方城市兴起', body:'广州、深圳等地出现营业至凌晨的糖水铺，主打"深夜治愈系"，吸引夜归人和加班族，社交媒体反响热烈。', insight:'临沂暂时没有这类型，但可以参考其"治愈系"内容风格。朋友圈晚上发一条温暖文案，正好戳中加班族的情绪。' },
+      { title:'糖水+社交：小红书种草效果显著', body:'糖水品类在小红书的搜索量同比增长明显，"城市+糖水"成为高频搜索词。用户自发分享的UGC内容转化效果远超商家硬广。', insight:'鼓励顾客发小红书打卡！可以在店里放个小立牌"发小红书@每日一饮鲜炖银耳，下次来减2元"。低成本撬动UGC。' },
+      { title:'银耳原料价格小幅上涨', body:'受产地天气影响，优质银耳批发价近期小幅上涨，预计8月可能继续走高。', insight:'提前关注原料价格走势，合理备货。但咱坚持品质不降级，这是底线。' },
+      { title:'社区团购+糖水铺模式受关注', body:'部分城市糖水铺通过社区团购微信群做预售，减少当日损耗，提升周转效率。', insight:'咱的社群可以尝试"今日菜单"预售模式，群里接龙预订，按量备料，既减少浪费又能锁定顾客。' },
+      { title:'视频号"附近直播"功能升级', body:'视频号近期强化同城直播推荐算法，实体店开播可获得更高同城曝光权重。', insight:'老板娘有空可以试试视频号直播熬银耳，哪怕就播20分钟，同城流量推荐很可观。不用专业设备，手机支起来就行。' },
+    ],
+  ];
+  return allNews[daySeed % 3];
+}
+
+// ============ 模块3: 短视频复盘 ============
+function addReview() {
+  const date = document.getElementById('reviewDate').value || today();
+  const platform = document.getElementById('reviewPlatform').value;
+  const views = parseInt(document.getElementById('reviewViews').value) || 0;
+  const likes = parseInt(document.getElementById('reviewLikes').value) || 0;
+  const comments = parseInt(document.getElementById('reviewComments').value) || 0;
+  const local = parseInt(document.getElementById('reviewLocal').value) || 0;
+  const conversion = parseInt(document.getElementById('reviewConversion').value) || 0;
+  const topic = document.getElementById('reviewTopic').value || '未填写';
+
+  if (!views && !likes) { showToast('⚠️ 至少填播放量或点赞数'); return; }
+
+  const likeRate = views > 0 ? ((likes / views) * 100).toFixed(1) : '0';
+  const commentRate = views > 0 ? ((comments / views) * 100).toFixed(1) : '0';
+
+  // AI风格分析
+  let analysis = '';
+  let suggestion = '';
+
+  if (likeRate >= 5) {
+    analysis = '👍 互动率优秀！内容引发了观众强烈共鸣，点赞率远超平均水平。';
+    suggestion = '明日建议：延续今天的内容风格和选题方向，趁热打铁出同类内容，有机会再爆一条。';
+  } else if (likeRate >= 2) {
+    analysis = '✅ 数据表现正常。内容质量过关，但还可以在开头3秒更有冲击力。';
+    suggestion = '明日建议：尝试在视频开头加入"悬念式提问"或"制作过程的高光片段"，提升完播率。';
+  } else if (views < 200) {
+    analysis = '📉 播放量偏低，可能同城推荐权重未触发。检查标题和话题标签是否精准。';
+    suggestion = '明日建议：标题加入"临沂""鲁商中心"等地标词，话题标签加上#临沂美食 #临沂探店，发布时间调到中午11:30或下午5:00。';
+  } else {
+    analysis = '📊 播放量尚可但互动偏低，内容可能不够"有记忆点"。';
+    suggestion = '明日建议：尝试加入个人故事或情绪表达（比如"熬了3年的银耳，今天想跟你们聊聊心里话"），人格化内容更容易引发互动。';
+  }
+
+  if (local < 30) {
+    analysis += ' ⚠️同城流量占比偏低，建议检查是否开启了同城定位，以及标题是否包含临沂本地关键词。';
+  }
+  if (conversion > 0) {
+    analysis += ` 🎉有${conversion}个转化/咨询，说明内容精准触达了潜在顾客！`;
+  }
+
+  const record = {
+    date, platform, views, likes, comments, local, conversion, topic,
+    likeRate, commentRate, analysis, suggestion,
+    time: new Date().toLocaleTimeString()
+  };
+
+  STORE.reviews.unshift(record);
+  if (STORE.reviews.length > 100) STORE.reviews.pop();
+  save('reviews');
+  renderReviews();
+  showToast('✅ 复盘分析已生成！');
+
+  // 清空表单
+  ['reviewViews','reviewLikes','reviewComments','reviewLocal','reviewConversion','reviewTopic'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+}
+
+function renderReviews(filterDate) {
+  const container = document.getElementById('reviewHistory');
+  let reviews = STORE.reviews;
+  if (filterDate) reviews = reviews.filter(r => r.date === filterDate);
+
+  if (reviews.length === 0) {
+    container.innerHTML = '<div class="empty"><span class="icon">📭</span>没有找到复盘记录</div>';
+    return;
+  }
+
+  let lastDate = '';
+  container.innerHTML = reviews.map(r => {
+    let dateHeader = '';
+    if (r.date !== lastDate) {
+      dateHeader = `<div class="history-date">📅 ${r.date}</div>`;
+      lastDate = r.date;
+    }
+    return dateHeader + `
+      <div class="review-item">
+        <div class="date">${r.platform} · ${r.time}</div>
+        <h4>🎬 ${r.topic}</h4>
+        <p>
+          播放${r.views} · 👍${r.likes} · 💬${r.comments} · 同城${r.local}% · 转化${r.conversion}<br>
+          点赞率${r.likeRate}% · 评论率${r.commentRate}%
+        </p>
+        <div class="insight">📊 ${r.analysis}<br>💡 ${r.suggestion}</div>
+      </div>`;
+  }).join('');
+}
+
+function filterReviews() {
+  const d = document.getElementById('reviewSearchDate').value;
+  renderReviews(d || null);
+}
+
+// ============ 模块4: 视频灵感记录 ============
+function addLedger() {
+  const date = document.getElementById('ledgerDate').value || today();
+  const title = document.getElementById('ledgerDeposit').value.trim();
+  const type = document.getElementById('ledgerExpense').value;
+  const desc = document.getElementById('ledgerNote').value.trim();
+
+  if (!title) { showToast('⚠️ 至少写个灵感标题呀～'); return; }
+
+  STORE.ledger.push({
+    date, title, type, desc,
+    filmed: false,
+    id: Date.now()
+  });
+  save('ledger');
+  renderLedgerSummary();
+  renderLedgerDetail();
+  showToast('✅ 灵感已保存！');
+
+  ['ledgerDeposit','ledgerNote'].forEach(id => document.getElementById(id).value = '');
+}
+
+function renderLedgerSummary() {
+  const total = STORE.ledger.length;
+  const ym = `${STORE.ledgerYear}-${String(STORE.ledgerMonth+1).padStart(2,'0')}`;
+  const monthTotal = STORE.ledger.filter(r => r.date.startsWith(ym)).length;
+  const filmed = STORE.ledger.filter(r => r.filmed).length;
+  const pending = total - filmed;
+
+  document.getElementById('totalDeposit').textContent = total;
+  document.getElementById('totalExpense').textContent = monthTotal;
+  document.getElementById('currentBalance').textContent = filmed;
+  document.getElementById('monthExpense').textContent = pending;
+}
+
+const TYPE_COLORS = {
+  '口播':'#E8F5E9', '拍摄':'#FFF3E0', '日常':'#E3F2FD',
+  '情绪':'#FCE4EC', '科普':'#F3E5F5', '互动':'#E0F2F1',
+  '创意':'#FFF8E1', '同城':'#EDE7F6'
+};
+
+function renderLedgerDetail() {
+  const container = document.getElementById('ledgerDetail');
+  const ym = `${STORE.ledgerYear}-${String(STORE.ledgerMonth+1).padStart(2,'0')}`;
+  const searchDate = document.getElementById('ledgerSearchDate').value;
+  const typeFilter = document.getElementById('ledgerTypeFilter').value;
+
+  let items = STORE.ledger.slice();
+  if (searchDate) items = items.filter(r => r.date === searchDate);
+  else items = items.filter(r => r.date.startsWith(ym));
+  if (typeFilter && typeFilter !== 'all') items = items.filter(r => r.type === typeFilter);
+  items.sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id);
+
+  document.getElementById('ledgerMonthLabel').textContent = searchDate
+    ? `${searchDate} 筛选结果`
+    : `${STORE.ledgerYear}年${STORE.ledgerMonth+1}月`;
+
+  if (items.length === 0) {
+    container.innerHTML = '<div class="empty"><span class="icon">💡</span>还没有记录灵感～想到什么赶紧记下来！</div>';
+    return;
+  }
+
+  let lastDate = '';
+  container.innerHTML = items.map((r, idx) => {
+    let dateHeader = '';
+    if (r.date !== lastDate) {
+      dateHeader = `<div class="history-date">📅 ${r.date}</div>`;
+      lastDate = r.date;
+    }
+    const bg = TYPE_COLORS[r.type] || '#FAF6F0';
+    return dateHeader + `
+    <div class="ledger-item" style="flex-direction:column;align-items:stretch;padding:12px 0;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-weight:600;font-size:14px;">${r.title}</span>
+        <span style="background:${bg};color:var(--text);font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500;">${r.type}</span>
+      </div>
+      ${r.desc ? `<div style="font-size:12px;color:var(--text-light);margin-top:4px;line-height:1.5;">${r.desc}</div>` : ''}
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="btn btn-sm ${r.filmed ? 'btn-primary' : 'btn-outline'}" onclick="toggleFilmed(${r.id})" style="font-size:10px;padding:3px 10px;">
+            ${r.filmed ? '✅ 已拍' : '🎬 标记已拍'}
+          </button>
+          <button class="btn btn-sm btn-outline" onclick="copyIdea(${r.id})" style="font-size:10px;padding:3px 10px;color:var(--accent);border-color:var(--accent);">📋</button>
+        </div>
+        <button class="btn btn-sm btn-outline" onclick="deleteIdea(${r.id})" style="font-size:10px;padding:3px 8px;color:#999;border-color:#ddd;">🗑️</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleFilmed(id) {
+  const item = STORE.ledger.find(r => r.id === id);
+  if (item) { item.filmed = !item.filmed; save('ledger'); renderLedgerSummary(); renderLedgerDetail(); }
+}
+
+function copyIdea(id) {
+  const r = STORE.ledger.find(i => i.id === id);
+  if (!r) return;
+  const text = `【${r.type}】${r.title}\n${r.desc}\n#每日一饮鲜炖银耳 #临沂美食`;
+  navigator.clipboard.writeText(text).then(() => showToast('📋 已复制到剪贴板'));
+}
+
+function deleteIdea(id) {
+  if (!confirm('确定删除这条灵感吗？')) return;
+  STORE.ledger = STORE.ledger.filter(r => r.id !== id);
+  save('ledger');
+  renderLedgerSummary();
+  renderLedgerDetail();
+  showToast('🗑️ 已删除');
+}
+
+function exportInspirations() {
+  const ym = `${STORE.ledgerYear}-${String(STORE.ledgerMonth+1).padStart(2,'0')}`;
+  const items = STORE.ledger.filter(r => r.date.startsWith(ym)).sort((a, b) => b.date.localeCompare(a.date));
+  if (items.length === 0) { showToast('⚠️ 本月还没有灵感记录'); return; }
+
+  const pending = items.filter(r => !r.filmed);
+  const filmed = items.filter(r => r.filmed);
+
+  let text = `📋 每日一饮鲜炖银耳 · 视频灵感整理\n`;
+  text += `📅 ${STORE.ledgerYear}年${STORE.ledgerMonth+1}月 · 共${items.length}条\n`;
+  text += `━━━━━━━━━━━━━━━━\n\n`;
+
+  if (pending.length > 0) {
+    text += `🎬 待拍摄（${pending.length}条）\n`;
+    text += `──────────────────\n`;
+    pending.forEach((r, i) => {
+      text += `${i+1}.【${r.type}】${r.title}\n   ${r.desc}\n   📅 ${r.date}\n\n`;
+    });
+  }
+
+  if (filmed.length > 0) {
+    text += `✅ 已拍摄（${filmed.length}条）\n`;
+    text += `──────────────────\n`;
+    filmed.forEach((r, i) => {
+      text += `${i+1}.【${r.type}】${r.title}\n   📅 ${r.date}\n\n`;
+    });
+  }
+
+  text += `━━━━━━━━━━━━━━━━\n`;
+  text += `🥣 每日一饮鲜炖银耳 · 临沂鲁商中心`;
+
+  navigator.clipboard.writeText(text).then(() => showToast('📤 已整理复制，可粘贴到备忘录'));
+}
+
+function clearInspirations() {
+  if (!confirm('确定清空本月所有灵感记录吗？此操作不可恢复！')) return;
+  const ym = `${STORE.ledgerYear}-${String(STORE.ledgerMonth+1).padStart(2,'0')}`;
+  STORE.ledger = STORE.ledger.filter(r => !r.date.startsWith(ym));
+  save('ledger');
+  renderLedgerSummary();
+  renderLedgerDetail();
+  showToast('🗑️ 本月灵感已清空');
+}
+
+function changeLedgerMonth(dir) {
+  STORE.ledgerMonth += dir;
+  if (STORE.ledgerMonth < 0) { STORE.ledgerMonth = 11; STORE.ledgerYear--; }
+  if (STORE.ledgerMonth > 11) { STORE.ledgerMonth = 0; STORE.ledgerYear++; }
+  document.getElementById('ledgerSearchDate').value = '';
+  document.getElementById('ledgerTypeFilter').value = 'all';
+  renderLedgerDetail();
+  renderLedgerSummary();
+}
+
+// ============ 一键生成拍摄脚本 ============
+function generateScript() {
+  const pending = STORE.ledger.filter(r => !r.filmed).sort((a, b) => b.date.localeCompare(a.date));
+  if (pending.length === 0) {
+    document.getElementById('scriptPreview').innerHTML = `
+      <div class="card" style="border-left:3px solid var(--accent);text-align:center;padding:20px;">
+        <div style="font-size:32px;margin-bottom:8px;">📭</div>
+        <div style="font-weight:600;margin-bottom:4px;">没有待拍的灵感</div>
+        <div style="font-size:12px;color:var(--text-light);">先去记录几个灵感再来生成脚本吧～</div>
+      </div>`;
+    return;
+  }
+
+  const todayStr = today();
+  let picks = pending.filter(r => r.date === todayStr);
+  if (picks.length < 2) picks = pending.slice(0, Math.min(3, pending.length));
+
+  const typeOrder = { '口播':1, '情绪':2, '日常':3, '科普':4, '互动':5, '拍摄':6, '创意':7, '同城':8 };
+  picks.sort((a, b) => (typeOrder[a.type]||9) - (typeOrder[b.type]||9));
+
+  const mainIdea = picks[0];
+
+  // 生成HTML格式的可执行脚本（不只用纯文本，用卡片式分镜展示）
+  let html = '';
+
+  // 脚本头部信息
+  html += `<div class="card" style="border-left:3px solid var(--primary);margin-bottom:0;">
+    <div class="card-title"><span class="icon">🎬</span> 今日拍摄脚本</div>
+    <div style="font-size:12px;color:var(--text-light);margin-bottom:8px;">📅 ${todayStr} · 基于你的灵感自动生成 · 照着拍就行</div>`;
+
+  // ===== 主推脚本 =====
+  html += `<div style="background:linear-gradient(135deg,#FFF8E1,#FFF3E0);border-radius:12px;padding:14px;margin-bottom:10px;">
+    <div style="font-weight:700;font-size:15px;color:var(--primary);margin-bottom:10px;">⭐ 今日主推：${mainIdea.title}</div>
+    ${generateStoryboard(mainIdea)}
+  </div>`;
+
+  // ===== 备选脚本 =====
+  if (picks.length > 1) {
+    html += `<details style="margin-bottom:8px;">
+      <summary style="font-weight:600;font-size:14px;color:var(--text);cursor:pointer;padding:8px 0;">📋 备选脚本（${picks.length-1}条，点击展开）</summary>`;
+    for (let i = 1; i < picks.length; i++) {
+      html += `<div style="background:#FAF6F0;border-radius:10px;padding:12px;margin:8px 0;">
+        <div style="font-weight:600;font-size:14px;margin-bottom:8px;">【${picks[i].type}】${picks[i].title}</div>
+        ${generateStoryboard(picks[i])}
+      </div>`;
+    }
+    html += `</details>`;
+  }
+
+  // ===== 今日清单 =====
+  html += `<div style="background:#F5F5F5;border-radius:10px;padding:12px;margin-top:8px;font-size:12px;line-height:2;">
+    <div style="font-weight:600;margin-bottom:4px;">✅ 拍摄前检查清单</div>
+    ☐ 手机电量充足 + 支架就位<br>
+    ☐ 后厨/店内背景整洁，杂物清出画面<br>
+    ☐ 光线：优先自然光，补光用暖色台灯<br>
+    ☐ 拍完发布时：定位"临沂鲁商中心"<br>
+    ☐ 标签：#每日一饮鲜炖银耳 #临沂美食 #临沂鲁商中心<br>
+    ☐ 发布后10分钟内，自己先在评论区留一条引导互动的话
+  </div>`;
+
+  html += `</div>`; // 关闭主卡片
+
+  // 操作按钮
+  html += `<div style="display:flex;gap:8px;margin-top:10px;">
+    <button class="btn btn-primary btn-sm" onclick="copyFullScript()" style="flex:1;">📋 复制脚本文字版</button>
+    <button class="btn btn-accent btn-sm" onclick="markFilmedFromScript()" style="flex:1;">✅ 拍完标记</button>
+  </div>`;
+
+  document.getElementById('scriptPreview').innerHTML = html;
+  document.getElementById('scriptPreview').scrollIntoView({ behavior:'smooth' });
+
+  // 同时生成纯文字版存起来供复制
+  window._scriptText = generateTextScript(picks);
+}
+
+// ============ 核心：基于灵感描述自动生成分镜脚本 ============
+function generateStoryboard(idea) {
+  const type = idea.type;
+  const title = idea.title;
+  const desc = idea.desc || '';
+
+  // 根据类型和描述，智能生成分镜
+  const shots = buildShots(type, title, desc);
+
+  let html = '';
+  shots.forEach((shot, idx) => {
+    const bg = idx % 2 === 0 ? '#fff' : '#FFFAF5';
+    html += `
+    <div style="display:flex;gap:8px;padding:8px 6px;background:${bg};border-radius:8px;margin-bottom:4px;align-items:flex-start;">
+      <div style="flex-shrink:0;width:24px;height:24px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;">${shot.num}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:11px;color:var(--primary);font-weight:600;margin-bottom:2px;">🎥 ${shot.scene}</div>
+        <div style="font-size:12px;color:var(--text);line-height:1.5;margin-bottom:2px;">📷 ${shot.visual}</div>
+        ${shot.line ? `<div style="font-size:12px;color:var(--accent);line-height:1.5;background:#FFF5F5;padding:4px 8px;border-radius:6px;margin:4px 0;">🗣️ ${shot.line}</div>` : ''}
+        ${shot.subtitle ? `<div style="font-size:11px;color:var(--text-light);margin-top:2px;">💬 字幕：${shot.subtitle}</div>` : ''}
+      </div>
+    </div>`;
+  });
+
+  // 拍摄提示
+  html += `<div style="font-size:11px;color:var(--text-light);margin-top:6px;padding:6px 8px;background:#FFF8E1;border-radius:6px;">
+    💡 ${getShootingTip(type)}
+  </div>`;
+
+  return html;
+}
+
+function buildShots(type, title, desc) {
+  // 从灵感描述中提取关键词，辅助生成更贴合的脚本
+  const hasKeyword = (kw) => desc.includes(kw) || title.includes(kw);
+
+  switch(type) {
+    case '口播':
+      return buildTalkShots(title, desc, hasKeyword);
+    case '拍摄':
+      return buildProductShots(title, desc, hasKeyword);
+    case '日常':
+      return buildVlogShots(title, desc, hasKeyword);
+    case '情绪':
+      return buildMoodShots(title, desc, hasKeyword);
+    case '科普':
+      return buildKnowledgeShots(title, desc, hasKeyword);
+    case '互动':
+      return buildInteractShots(title, desc, hasKeyword);
+    case '创意':
+      return buildCreativeShots(title, desc, hasKeyword);
+    case '同城':
+      return buildLocalShots(title, desc, hasKeyword);
+    default:
+      return buildProductShots(title, desc, hasKeyword);
+  }
+}
+
+// ---- 口播类分镜 ----
+function buildTalkShots(title, desc, kw) {
+  const shots = [
+    { num:1, scene:'开场钩子（0-3秒）', visual:'老板娘正面半身，背后是店内暖光环境，微笑看镜头', line:kw('故事') ? '熬了3年银耳，今天想跟你们说个事……' : kw('感谢') ? '开店这么久，有个人我一直想谢谢……' : '你们知道一碗银耳要熬多久吗？四个小时。', subtitle:'' },
+    { num:2, scene:'展开讲述（3-25秒）', visual:'保持正面，适当加手势，表情自然放松', line:desc || `（根据${title}的主题自由发挥，聊一个具体的小故事或感悟，不用念稿，就像跟朋友聊天一样）`, subtitle:'' },
+    { num:3, scene:'情绪高潮（25-35秒）', visual:'镜头稍微推近一点（或后期放大），强调表情', line:kw('坚持') ? '有人说至于吗？我说至于。因为糊弄得了别人，糊弄不了自己。' : '每次看到老顾客说"还是那个味儿"，就觉得，值了。', subtitle:'' },
+    { num:4, scene:'收尾+引导（35-45秒）', visual:'回到正常距离，微笑，可以端起一碗银耳', line:'咱家银耳每天现熬，在鲁商中心。路过上来坐坐，我请你喝一碗。你们觉得一家店最打动你的是什么？评论区聊聊～', subtitle:'' },
+  ];
+  return shots;
+}
+
+// ---- 产品拍摄类分镜 ----
+function buildProductShots(title, desc, kw) {
+  const productName = kw('银耳') ? '银耳' : kw('冬瓜') ? '冬瓜露' : kw('芋圆') ? '芋圆烧仙草' : kw('雪梨') ? '雪梨百合糖水' : '糖水';
+  const shots = [
+    { num:1, scene:'诱人开场（0-3秒）', visual:`${productName}成品特写，最好有热气/光泽/胶质拉丝，画面居中`, line:'', subtitle:kw('延时') ? '4小时的等待，都在这一碗里' : `这一碗，从早上6点开始熬` },
+    { num:2, scene:'制作过程（3-15秒）', visual:kw('延时') ? '延时摄影：银耳从清水到出胶全过程（4小时浓缩）' : `制作过程特写：${kw('冬瓜')?'冬瓜切块入锅慢熬':kw('芋圆')?'手搓芋圆、下锅煮、过凉':kw('雪梨')?'雪梨切块、百合入锅':kw('银耳')?'银耳下锅、小火慢炖、搅动出胶':'食材准备和制作关键步骤'}`, line:'', subtitle:kw('冬瓜')?'纯冬瓜慢熬，一滴水都不多加' : kw('芋圆')?'每一颗都是手搓的' : kw('雪梨')?'雪梨+百合，清润一整天' : '每日现熬，零添加' },
+    { num:3, scene:'成品展示（15-22秒）', visual:`${productName}从锅里舀出、倒入碗中，慢动作展示胶质/色泽`, line:'', subtitle:kw('冬瓜')?'清透见底，就是冬瓜本瓜' : '看这个胶质，是熬出来的，不是粉冲的' },
+    { num:4, scene:'收尾引导（22-30秒）', visual:`端起碗或杯子，加店名花字"每日一饮鲜炖银耳"`, line:'', subtitle:kw('冬瓜')?'📍鲁商中心，趁凉喝～' : '📍临沂鲁商中心·每日一饮鲜炖银耳' },
+  ];
+  return shots;
+}
+
+// ---- 日常vlog类分镜 ----
+function buildVlogShots(title, desc, kw) {
+  const shots = [
+    { num:1, scene:'开场（0-3秒）', visual:'手机第一视角或固定机位，拍早上到店：开门、开灯、系围裙', line:'', subtitle:'早上好，新的一天开始了' },
+    { num:2, scene:'备料日常（3-15秒）', visual:'洗银耳→撕银耳→泡发；或洗水果→切水果。动作连贯不中断', line:'', subtitle:desc ? desc.slice(0,30) : '每天的日常，因为你们变得有意义' },
+    { num:3, scene:'店里温暖瞬间（15-22秒）', visual:'拍店里一个细节：阳光照在银耳碗上、老顾客推门进来、熬银耳的锅冒着热气', line:'', subtitle:'一家小店，一锅糖水，一份日子' },
+    { num:4, scene:'收尾（22-30秒）', visual:'对着镜子或镜头微笑一下，或拍店门口的招牌', line:'', subtitle:'📍临沂鲁商中心·每日一饮鲜炖银耳' },
+  ];
+  return shots;
+}
+
+// ---- 情绪文案类分镜 ----
+function buildMoodShots(title, desc, kw) {
+  const shots = [
+    { num:1, scene:'氛围铺垫（0-5秒）', visual:'空镜：店里暖黄灯光、银耳在锅里咕嘟、窗外的街景。画面留白多', line:'', subtitle:'' },
+    { num:2, scene:'情绪引入（5-10秒）', visual:'银耳特写：舀一勺、胶质拉丝慢动作', line:'', subtitle:kw('2022')||kw('私房')||kw('开店') ? '2022年，我在家熬了第一锅银耳' : kw('顾客')||kw('老顾客') ? '有些人，来了就再也没走过' : '总有一盏灯，为晚归的人亮着' },
+    { num:3, scene:'情绪递进（10-20秒）', visual:kw('老公')||kw('配送') ? '拍老公送外卖回来、你递上一杯水的画面' : '老板娘在后厨忙碌的背影/手部特写', line:'', subtitle:desc ? desc.slice(0,40) : '从一口锅到一家店，变的是地方，不变的是每天守着这锅银耳的心' },
+    { num:4, scene:'高潮落点（20-30秒）', visual:'一碗银耳放在桌上，旁边可能是一本书或一束光', line:'', subtitle:'好原料，是良心。每天现熬，是态度。不将就，是本分。' },
+    { num:5, scene:'收尾定格（30-35秒）', visual:'店名+定位花字，画面渐暗', line:'', subtitle:'🥣 每日一饮鲜炖银耳 · 临沂鲁商中心' },
+  ];
+  return shots;
+}
+
+// ---- 科普类分镜 ----
+function buildKnowledgeShots(title, desc, kw) {
+  const shots = [
+    { num:1, scene:'抛出问题（0-3秒）', visual:'老板娘或产品特写出镜，画面干净', line:'', subtitle:kw('微凉')||kw('冰镇') ? '为什么我家银耳推荐微凉喝？' : kw('冬瓜') ? '冬瓜露和冬瓜茶，是一个东西吗？' : kw('胶质') ? '银耳为什么能熬出胶？' : desc ? desc.slice(0,25) : '你知道吗？一碗好银耳的关键在……' },
+    { num:2, scene:'对比展示（3-18秒）', visual:kw('微凉') ? '左边冰镇银耳（胶质凝固），右边微凉银耳（胶质流动）' : kw('冬瓜') ? '左边市售冬瓜茶（拍配料表），右边纯冬瓜露' : '展示原材料：银耳、水，强调"就这两样"', line:'', subtitle:kw('微凉') ? '冰镇会锁住胶质，口感差一半' : kw('冬瓜') ? '一个靠香精，一个靠时间' : '没有科技与狠活，就是好食材+时间' },
+    { num:3, scene:'结论+引导（18-30秒）', visual:'回到成品特写，加花字总结', line:'', subtitle:kw('微凉') ? '微凉喝，不伤胃，胶质全在' : '喝对了，才不浪费那4小时的熬制' },
+    { num:4, scene:'互动收尾（30-35秒）', visual:'加提问花字', line:'', subtitle:'你还想知道什么糖水知识？评论区告诉我👇' },
+  ];
+  return shots;
+}
+
+// ---- 互动类分镜 ----
+function buildInteractShots(title, desc, kw) {
+  const shots = [
+    { num:1, scene:'开场互动（0-5秒）', visual:'老板娘手持手机自拍视角，轻松随意', line:kw('问题')||kw('问答') ? '今天来回答你们问得最多的3个问题！' : '今天想问问你们——', subtitle:'' },
+    { num:2, scene:'内容展开（5-20秒）', visual:kw('好评')||kw('截图') ? '逐条展示顾客好评截图，每张停留2-3秒' : '配合产品画面，一问一答或互动展示', line:desc || '（根据灵感主题自由发挥互动内容）', subtitle:'' },
+    { num:3, scene:'抛出问题（20-28秒）', visual:'回到自拍视角或产品特写', line:'你们吃东西最看重啥？食材？口感？还是那份安心？评论区告诉我，我抽3位送一份手工芋圆！', subtitle:'' },
+  ];
+  return shots;
+}
+
+// ---- 创意短片类分镜 ----
+function buildCreativeShots(title, desc, kw) {
+  const shots = [
+    { num:1, scene:'创意开场（0-3秒）', visual:kw('独白')||kw('拟人') ? '银耳特写+AI配音字幕' : '创意画面（根据灵感描述灵活发挥）', line:'', subtitle:kw('独白') ? '我是早上6点下的锅……' : '' },
+    { num:2, scene:'创意展开（3-20秒）', visual:kw('独白') ? '银耳特写：泡发→下锅→出胶，全程银耳视角' : kw('对比') ? '分屏对比：兑的vs熬的，工厂vs手工' : '根据灵感描述自由创作画面', line:'', subtitle:desc ? desc.slice(0,40) : '' },
+    { num:3, scene:'创意高潮（20-28秒）', visual:'最有冲击力的画面：慢动作、特写、反转', line:'', subtitle:kw('独白') ? '现在，我准备好了。' : '好原料，当天熬，不将就。' },
+    { num:4, scene:'收尾（28-35秒）', visual:'店名+产品画面定格', line:'', subtitle:'📍每日一饮鲜炖银耳·鲁商中心' },
+  ];
+  return shots;
+}
+
+// ---- 同城话题类分镜 ----
+function buildLocalShots(title, desc, kw) {
+  const shots = [
+    { num:1, scene:'同城引入（0-4秒）', visual:'临沂街景/鲁商中心外景/沂河落日', line:'', subtitle:'在临沂，有一家小店……' },
+    { num:2, scene:'店内展示（4-18秒）', visual:'从门头拍到店内，再到后厨，最后到产品特写', line:'', subtitle:desc || '每天只做一件事：把一碗银耳熬到刚刚好' },
+    { num:3, scene:'同城共鸣（18-25秒）', visual:'顾客喝糖水的自然画面（不拍正脸）或临沂标志性街景+产品', line:'', subtitle:'北上广有咖啡下午茶，临沂有咱的银耳糖水。不贵，但暖。' },
+    { num:4, scene:'引导到店（25-30秒）', visual:'店门口+定位花字', line:'', subtitle:'📍临沂鲁商中心·每日一饮鲜炖银耳·等你来坐坐' },
+  ];
+  return shots;
+}
+
+function getShootingTip(type) {
+  const tips = {
+    '口播':'拍之前把想说的关键词写手机备忘录里放支架旁边，瞄一眼就行，不用背词。说临沂话更亲切！',
+    '拍摄':'手机镜头用软布擦一下！指纹会影响画质。拍银耳用侧逆光，胶质更通透。',
+    '日常':'不用每段都完美，抖一点、歪一点反而更真实。关键是有头有尾有情绪。',
+    '情绪':'这条不用赶时间，慢慢拍。BGM选钢琴纯音乐，音量调到15%-20%当背景，字幕才是主角。',
+    '科普':'对比画面是精髓！左边放差的、右边放咱家的，视觉冲击比说一万句都管用。',
+    '互动':'发之前想好自己要抢的第一条评论是什么，发完立刻去评论区写，带节奏。',
+    '创意':'大胆玩！这类视频不需要"像广告"，越不像广告越容易火。',
+    '同城':'标题和标签里必须有"临沂"，同城流量全靠这两个字。',
+  };
+  return tips[type] || '拍完记得加定位"临沂鲁商中心"，同城流量翻倍。';
+}
+
+// ---- 纯文字版脚本（供复制） ----
+function generateTextScript(picks) {
+  let text = `🎬 今日拍摄脚本\n📅 ${today()} · 每日一饮鲜炖银耳\n━━━━━━━━━━━━━━━━\n\n`;
+
+  picks.forEach((idea, idx) => {
+    const prefix = idx === 0 ? '⭐ 今日主推' : `📋 备选${idx}`;
+    text += `${prefix}\n━━━━━━━━━━━━━━━━\n`;
+    text += `【${idea.type}】${idea.title}\n`;
+    if (idea.desc) text += `灵感笔记：${idea.desc}\n`;
+    text += `\n`;
+
+    const shots = buildShots(idea.type, idea.title, idea.desc);
+    shots.forEach(s => {
+      text += `镜头${s.num}：${s.scene}\n`;
+      text += `  画面：${s.visual}\n`;
+      if (s.line) text += `  台词：${s.line}\n`;
+      if (s.subtitle) text += `  字幕：${s.subtitle}\n`;
+    });
+    text += `  拍摄提示：${getShootingTip(idea.type)}\n\n`;
+  });
+
+  text += `✅ 拍摄检查清单\n`;
+  text += `☐ 手机电量+支架就位\n☐ 背景整洁\n☐ 光线合适\n☐ 发布加定位"临沂鲁商中心"\n☐ 标签：#每日一饮鲜炖银耳 #临沂美食\n☐ 发布后10分钟内自己先评论\n\n`;
+  text += `🥣 每日一饮鲜炖银耳 · 临沂鲁商中心`;
+  return text;
+}
+
+function copyFullScript() {
+  if (!window._scriptText) { showToast('⚠️ 请先生成脚本'); return; }
+  navigator.clipboard.writeText(window._scriptText).then(() => showToast('📋 脚本已复制！'));
+}
+
+function markFilmedFromScript() {
+  const pending = STORE.ledger.filter(r => !r.filmed).sort((a, b) => b.date.localeCompare(a.date));
+  const todayStr = today();
+  let picks = pending.filter(r => r.date === todayStr);
+  if (picks.length < 2) picks = pending.slice(0, Math.min(5, pending.length));
+  picks.forEach(r => { r.filmed = true; });
+  save('ledger');
+  renderLedgerSummary();
+  renderLedgerDetail();
+  document.getElementById('scriptPreview').innerHTML = '';
+  showToast('✅ 已全部标记为已拍！');
+}
+
+// ============ 模块5: 剪辑技巧 ============
+
+// --- 每日视频热点选题 ---
+function getHotData() {
+  const d = new Date();
+  const seed = d.getDate() + d.getMonth() * 31 + d.getFullYear();
+  const allHots = [
+    // 数据集A
+    [
+      { title:'「银耳出胶全过程」延时摄影', type:'拍摄', desc:'手机架在锅边，延时拍摄银耳从清水→微白→浓稠出胶的4小时浓缩成15秒。配治愈纯音乐，字幕打"时间都去哪了？都在胶里了。"', tags:'#延时摄影 #银耳 #治愈系美食', bestTime:'晚上20:00-21:00发布，治愈系内容晚间流量好' },
+      { title:'「今天店里来了谁」随机记录', type:'日常', desc:'随手拍3-5位顾客进店、点单、喝糖水的自然画面（注意不要拍正脸），剪辑成30秒日常vlog。文案："每天都有新面孔，也有老熟人。一家小店最珍贵的，就是这些人情味。"', tags:'#小店日常 #临沂美食 #人间烟火', bestTime:'下午17:00发布，下班刷手机高峰' },
+      { title:'「一碗银耳的独白」拟人化短片', type:'创意', desc:'以银耳第一人称写文案，用剪映AI配音（选温柔女声）。画面全程银耳特写。文案示例："我是早上6点下的锅，小火咕嘟了4个小时。老板娘来看过我12次。现在，我准备好了。"', tags:'#创意美食 #银耳 #治愈文案', bestTime:'晚上21:30发布，睡前情绪内容最佳' },
+      { title:'「冬瓜露vs冬瓜茶」知识科普', type:'科普', desc:'拍一个对比科普：左边是市面上的冬瓜茶饮料（看配料表），右边是咱家纯冬瓜慢熬的冬瓜露。镜头扫配料表对比，最后倒出两杯对比颜色和质地。"一个靠香精，一个靠时间。"', tags:'#冬瓜露 #知识科普 #零添加', bestTime:'中午11:30发布，午饭前刷手机高峰' },
+      { title:'「后厨备料第一视角」沉浸式', type:'沉浸', desc:'手机拿在手里（或胸前支架），第一视角拍早上到店后的备料流程：开灯→洗手→拿银耳→泡发→洗水果→切水果。全程不讲话，保留环境原声。文案："每天重复的事，因为你们，变得有意义。"', tags:'#沉浸式 #后厨日常 #实体店日常', bestTime:'早上8:00发布，配合"早安"话题' },
+    ],
+    // 数据集B
+    [
+      { title:'「手工芋圆诞生记」制作全流程', type:'拍摄', desc:'芋头蒸熟→趁热加粉→手揉成团→搓条→切粒→下锅煮→捞出过凉→Q弹完成。每个步骤3-5秒，全程配轻快BGM。结尾特写一碗芋圆烧仙草。"每一颗都不一样，因为每一颗都是手搓的。"', tags:'#手工芋圆 #手工制作 #糖水', bestTime:'下午16:00发布，下午茶时间流量好' },
+      { title:'「老板娘今日碎碎念」口播', type:'口播', desc:'对着镜头轻松聊1分钟，不要念稿。今天聊什么？①今天熬银耳时想到的一件事 ②一个老顾客的故事 ③对最近天气的吐槽。自然最重要，说临沂话更有亲切感。', tags:'#老板娘日常 #实体店 #临沂', bestTime:'中午12:00发布，午饭时刷手机的人多' },
+      { title:'「翻牌顾客好评」图文视频', type:'互动', desc:'截图最近5条美团/微信上的顾客好评，用剪映"图文成片"功能生成视频。每张截图停留3秒，配温暖BGM。结尾打"谢谢每一位给我们好评的你❤️"引导更多顾客留好评。', tags:'#顾客好评 #真实评价 #临沂糖水', bestTime:'晚上19:30发布，晚饭后休闲时间' },
+      { title:'「银耳怎么喝最对」小科普', type:'科普', desc:'30秒科普：①推荐微凉喝，不伤胃 ②不建议大量冰镇，会锁住胶质影响口感 ③可以加点桂花/枸杞，风味升级。全程展示正确喝法。"喝对了，才不浪费那4小时的熬制。"', tags:'#银耳 #喝法 #生活小常识', bestTime:'上午10:00发布，上午茶时间' },
+      { title:'「夏天的最后一杯冬瓜露」季节限定', type:'情绪', desc:'拍一杯冬瓜露从冰箱取出→倒入玻璃杯→特写清透的色泽→喝一口的满足表情。文案："夏天快过去了，这杯纯冬瓜慢熬的露，喝一次少一次。趁天还热，趁我还在熬。"制造稀缺感。', tags:'#冬瓜露 #夏季限定 #且喝且珍惜', bestTime:'下午17:30发布，下班路上的治愈' },
+    ],
+    // 数据集C
+    [
+      { title:'「开店3年，我想说……」情感口播', type:'口播', desc:'老板娘出镜，聊一个话题："开店3年最想感谢的人是谁？"可以讲一个具体的顾客故事，结尾："谢谢你们让一家小店有了温度。"时长40-50秒，情绪自然不煽情。', tags:'#开店故事 #感谢 #临沂探店', bestTime:'晚上20:30发布，晚间情感内容完播率高' },
+      { title:'「雪梨百合糖水」食材展示', type:'拍摄', desc:'桌上依次摆出：雪梨、百合、冰糖、枸杞。每拿起一样给特写，简单介绍："兰州百合，润；雪梨，清；冰糖，甜；枸杞，养。"然后切到成品画面。干净利落30秒。', tags:'#雪梨百合 #食材展示 #真实用料', bestTime:'上午11:00发布，午前流量小高峰' },
+      { title:'「顾客问答」系列第一期', type:'互动', desc:'收集顾客常问的问题，选3个回答："①银耳为什么这么稠？熬了4小时。②冬瓜露能放几天？3天。③为啥不冰镇卖？冰了胶质锁住了。"一问一答形式，简洁有力。', tags:'#顾客问答 #糖水知识 #每日一饮', bestTime:'中午12:30发布，午饭后刷手机时间' },
+      { title:'「今天店里最治愈的一刻」抓拍', type:'日常', desc:'随手抓拍店里一个温暖瞬间：可能是阳光洒在银耳碗上、可能是小朋友喝得很开心、可能是老两口一起分享一碗糖水。文案就一句话描述这个画面，不多说。', tags:'#治愈瞬间 #小店温暖 #日常美好', bestTime:'下午15:00发布，下午茶治愈时刻' },
+      { title:'「零添加到底有多难」幕后揭秘', type:'科普', desc:'拍一条"做零添加糖水的代价"：①水果不能提前备，每天现切 ②银耳必须守着熬，不能走开 ③小料到点就倒，心疼但必须倒。让顾客理解你的坚持。"不是矫情，是对得起良心。"', tags:'#零添加 #幕后故事 #餐饮人的坚持', bestTime:'晚上19:00发布，晚饭后深度内容时间' },
+    ],
+    // 数据集D
+    [
+      { title:'「从私房到开店」成长对比', type:'故事', desc:'用3张照片做关键帧：2022年家里厨房→2023年第一次出摊→现在鲁商中心门店。每张停留3秒，配旁白："从一口锅开始，到现在有了你们。谢谢。"简单但有力。', tags:'#成长故事 #私房到开店 #临沂创业', bestTime:'晚上21:00发布，睡前故事类内容' },
+      { title:'「银耳的花式吃法」创意展示', type:'创意', desc:'展示3种银耳搭配：①银耳+桂花（经典）②银耳+红枣枸杞（养生）③银耳+芋圆（饱腹）。每种搭配5秒画面，结尾问："你今天想喝哪一种？"', tags:'#银耳吃法 #创意搭配 #糖水', bestTime:'下午16:30发布，下午茶选择困难症时间' },
+      { title:'「临沂人的下午茶」同城话题', type:'同城', desc:'拍一段鲁商中心附近的街景+店里喝糖水的顾客，文案："北上广有咖啡下午茶，临沂有咱的银耳糖水。不贵，但暖。"打同城标签，引发临沂人共鸣。', tags:'#临沂下午茶 #同城 #鲁商中心', bestTime:'下午15:30发布，下午茶时间同城推荐流量好' },
+      { title:'「熬银耳的人」个人IP短片', type:'情绪', desc:'拍老板娘的双手特写：洗银耳、撕银耳、搅锅、端碗。不露脸，只拍手和银耳。文案："这双手，熬了3年银耳。从20多岁熬到30岁，从私房熬到开店。还在熬。"', tags:'#手艺人 #银耳 #坚持', bestTime:'晚上20:00发布，情绪类内容晚间最佳' },
+      { title:'「今天你喝了吗」每日打卡系列', type:'连载', desc:'开启"每日一饮打卡"系列，每天推荐一款产品，15秒口播+产品特写。形成连载感，培养用户每天来看的习惯。第一期从招牌鲜炖银耳开始。', tags:'#每日一饮 #打卡 #糖水', bestTime:'早上9:00发布，开启一天的好心情' },
+    ],
+    // 数据集E
+    [
+      { title:'「为什么我家银耳推荐微凉喝」科普', type:'科普', desc:'拍一个温度对比实验：一杯冰镇银耳（胶质凝固变硬）vs一杯微凉银耳（胶质流动丝滑）。画面胜千言。"不是不给你冰的，是冰了真的浪费那4小时的胶。"', tags:'#银耳科普 #微凉更好喝 #生活知识', bestTime:'上午10:30发布，上午科普类内容完播好' },
+      { title:'「老公配送日记」夫妻档日常', type:'日常', desc:'拍一段老公送外卖回来、你递上一杯水的画面（自然抓拍）。文案："2022年他骑电动车送，2026年还是他送。变的是车，不变的是人。"真实夫妻故事最打动人。', tags:'#夫妻店 #创业日常 #真实故事', bestTime:'晚上19:30发布，晚间情感内容共鸣强' },
+      { title:'「今天熬了什么」每日菜单展示', type:'日常', desc:'每天拍一条15秒短视频：镜头扫过当天熬好的所有产品——银耳、冬瓜露、雪梨百合、芋圆……每样停2秒。文案："今日菜单已就位，你想喝哪个？"简单但能培养粉丝每日查看习惯。', tags:'#今日菜单 #每日现熬 #糖水铺', bestTime:'上午10:00发布，让顾客提前想好吃什么' },
+      { title:'「顾客说」真实反馈合集', type:'互动', desc:'收集最近顾客的口头评价（征得同意后录一小段，不露脸也行），剪成合集。"你家银耳比我妈熬的还好喝""我每周都来"……真实声音比任何广告都有说服力。', tags:'#真实评价 #顾客说 #口碑', bestTime:'下午17:30发布，下班前种草时间' },
+      { title:'「糖水铺的夏天」氛围短片', type:'情绪', desc:'拍一组夏日感画面：阳光透过玻璃照在银耳碗上、风扇慢悠悠转、顾客擦汗进店喝冬瓜露、门口树影斑驳。配夏日治愈BGM，30秒。"这就是糖水铺的夏天，慢，但很甜。"', tags:'#夏日氛围 #糖水铺 #慢生活', bestTime:'下午18:00发布，傍晚氛围感最佳' },
+    ],
+  ];
+  return allHots[(seed * 7 + d.getDay()) % 5];
+}
+
+function renderHot() {
+  document.getElementById('hotDate').textContent = today();
+  const data = getHotData();
+  document.getElementById('hotContent').innerHTML = data.map((h, i) => `
+    <div class="skill-card" style="border-left:3px solid var(--accent);">
+      <div class="skill-num" style="background:#FFF0F0;color:var(--accent);">${i+1}</div>
+      <div class="skill-content">
+        <h5>${h.title} <span class="tag tag-pink">${h.type}</span></h5>
+        <p style="margin-bottom:6px;">${h.desc}</p>
+        <p style="font-size:11px;color:var(--text-light);">
+          🏷️ ${h.tags}<br>
+          🕐 ${h.bestTime}
+        </p>
+      </div>
+    </div>
+  `).join('');
+}
+
+// --- 剪辑技巧 ---
+function getSkillsData() {
+  return [
+    { cat:'基础', title:'剪映"一键成片"功能', desc:'导入素材后点击"一键成片"，AI自动剪辑配乐，适合快速出片。老板娘拍完银耳制作过程，直接一键生成，省时省力。' },
+    { cat:'基础', title:'分割删除废镜头', desc:'时间轴上选中片段，点"分割"，把多余的抖动的片段删掉。熬银耳视频留关键的出胶瞬间就好。' },
+    { cat:'基础', title:'视频比例设为9:16', desc:'底部菜单→比例→9:16竖屏，这是抖音和视频号的标准尺寸，千万别用横屏拍。' },
+    { cat:'基础', title:'调整片段顺序', desc:'长按时间轴上的片段拖拽即可调顺序。把最诱人的银耳特写放第一个，先抓眼球。' },
+    { cat:'基础', title:'裁剪画面多余部分', desc:'选中片段→编辑→裁剪，可以把边缘杂物裁掉，让银耳碗在画面正中间更聚焦。' },
+    { cat:'调色', title:'一键"鲜亮"滤镜', desc:'滤镜→美食→"鲜亮"或"暖食"，银耳糖水颜色立刻通透诱人，不用手动调参数。' },
+    { cat:'调色', title:'亮度+对比度微调', desc:'调节→亮度+8、对比度+10、饱和度+5，这是糖水类视频的万能参数组合。' },
+    { cat:'调色', title:'色温偏暖更诱人', desc:'调节→色温+10左右，让画面微微偏暖黄，糖水看起来更温暖更有食欲。' },
+    { cat:'调色', title:'HSL调高橙色饱和度', desc:'HSL→橙色→饱和度+15，银耳汤的色泽会更饱满，这是美食博主的常用技巧。' },
+    { cat:'调色', title:'锐化提升质感', desc:'调节→锐化+15~20，画面细节更清晰，银耳胶质纹理拍得出来就要锐化到位。' },
+    { cat:'转场', title:'叠化转场最自然', desc:'两个片段之间点白色方块→叠化，糖水类视频用这个最柔和，比花哨转场有质感。' },
+    { cat:'转场', title:'模糊转场做过渡', desc:'转场→模糊，适合从"制作过程"过渡到"成品展示"，有电影感。' },
+    { cat:'转场', title:'转场时长调0.3秒', desc:'转场默认0.5秒太长，调成0.3秒更干脆利落，观看体验更好。' },
+    { cat:'转场', title:'用"闪光"转场强调成品', desc:'做完银耳展示成品那一刻加个"闪光"转场，视觉冲击力强，突出产品亮点。' },
+    { cat:'转场', title:'无转场直接切', desc:'有些片段之间不需要转场，硬切反而更真实自然，适合记录日常类型的视频。' },
+    { cat:'文字', title:'自动识别字幕', desc:'文本→识别字幕→开始匹配，口播视频自动加字幕，准确率很高，稍微校对即可。' },
+    { cat:'文字', title:'字幕样式统一', desc:'选中字幕→批量编辑→样式，选一个简洁字体（推荐"新青年体"或"系统默认"），糖水店不用太花哨。' },
+    { cat:'文字', title:'加标题花字', desc:'文本→花字→选暖色系模板，视频开头放店名"每日一饮鲜炖银耳"，强化品牌记忆。' },
+    { cat:'文字', title:'结尾加引导关注文字', desc:'最后1秒加文字"关注老板娘，每天一碗鲜炖银耳"，引导关注。位置放画面中下方。' },
+    { cat:'文字', title:'贴纸增加趣味性', desc:'贴纸→搜索"蒸汽""热气"，加在银耳碗上方模拟热气效果，画面更生动。' },
+    { cat:'音频', title:'关闭原声保留环境音', desc:'如果拍摄时有熬银耳的咕噜声，保留它！比配乐更有代入感，音量调到30%即可。' },
+    { cat:'音频', title:'热门BGM搜索技巧', desc:'音频→音乐→搜索"治愈""温暖""日常vlog"，这类音乐最配糖水视频调性。' },
+    { cat:'音频', title:'音量淡入淡出', desc:'选中音频→淡入淡出各0.5秒，开头结尾不会突兀，听感更舒服。' },
+    { cat:'音频', title:'录音功能做口播', desc:'如果拍摄时忘记录音，用剪映"录音"功能直接补录旁白，声音与画面自动对齐。' },
+    { cat:'音频', title:'音效增强画面感', desc:'音效→搜索"倒水""搅拌""开盖"，配合银耳出锅画面添加，沉浸感直接拉满。' },
+    { cat:'运镜', title:'手机固定拍摄最稳', desc:'买个十几块的手机支架，固定机位拍摄熬银耳过程。手持晃动是大忌，再好的内容也白搭。' },
+    { cat:'运镜', title:'从上往下拍"第一视角"', desc:'手机架在锅上方俯拍，模拟顾客看银耳出锅的视角，代入感超强。' },
+    { cat:'运镜', title:'近景特写拍胶质', desc:'手机靠近银耳，拍勺子舀起来的拉丝特写。银耳胶质是最大卖点，一定要给特写。' },
+    { cat:'运镜', title:'慢动作拍倒银耳', desc:'拍银耳从锅里舀进碗里的画面，后期调成0.5倍慢动作，胶质流动感绝了。' },
+    { cat:'运镜', title:'环绕拍摄展示店面', desc:'手持手机绕店走一圈，从门头拍到店内再到后厨，10秒展示全貌，新顾客看了就有印象。' },
+    { cat:'情绪', title:'「深夜治愈」系列脚本', desc:'深夜11点发一条：店里灯还亮着，银耳在锅里咕嘟。字幕打"总有一盏灯，为晚归的人亮着"。画面：暖黄灯光+银耳特写+空荡的街景。配乐：舒缓钢琴曲。' },
+    { cat:'情绪', title:'「开店故事」口播框架', desc:'第一句抛钩子："2022年我在家熬银耳的时候，没想到会有今天。"中间讲一个具体的小故事（比如第一位顾客、最难的一天），最后回到现在。全程1分钟，用你本来的声音就好。' },
+    { cat:'情绪', title:'「老顾客回忆杀」脚本', desc:'翻出手机里最早的老顾客聊天记录截图，用剪映"图文成片"功能做成视频。文案："这是22年的截图，这位姐姐到现在还每周来。有些味道，是时间筛不掉的。"' },
+    { cat:'情绪', title:'「一个人的后厨」氛围片', desc:'固定机位拍凌晨/清晨一个人在店里备料的画面，不讲话，纯画面+字幕。字幕逐句出现："每天5点起床 / 洗银耳 / 去核 / 看火 / 3年了 / 习惯了"。BGM选温暖治愈纯音乐。' },
+    { cat:'情绪', title:'「夫妻档日常」温情款', desc:'拍老公送外卖回来、你递上一碗银耳的画面，自然抓拍不用演。字幕打"2022年他骑电动车送，2026年还是他送。"不煽情，就是真实日子。这种内容女生用户共鸣超强。' },
+    { cat:'情绪', title:'情绪文案的字幕排版心法', desc:'字体用"新青年体"或"思源宋体"，字号稍大（18-22），文字居中或左下角。每屏不超过两行字，留白多才有氛围感。黑底白字或直接在画面上加半透明黑条衬底。' },
+    { cat:'情绪', title:'「临沂这座城」同城情绪款', desc:'拍临沂的街景（沂河、鲁商中心夜景、人民广场），穿插店里熬银耳的画面。文案："在这座城市，有一家小店，每天只做一件事——把一碗银耳熬到刚刚好。"标签打#临沂 #临沂美食 #同城。' },
+    { cat:'情绪', title:'「给顾客的一封信」系列', desc:'对着镜头像聊天一样说话，不要念稿。内容：感谢、一个具体顾客的故事、一个小承诺。结尾："谢谢你们让一家小店有了温度。"时长控制在40-50秒，完播率最高。' },
+    { cat:'情绪', title:'情绪类BGM歌单推荐', desc:'治愈系：<远方的寂静><风の住む街>；温暖系：<追光者>纯音乐版、<小幸运>钢琴版；故事感：<城南花已开>、<所念皆星河>。剪映直接搜歌名就能用，全部免费。' },
+    { cat:'情绪', title:'「从私房到开店」成长线脚本', desc:'用三张照片做关键帧：22年家里厨房→23年第一次出摊→现在鲁商中心门店。每张照片停留3秒，字幕分别打"从一口锅开始的梦""第一次被认可""现在，我有了你们"。最后定格门店照片+店名。' },
+    { cat:'情绪', title:'情绪视频的节奏控制口诀', desc:'前3秒：画面先出、文字后出（制造悬念）；中段：每5-8秒换一个画面，配合BGM节奏点切换；结尾：最后2秒出店名+定位。整体节奏是"慢-慢-稍快-慢"，像呼吸一样。' },
+    { cat:'情绪', title:'「一碗银耳的独白」拟人化脚本', desc:'以银耳的第一人称写文案，用AI配音或自己轻声读："我是早上6点下的锅，小火咕嘟了4个小时。老板娘来看过我12次。现在，我准备好了。"画面全程拍银耳特写。这种拟人化在小红书和抖音都容易爆。' },
+    { cat:'情绪', title:'「四季更替」长线内容策划', desc:'每个季节出一条情绪向视频：春"银耳+桂花，春天的第一口清甜"、夏"空调房的救赎"、秋"一碗温润，对抗秋燥"、冬"热乎乎的银耳，比男朋友还暖"。一年四季都有内容可发，形成系列感。' },
+    { cat:'情绪', title:'情绪文案的"钩子"话术库', desc:'视频开头3秒用这些话：①"我熬了3年银耳，今天想说句心里话…"②"你知道吗，这碗银耳背后有个故事…"③"今天想给一个人道歉/感谢…"④"如果时光倒回2022年…"⑤"干了这碗银耳，我跟你说个事…"。钩子要让人忍不住看下去。' },
+    { cat:'情绪', title:'「顾客留言墙」内容玩法', desc:'把顾客在微信/美团上的好评截图，用剪映"图文成片"一条条展示。每张截图停留2-3秒，配上温暖的BGM。结尾打"每一条留言，都是我们熬下去的理由"。真实好评比任何广告都有说服力。' },
+  ];
+}
+
+let currentSkillFilter = 'all';
+
+function renderSkills() {
+  const skills = getSkillsData();
+  const filtered = currentSkillFilter === 'all' ? skills : skills.filter(s => s.cat === currentSkillFilter);
+
+  document.getElementById('skillsContent').innerHTML = filtered.map((s, i) => `
+    <div class="skill-card">
+      <div class="skill-num">${i+1}</div>
+      <div class="skill-content">
+        <h5>${s.title} <span class="tag ${getCatTag(s.cat)}">${s.cat}</span></h5>
+        <p>${s.desc}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function getCatTag(cat) {
+  const map = { '基础':'tag-warm', '调色':'tag-cool', '转场':'tag-green', '文字':'tag-pink', '音频':'tag-cool', '运镜':'tag-green', '情绪':'tag-pink' };
+  return map[cat] || 'tag-warm';
+}
+
+document.getElementById('skillFilter').addEventListener('click', e => {
+  if (e.target.classList.contains('filter-chip')) {
+    document.querySelectorAll('#skillFilter .filter-chip').forEach(c => c.classList.remove('active'));
+    e.target.classList.add('active');
+    currentSkillFilter = e.target.dataset.filter;
+    renderSkills();
+  }
+});
+
+// ============ 初始化 ============
+function init() {
+  // 设置默认日期
+  const t = today();
+  document.getElementById('reviewDate').value = t;
+  document.getElementById('ledgerDate').value = t;
+
+  // 初始渲染
+  renderCopyHistory();
+  renderLedgerSummary();
+  renderLedgerDetail();
+  renderTrend();
+  renderNews();
+  renderOps();
+  renderEcon();
+  renderHot();
+  renderSkills();
+
+  // 更新底部栏高亮
+  updateBottomBar();
+}
+
+function updateBottomBar() {
+  const btns = document.querySelectorAll('.bottom-bar .btn');
+  btns.forEach(b => {
+    b.style.background = '';
+    b.style.color = '';
+    b.style.border = '1.5px solid var(--primary)';
+  });
+}
+
+init();
+</script>
+</body>
+</html>
