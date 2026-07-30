@@ -533,7 +533,7 @@ body {
   <button class="tab-btn active" data-tab="brand">🥣 品牌</button>
   <button class="tab-btn" data-tab="copywriting">📝 文案</button>
   <button class="tab-btn" data-tab="news">📊 资讯</button>
-  <button class="tab-btn" data-tab="review">🎬 复盘</button>
+  <a href="我的思考.html" class="tab-btn" style="text-decoration:none;">🧠 我的思考</a>
   <button class="tab-btn" data-tab="ledger">💡 灵感</button>
   <button class="tab-btn" data-tab="skills">✂️ 剪辑</button>
 </nav>
@@ -607,58 +607,6 @@ body {
       <div class="card-title"><span class="icon">💹</span> 今日经济学小知识</div>
       <p style="font-size:12px;color:var(--text-light);margin-bottom:12px;">📅 <span id="econDate"></span> · 用经济学思维看懂生意 · 结合当下经济变化</p>
       <div id="econContent"></div>
-    </div>
-  </div>
-
-  <!-- ========== 模块3: 短视频复盘 ========== -->
-  <div class="section" id="section-review">
-    <div class="card">
-      <div class="card-title"><span class="icon">🎬</span> 录入今日数据</div>
-      <div class="form-group">
-        <span class="label">日期</span>
-        <input type="date" class="input" id="reviewDate">
-      </div>
-      <div class="form-group">
-        <span class="label">平台</span>
-        <select class="select" id="reviewPlatform">
-          <option value="抖音">抖音</option>
-          <option value="视频号">视频号</option>
-          <option value="双平台">双平台</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <span class="label">播放量</span>
-        <input type="number" class="input" id="reviewViews" placeholder="如：1520">
-      </div>
-      <div class="form-group">
-        <span class="label">点赞数</span>
-        <input type="number" class="input" id="reviewLikes" placeholder="如：68">
-      </div>
-      <div class="form-group">
-        <span class="label">评论数</span>
-        <input type="number" class="input" id="reviewComments" placeholder="如：12">
-      </div>
-      <div class="form-group">
-        <span class="label">同城流量占比（%）</span>
-        <input type="number" class="input" id="reviewLocal" placeholder="如：65" min="0" max="100">
-      </div>
-      <div class="form-group">
-        <span class="label">转化/到店咨询数</span>
-        <input type="number" class="input" id="reviewConversion" placeholder="如：3">
-      </div>
-      <div class="form-group">
-        <span class="label">视频主题（一句话描述）</span>
-        <input type="text" class="input" id="reviewTopic" placeholder="如：银耳慢炖过程展示">
-      </div>
-      <button class="btn btn-primary btn-block" onclick="addReview()">📊 生成复盘分析</button>
-    </div>
-
-    <div class="card">
-      <div class="card-title"><span class="icon">📋</span> 历史复盘记录</div>
-      <div style="margin-bottom:10px;">
-        <input type="date" class="input" id="reviewSearchDate" onchange="filterReviews()" placeholder="按日期筛选">
-      </div>
-      <div id="reviewHistory"><div class="empty"><span class="icon">📭</span>还没有复盘记录</div></div>
     </div>
   </div>
 
@@ -779,17 +727,6 @@ body {
 
   <!-- ========== 模块6: 品牌理念（独立展示） ========== -->
   <div class="section active" id="section-brand">
-    <!-- 内容策略入口 -->
-    <a href="我的思考.html" style="display:block;text-decoration:none;">
-      <div class="card" style="background:linear-gradient(135deg,#E8F5E9,#FFF8E1);border:1px dashed var(--primary-light);display:flex;align-items:center;gap:10px;cursor:pointer;">
-        <div style="font-size:28px;">🧠</div>
-        <div style="flex:1;">
-          <div style="font-weight:700;font-size:14px;color:var(--primary);">我的思考 · 内容策略</div>
-          <div style="font-size:11px;color:var(--text-light);">三大主题 / 发布节奏 / 拍摄脚本 / 门店档案</div>
-        </div>
-        <div style="font-size:18px;color:var(--primary-light);">›</div>
-      </div>
-    </a>
     <!-- 品牌宣言 -->
     <div class="card" style="background:linear-gradient(135deg,#FFF8F0,#F5E6D3);text-align:center;">
       <div style="font-size:40px;margin-bottom:8px;">🥣</div>
@@ -999,7 +936,7 @@ body {
   <button class="btn btn-outline btn-sm" onclick="switchTab('brand')">🥣 品牌</button>
   <button class="btn btn-outline btn-sm" onclick="switchTab('copywriting')">📝 文案</button>
   <button class="btn btn-outline btn-sm" onclick="switchTab('news')">📊 资讯</button>
-  <button class="btn btn-outline btn-sm" onclick="switchTab('review')">🎬 复盘</button>
+  <a href="我的思考.html" class="btn btn-outline btn-sm" style="text-decoration:none;">🧠 我的思考</a>
   <button class="btn btn-outline btn-sm" onclick="switchTab('ledger')">💡 灵感</button>
   <button class="btn btn-outline btn-sm" onclick="switchTab('skills')">✂️ 剪辑</button>
   <a href="我的思考.html" class="btn btn-outline btn-sm" style="text-decoration:none;">🧠 我的思考</a>
@@ -1012,7 +949,6 @@ body {
 // ============ 全局状态 ============
 const STORE = {
   ledger: (JSON.parse(localStorage.getItem('dailyyiyin_ledger') || '[]')).filter(r => r.title !== undefined || r.type !== undefined),
-  reviews: JSON.parse(localStorage.getItem('dailyyiyin_reviews') || '[]'),
   copyHistory: JSON.parse(localStorage.getItem('dailyyiyin_copyHistory') || '[]'),
   currentTab: 'brand',
   currentProduct: '银耳',
@@ -1054,11 +990,10 @@ function switchTab(tab) {
   if (tab === 'news') { renderTrend(); renderNews(); renderOps(); renderEcon(); }
   if (tab === 'skills') { renderViral(); renderHot(); renderSkills(); }
   if (tab === 'ledger') renderLedgerSummary();
-  if (tab === 'review') document.getElementById('reviewDate').value = today();
   document.getElementById('mainContent').scrollTop = 0;
 }
 function getTabEmoji(tab) {
-  const map = { copywriting:'📝', news:'📊', review:'🎬', ledger:'💡', skills:'✂️', brand:'🥣' };
+  const map = { copywriting:'📝', news:'📊', ledger:'💡', skills:'✂️', brand:'🥣' };
   return map[tab] || '';
 }
 
@@ -1068,7 +1003,7 @@ document.getElementById('tabNav').addEventListener('click', e => {
 });
 document.querySelectorAll('.bottom-bar .btn').forEach(b => {
   b.addEventListener('click', function() {
-    const tab = Object.keys({copywriting:'📝',news:'📊',review:'🎬',ledger:'💡',skills:'✂️',brand:'🥣'}).find(k => getTabEmoji(k) === this.textContent.trim().slice(0,2));
+    const tab = Object.keys({copywriting:'📝',news:'📊',ledger:'💡',skills:'✂️',brand:'🥣'}).find(k => getTabEmoji(k) === this.textContent.trim().slice(0,2));
     if (tab) switchTab(tab);
   });
 });
@@ -1986,100 +1921,6 @@ function getNewsData() {
 }
 
 // ============ 模块3: 短视频复盘 ============
-function addReview() {
-  const date = document.getElementById('reviewDate').value || today();
-  const platform = document.getElementById('reviewPlatform').value;
-  const views = parseInt(document.getElementById('reviewViews').value) || 0;
-  const likes = parseInt(document.getElementById('reviewLikes').value) || 0;
-  const comments = parseInt(document.getElementById('reviewComments').value) || 0;
-  const local = parseInt(document.getElementById('reviewLocal').value) || 0;
-  const conversion = parseInt(document.getElementById('reviewConversion').value) || 0;
-  const topic = document.getElementById('reviewTopic').value || '未填写';
-
-  if (!views && !likes) { showToast('⚠️ 至少填播放量或点赞数'); return; }
-
-  const likeRate = views > 0 ? ((likes / views) * 100).toFixed(1) : '0';
-  const commentRate = views > 0 ? ((comments / views) * 100).toFixed(1) : '0';
-
-  // AI风格分析
-  let analysis = '';
-  let suggestion = '';
-
-  if (likeRate >= 5) {
-    analysis = '👍 互动率优秀！内容引发了观众强烈共鸣，点赞率远超平均水平。';
-    suggestion = '明日建议：延续今天的内容风格和选题方向，趁热打铁出同类内容，有机会再爆一条。';
-  } else if (likeRate >= 2) {
-    analysis = '✅ 数据表现正常。内容质量过关，但还可以在开头3秒更有冲击力。';
-    suggestion = '明日建议：尝试在视频开头加入"悬念式提问"或"制作过程的高光片段"，提升完播率。';
-  } else if (views < 200) {
-    analysis = '📉 播放量偏低，可能同城推荐权重未触发。检查标题和话题标签是否精准。';
-    suggestion = '明日建议：标题加入"临沂""鲁商中心"等地标词，话题标签加上#临沂美食 #临沂探店，发布时间调到中午11:30或下午5:00。';
-  } else {
-    analysis = '📊 播放量尚可但互动偏低，内容可能不够"有记忆点"。';
-    suggestion = '明日建议：尝试加入个人故事或情绪表达（比如"熬了3年的银耳，今天想跟你们聊聊心里话"），人格化内容更容易引发互动。';
-  }
-
-  if (local < 30) {
-    analysis += ' ⚠️同城流量占比偏低，建议检查是否开启了同城定位，以及标题是否包含临沂本地关键词。';
-  }
-  if (conversion > 0) {
-    analysis += ` 🎉有${conversion}个转化/咨询，说明内容精准触达了潜在顾客！`;
-  }
-
-  const record = {
-    date, platform, views, likes, comments, local, conversion, topic,
-    likeRate, commentRate, analysis, suggestion,
-    time: new Date().toLocaleTimeString()
-  };
-
-  STORE.reviews.unshift(record);
-  if (STORE.reviews.length > 100) STORE.reviews.pop();
-  save('reviews');
-  renderReviews();
-  showToast('✅ 复盘分析已生成！');
-
-  // 清空表单
-  ['reviewViews','reviewLikes','reviewComments','reviewLocal','reviewConversion','reviewTopic'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-}
-
-function renderReviews(filterDate) {
-  const container = document.getElementById('reviewHistory');
-  let reviews = STORE.reviews;
-  if (filterDate) reviews = reviews.filter(r => r.date === filterDate);
-
-  if (reviews.length === 0) {
-    container.innerHTML = '<div class="empty"><span class="icon">📭</span>没有找到复盘记录</div>';
-    return;
-  }
-
-  let lastDate = '';
-  container.innerHTML = reviews.map(r => {
-    let dateHeader = '';
-    if (r.date !== lastDate) {
-      dateHeader = `<div class="history-date">📅 ${r.date}</div>`;
-      lastDate = r.date;
-    }
-    return dateHeader + `
-      <div class="review-item">
-        <div class="date">${r.platform} · ${r.time}</div>
-        <h4>🎬 ${r.topic}</h4>
-        <p>
-          播放${r.views} · 👍${r.likes} · 💬${r.comments} · 同城${r.local}% · 转化${r.conversion}<br>
-          点赞率${r.likeRate}% · 评论率${r.commentRate}%
-        </p>
-        <div class="insight">📊 ${r.analysis}<br>💡 ${r.suggestion}</div>
-      </div>`;
-  }).join('');
-}
-
-function filterReviews() {
-  const d = document.getElementById('reviewSearchDate').value;
-  renderReviews(d || null);
-}
-
-// ============ 模块4: 视频灵感记录 ============
 function addLedger() {
   const date = document.getElementById('ledgerDate').value || today();
   const title = document.getElementById('ledgerDeposit').value.trim();
@@ -2743,7 +2584,6 @@ document.getElementById('skillFilter').addEventListener('click', e => {
 function init() {
   // 设置默认日期
   const t = today();
-  document.getElementById('reviewDate').value = t;
   document.getElementById('ledgerDate').value = t;
 
   // 初始渲染
