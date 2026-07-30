@@ -14,6 +14,9 @@
   --text: #333333;
   --text-light: #888888;
   --border: #E8DDD0;
+  --green: #4CAF50;
+  --yellow: #FFC107;
+  --orange: #FF9800;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -21,19 +24,27 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: 1.7;
-  max-width: 480px;
+  max-width: 520px;
   margin: 0 auto;
-  padding: 16px 16px 60px;
+  padding: 16px 14px 60px;
 }
 .header {
   text-align: center;
-  padding: 24px 0 20px;
+  padding: 20px 0 16px;
   border-bottom: 2px solid var(--border);
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 .header h1 { font-size: 22px; color: var(--primary); letter-spacing: 2px; }
-.header .date { font-size: 12px; color: var(--text-light); margin-top: 6px; }
-.header .back { display: inline-block; margin-top: 12px; font-size: 13px; color: var(--accent); text-decoration: none; padding: 6px 16px; border: 1px solid var(--accent); border-radius: 20px; }
+.header .date { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+.header .back { display: inline-block; margin-top: 10px; font-size: 13px; color: var(--accent); text-decoration: none; padding: 6px 16px; border: 1px solid var(--accent); border-radius: 20px; }
+
+/* 目录 */
+.toc { background: var(--card); border-radius: 14px; padding: 14px; margin-bottom: 16px; }
+.toc-title { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+.toc-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.toc-link { font-size: 11px; padding: 4px 10px; border-radius: 12px; text-decoration: none; color: var(--text); background: #F5F0E8; white-space: nowrap; }
+
+/* 卡片 */
 .card {
   background: var(--card);
   border-radius: 16px;
@@ -42,26 +53,63 @@ body {
   box-shadow: 0 2px 8px rgba(139,94,60,0.06);
 }
 .card-title { font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-table th { text-align: left; padding: 8px 6px; border-bottom: 2px solid var(--border); color: var(--primary); font-size: 11px; }
-table td { padding: 8px 6px; border-bottom: 1px solid var(--border); vertical-align: top; }
-.theme-row { display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+
+/* 主题卡片 */
+.theme-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
 .theme-row:last-child { border-bottom: none; }
-.theme-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.theme-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
 .theme-info { flex: 1; }
 .theme-name { font-weight: 600; font-size: 13px; }
 .theme-freq { font-size: 11px; color: var(--text-light); }
 .theme-desc { font-size: 12px; color: var(--text); margin-top: 2px; }
+
+/* 排期 */
 .schedule-item { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--border); }
 .schedule-item:last-child { border-bottom: none; }
-.schedule-date { font-size: 11px; color: var(--accent); font-weight: 700; white-space: nowrap; min-width: 60px; }
+.schedule-date { font-size: 11px; color: var(--accent); font-weight: 700; white-space: nowrap; min-width: 56px; }
 .schedule-content { font-size: 12px; }
+
+/* 折叠面板 */
+details { margin-bottom: 12px; }
+details:last-child { margin-bottom: 0; }
+summary {
+  font-size: 13px; font-weight: 700; color: var(--primary);
+  padding: 10px 12px; background: #F5F0E8; border-radius: 10px;
+  cursor: pointer; list-style: none; display: flex; align-items: center; gap: 6px;
+}
+summary::-webkit-details-marker { display: none; }
+summary::before { content: '▶'; font-size: 10px; transition: transform 0.2s; color: var(--accent); }
+details[open] summary::before { transform: rotate(90deg); }
+
+.detail-content { padding: 10px 4px; font-size: 12px; line-height: 1.8; }
+
+/* 分镜表 */
+.shot-table { width: 100%; border-collapse: collapse; font-size: 11px; margin: 8px 0; }
+.shot-table th { text-align: left; padding: 6px 4px; background: #FFF8F0; border-bottom: 2px solid var(--border); color: var(--primary); font-size: 10px; }
+.shot-table td { padding: 6px 4px; border-bottom: 1px solid var(--border); vertical-align: top; }
+
+/* 标签 */
+.tag { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px; margin: 2px; }
+.tag-green { background: #E8F5E9; color: #2E7D32; }
+.tag-yellow { background: #FFF8E1; color: #F57F17; }
+.tag-orange { background: #FFF3E0; color: #E65100; }
+.tag-blue { background: #E3F2FD; color: #1565C0; }
+.tag-red { background: #FFEBEE; color: #C62828; }
+.tag-purple { background: #F3E5F5; color: #6A1B9A; }
+
+/* 文案块 */
+.copy-block { background: #FAFAFA; border-radius: 10px; padding: 12px; margin: 8px 0; font-size: 12px; line-height: 1.8; white-space: pre-line; border-left: 3px solid var(--primary-light); }
+
+/* 钩子公式 */
+.hook-card { background: #FFF8E1; border-radius: 10px; padding: 10px 12px; margin: 6px 0; font-size: 12px; }
+
+/* 高亮盒子 */
+.highlight-box { background: #FFF3E0; border-radius: 10px; padding: 12px; margin: 8px 0; font-size: 12px; }
+
 .note { font-size: 12px; color: var(--text); line-height: 2; }
-.file-tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 10px; margin: 2px; }
-.tag-strategy { background: #E3F2FD; color: #1565C0; }
-.tag-script { background: #FFF3E0; color: #E65100; }
-.tag-design { background: #F3E5F5; color: #6A1B9A; }
-.tag-copy { background: #E8F5E9; color: #2E7D32; }
+.quote { font-size: 13px; color: var(--accent); font-style: italic; text-align: center; padding: 10px 0; }
+
+.footer-note { text-align: center; font-size: 13px; color: var(--primary); font-weight: 700; padding: 16px 0; }
 </style>
 </head>
 <body>
@@ -69,86 +117,683 @@ table td { padding: 8px 6px; border-bottom: 1px solid var(--border); vertical-al
 <div class="header">
   <h1>🧠 我的思考</h1>
   <div class="date">整理时间：2026年7月30日</div>
-  <div style="font-size:12px;color:var(--text-light);margin-top:6px;">今天和WorkBuddy一起梳理了账号、内容方向、拍摄主题</div>
-  <a class="back" href="index.html">← 返回工作台</a>
+  <div style="font-size:12px;color:var(--text-light);margin-top:4px;">今天和WorkBuddy一起梳理了账号、内容方向、拍摄主题</div>
+  <a class="back" href="index.html">← 返回工作台首页</a>
 </div>
 
-<!-- 文件清单 -->
-<div class="card">
-  <div class="card-title">📁 文件清单</div>
-  <table>
-    <tr><th>文件</th><th>说明</th></tr>
-    <tr><td colspan="2" style="font-weight:600;color:var(--primary);padding-top:12px;">📋 账号诊断与策略</td></tr>
-    <tr><td>每日一饮_门店档案.md</td><td>门店基础信息</td></tr>
-    <tr><td>每日一饮_视频诊断报告.md</td><td>视频号5期内容逐条分析</td></tr>
-    <tr><td>每日一饮_抖音号诊断.md</td><td>抖音账号12条作品分析</td></tr>
-    <tr><td>每日一饮_爆款选题库.md</td><td>三大维度爆款选题方向</td></tr>
-    <tr><td>每日一饮_内容主题体系.md</td><td>三大核心主题规划</td></tr>
-    <tr><td colspan="2" style="font-weight:600;color:var(--primary);padding-top:12px;">🎬 拍摄脚本</td></tr>
-    <tr><td>15条拍摄文案_三大主题.md</td><td>老朋友故事/儿子的镜头/创业日记各5条</td></tr>
-    <tr><td>创业日记000_自我介绍脚本.md</td><td>三部曲上集：我是谁</td></tr>
-    <tr><td>创业日记_为什么敢开店.md</td><td>三部曲中集：我凭什么</td></tr>
-    <tr><td>创业日记_后悔吗.md</td><td>三部曲下集：我后悔吗</td></tr>
-    <tr><td>儿子的镜头_拍摄脚本.md</td><td>儿子拍妈妈系列脚本</td></tr>
-    <tr><td colspan="2" style="font-weight:600;color:var(--primary);padding-top:12px;">🎨 设计参考</td></tr>
-    <tr><td>每日一饮_封面模板指南.md</td><td>统一封面模板参数和制作步骤</td></tr>
-    <tr><td colspan="2" style="font-weight:600;color:var(--primary);padding-top:12px;">📝 发布文案</td></tr>
-    <tr><td>老朋友故事001_最终文案.md</td><td>今晚要发的文案</td></tr>
-    <tr><td>老朋友故事001_发布文案.md</td><td>三版文案对比</td></tr>
-    <tr><td>老朋友故事001_修改版诊断.md</td><td>视频修改前后对比</td></tr>
-  </table>
+<!-- 目录 -->
+<div class="toc">
+  <div class="toc-title">📑 目录速查</div>
+  <div class="toc-list">
+    <a class="toc-link" href="#framework">🗺️ 三大主题</a>
+    <a class="toc-link" href="#schedule">📅 发布日历</a>
+    <a class="toc-link" href="#tonight">📝 今晚发布</a>
+    <a class="toc-link" href="#trilogy">🎬 三部曲</a>
+    <a class="toc-link" href="#oldfriend">🟢 老朋友×5</a>
+    <a class="toc-link" href="#son">🟡 儿子镜头×5</a>
+    <a class="toc-link" href="#diary">🟠 创业日记×5</a>
+    <a class="toc-link" href="#cover">🎨 封面模板</a>
+    <a class="toc-link" href="#hook">🪝 钩子公式</a>
+    <a class="toc-link" href="#data">📊 数据指标</a>
+    <a class="toc-link" href="#topics">💡 选题库</a>
+    <a class="toc-link" href="#pitfalls">⚠️ 避坑</a>
+  </div>
 </div>
 
 <!-- 三大核心主题 -->
-<div class="card">
+<div class="card" id="framework">
   <div class="card-title">🗺️ 三大核心主题</div>
   <div class="theme-row">
-    <div class="theme-dot" style="background:#4CAF50;"></div>
+    <div class="theme-dot" style="background:var(--green);"></div>
     <div class="theme-info">
-      <div class="theme-name">🟢 老朋友故事 <span class="theme-freq">· 每周五</span></div>
+      <div class="theme-name">🟢 老朋友故事 <span class="theme-freq">· 每周五 · 30-45秒</span></div>
       <div class="theme-desc">讲顾客的温暖故事</div>
     </div>
   </div>
   <div class="theme-row">
-    <div class="theme-dot" style="background:#FFC107;"></div>
+    <div class="theme-dot" style="background:var(--yellow);"></div>
     <div class="theme-info">
-      <div class="theme-name">🟡 儿子的镜头 <span class="theme-freq">· 每周三</span></div>
+      <div class="theme-name">🟡 儿子的镜头 <span class="theme-freq">· 每周三 · 15-30秒</span></div>
       <div class="theme-desc">儿子视角拍妈妈</div>
     </div>
   </div>
   <div class="theme-row">
-    <div class="theme-dot" style="background:#FF9800;"></div>
+    <div class="theme-dot" style="background:var(--orange);"></div>
     <div class="theme-info">
-      <div class="theme-name">🟠 创业日记 <span class="theme-freq">· 每周日</span></div>
-      <div class="theme-desc">开店日常、热点话题、三部曲</div>
+      <div class="theme-name">🟠 创业日记 <span class="theme-freq">· 每周日 · 20-35秒</span></div>
+      <div class="theme-desc">开店日常 · 热点话题</div>
+    </div>
+  </div>
+  <div class="quote">💡 三条腿走路：老朋友故事给你口碑，儿子的镜头给你温度，创业日记给你共鸣。每一条里银耳都在，但主角永远是人。</div>
+</div>
+
+<!-- 发布日历 -->
+<div class="card" id="schedule">
+  <div class="card-title">📅 近期发布日历</div>
+  <div class="schedule-item"><div class="schedule-date">今晚</div><div class="schedule-content">老朋友故事 001 · 上海姑娘 <span class="tag tag-red">今晚发</span></div></div>
+  <div class="schedule-item"><div class="schedule-date">下周</div><div class="schedule-content">创业日记 · 自我介绍（上集：我是谁） <span class="tag tag-orange">待拍</span></div></div>
+  <div class="schedule-item"><div class="schedule-date">穿插</div><div class="schedule-content">老朋友故事 002 · 儿子的镜头 001 <span class="tag tag-yellow">待拍</span></div></div>
+  <div class="schedule-item"><div class="schedule-date">再下周</div><div class="schedule-content">创业日记 · 我为什么敢开店（中集） <span class="tag tag-orange">待拍</span></div></div>
+  <div class="schedule-item"><div class="schedule-date">再下周</div><div class="schedule-content">创业日记 · 我后悔吗（下集） <span class="tag tag-orange">待拍</span></div></div>
+</div>
+
+<!-- 今晚发布：老朋友故事 001 -->
+<div class="card" id="tonight">
+  <div class="card-title">📝 今晚发布：老朋友故事 001</div>
+  <div class="highlight-box">
+    🔖 <strong>封面钩子：</strong>她定居上海 / 每次回临沂 / 都要奔赴这碗冬瓜露
+  </div>
+
+  <details>
+    <summary>🎥 完整分镜脚本</summary>
+    <div class="detail-content">
+      <table class="shot-table">
+        <tr><th>时间</th><th>画面</th><th>字幕/台词</th></tr>
+        <tr><td>0-3秒</td><td>一碗冬瓜露银耳冰特写</td><td>「有位老朋友」</td></tr>
+        <tr><td>3-8秒</td><td>老板娘后厨装碗</td><td>「以前就住我们店隔壁楼」</td></tr>
+        <tr><td>8-15秒</td><td>切到上海外滩空镜（素材）+ 再切回店里</td><td>「后来工作定居去了上海」</td></tr>
+        <tr><td>15-22秒</td><td>老板娘面对镜头微笑说话</td><td>「每次回来，第一件事不是回家，是来店里点一碗冬瓜露银耳冰」</td></tr>
+        <tr><td>22-28秒</td><td>老板娘端碗坐下喝一口</td><td>「我问她为什么。她说：在临沂喝的时候不觉得，去了外地才发现，这就是家的味道」</td></tr>
+        <tr><td>28-30秒</td><td>黑屏+字幕</td><td>「你们离家在外 / 最惦记家乡的哪一口味道呀」</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <details>
+    <summary>📱 视频号文案（今晚用）</summary>
+    <div class="copy-block">有个姑娘以前就住我们店隔壁楼，后来工作定居去了上海。
+每次回临沂，第一件事不是回家，是来店里喝一碗冬瓜露银耳冰。
+我问她为什么。
+她说："在临沂喝的时候不觉得，去了外地才发现，这就是家的味道。"
+开店三年，这句话是我收到过最好的夸奖。
+你们离家在外，最惦记家乡的哪一口味道呀？评论区聊聊～</div>
+  </details>
+
+  <details>
+    <summary>📱 抖音文案（明晚发）</summary>
+    <div class="copy-block">有人从上海打飞的来临沂，不为了别的，就为一碗冬瓜露银耳冰！
+她说这就是"家的味道"。
+开店三年，这是我收到过最好的夸奖😭
+你们最惦记的家乡味道是什么？
+#老朋友故事 #临沂美食 #鲜炖银耳 #冬瓜露</div>
+  </details>
+
+  <details>
+    <summary>📱 朋友圈同步文案</summary>
+    <div class="copy-block">今晚视频号更新了。
+一个从临沂去了上海的姑娘，每次回来第一件事不是回家，是来店里喝一碗冬瓜露。
+她说这是家的味道。
+开店三年，这是我收到过最好的夸奖。</div>
+  </details>
+
+  <div class="highlight-box">
+    <div style="font-weight:700;margin-bottom:6px;">🏷️ 标签（直接复制）</div>
+    #老朋友故事 #临沂糖水 #鲜炖银耳 #冬瓜露银耳冰 #鲁商中心 #晓慧鲜炖 #日常润养 #零添加糖水 #夏日清凉饮品
+  </div>
+
+  <div class="highlight-box" style="background:#E8F5E9;">
+    <div style="font-weight:700;margin-bottom:6px;">💬 评论区置顶：</div>
+    你们猜，这个姑娘下次回临沂，会不会又第一个来打卡？😄
+  </div>
+
+  <div class="highlight-box" style="background:#FFEBEE;">
+    <div style="font-weight:700;margin-bottom:6px;">✅ 发前检查</div>
+    <div>封面是「老朋友故事｜001」模板</div>
+    <div>🚫 标签禁忌：不要出现 #滋补养生</div>
+    <div>📍 位置标签：选「临沂市·鲁商中心」</div>
+    <div>⏰ 发布时间：今晚 19:30-20:00</div>
+  </div>
+</div>
+
+<!-- 创业日记 · 自我介绍三部曲 -->
+<div class="card" id="trilogy">
+  <div class="card-title">🎬 创业日记 · 自我介绍三部曲</div>
+  <div style="font-size:12px;color:var(--text-light);margin-bottom:12px;">三条视频不连续发，中间穿插老朋友故事和儿子的镜头。让新粉丝看完三条自我介绍，中间还能看到你的日常内容。</div>
+
+  <details>
+    <summary>🟠 上集：我是谁 <span class="tag tag-orange">待拍</span></summary>
+    <div class="detail-content">
+      <div class="quote">"我以前策划活动，现在策划一碗银耳。"</div>
+      <div style="font-size:12px;color:var(--text-light);margin-bottom:8px;">时长 70 秒 · 四个场景 · 口播逐句稿已就绪</div>
+
+      <div style="font-weight:700;font-size:12px;margin:8px 0;">🎥 完整分镜脚本</div>
+      <table class="shot-table">
+        <tr><th>时间</th><th>画面</th><th>台词</th><th>情绪</th></tr>
+        <tr><td>0-3s</td><td>店门口，店招入画，阳光打在招牌上</td><td>"很多人问我：晓慧，你以前是干嘛的？"</td><td>轻快</td></tr>
+        <tr><td>3-7s</td><td>店内桌前，端一碗银耳，低头看一眼，抬头笑</td><td>"我说我以前做活动策划的，在青岛。没人信。"</td><td>小得意</td></tr>
+        <tr><td>7-13s</td><td>喝一口银耳，放下碗，自然地讲</td><td>"我青岛大学毕业，学的是会展策划与管理。毕业以后进了一家传媒公司，在青岛做了四年多的公关活动策划。"</td><td>平稳</td></tr>
+        <tr><td>13-18s</td><td>翻看旧工作笔记本/方案封面</td><td>"后来因为一些原因回到临沂，又做了一段时间地产活动策划。"</td><td>语气收一点</td></tr>
+        <tr><td>18-24s</td><td>停顿，语气放缓</td><td>"说实话，那时候我以为自己会在这个行业一直做下去。但后来家里出了点状况，跟长辈之间有了一些矛盾，我一气之下就辞职了。"</td><td>真诚，不过度</td></tr>
+        <tr><td>24-30s</td><td>轻叹，然后笑</td><td>"辞职以后不知道干什么。那段时间挺迷茫的。每天就在家待着，也不知道自己能做什么。"</td><td>真实，不卖惨</td></tr>
+        <tr><td>30-37s</td><td>干银耳特写（或哥茶叶店门头）</td><td>"我哥是卖茶叶的，他手上正好有干银耳的资源。有一天他跟我说：晓慧，你要不要在朋友圈卖干银耳？"</td><td>恢复轻快</td></tr>
+        <tr><td>37-44s</td><td>摇头笑，用手比划</td><td>"我当时就想啊——现在大家哪有功夫自己在家泡银耳、炖银耳？不如我炖好了卖。"</td><td>小骄傲</td></tr>
+        <tr><td>44-52s</td><td>后厨大锅前，用勺子搅动银耳，胶质拉丝</td><td>"就这一个念头。2022年，我在家里支了一口锅，开始熬银耳。那时候还没开店，我老公负责配送，我在家熬。一天就卖十几碗。"</td><td>温暖回忆</td></tr>
+        <tr><td>52-60s</td><td>店铺全景，环顾四周，看镜头</td><td>"从私房到鲁商中心开店，一转眼三年了。"</td><td>感慨满足</td></tr>
+        <tr><td>60-68s</td><td>端碗面对镜头，真诚地笑</td><td>"我以前策划活动，现在策划一碗银耳。好像也没差太多——都是把很多细节拼在一起，最后呈现给一个人。"</td><td>从容自信</td></tr>
+        <tr><td>68-70s</td><td>黑屏+字幕</td><td>「我是晓慧 / 在临沂卖鲜炖银耳 / 这是我的故事 / 你呢？」</td><td>留白</td></tr>
+      </table>
+
+      <div style="font-weight:700;font-size:12px;margin:10px 0 6px;">🗣️ 口播逐句稿（可以直接照着念）</div>
+      <div class="copy-block">"很多人问我：晓慧，你以前是干嘛的？"
+"我说我以前做活动策划的，在青岛。没人信。"
+"我青岛大学毕业，学的是会展策划与管理。毕业以后进了一家传媒公司，在青岛做了四年多的公关活动策划。后来因为一些原因回到临沂，又做了一段时间地产活动策划。"
+"说实话，那时候我以为自己会在这个行业一直做下去。但后来家里出了点状况，跟长辈之间有了一些矛盾，我一气之下就辞职了。"
+"辞职以后不知道干什么。那段时间挺迷茫的。每天就在家待着，也不知道自己能做什么。"
+"我哥是卖茶叶的，他手上正好有干银耳的资源。有一天他跟我说：晓慧，你要不要在朋友圈卖干银耳？"
+"我当时就想啊——现在大家哪有功夫自己在家泡银耳、炖银耳？不如我炖好了卖。"
+"就这一个念头。2022年，我在家里支了一口锅，开始熬银耳。那时候还没开店，我老公负责配送，我在家熬。一天就卖十几碗。"
+"从私房到鲁商中心开店，一转眼三年了。"
+"我以前策划活动，现在策划一碗银耳。好像也没差太多——都是把很多细节拼在一起，最后呈现给一个人。"</div>
+
+      <details>
+        <summary>📱 三平台发布文案</summary>
+        <div class="detail-content">
+          <div style="font-weight:700;color:var(--primary);">视频号</div>
+          <div class="copy-block">很多人问我以前是干嘛的。
+我青岛大学毕业，学的会展策划与管理。毕业后在传媒公司做了四年多公关活动策划，回临沂又做了地产活动。
+后来因为家里的事辞职了，不知道干什么。
+我哥说：晓慧，你要不要在朋友圈卖干银耳？
+我说——现在谁有空自己泡啊，不如我炖好了卖。
+就这一个念头。2022年，我在家支了一口锅。老公配送，我熬银耳。
+从私房到鲁商中心开店，三年了。
+我以前策划活动，现在策划一碗银耳。
+好像也没差——都是把很多细节拼在一起，最后呈现给一个人。
+我是晓慧，在临沂卖鲜炖银耳。这是我的故事。
+你呢？你现在做的工作，是你当初学的专业吗？</div>
+          <div style="font-weight:700;color:#E65100;margin-top:8px;">抖音</div>
+          <div class="copy-block">很多人不信我以前是做活动策划的😂
+青岛大学会展专业 → 传媒公司公关策划 → 地产活动 → 辞职 → 迷茫 → 我哥说"卖干银耳吧" → 我说"不如我炖好了卖"
+然后就有了这家店。
+我以前策划活动，现在策划一碗银耳。好像也没差。
+你现在做的工作，是你当初学的专业吗？#创业日记 #转行 #临沂糖水 #鲜炖银耳</div>
+          <div style="font-weight:700;color:#6A1B9A;margin-top:8px;">朋友圈</div>
+          <div class="copy-block">很多人问我以前干嘛的。
+做活动策划的，在青岛。后来回临沂，辞了职，不知道干什么。
+我哥说卖干银耳吧，我说不如炖好了卖。
+就这一个念头，2022年在家里支了口锅。
+三年了。
+以前策划活动，现在策划一碗银耳。好像也没差。</div>
+        </div>
+      </details>
+
+      <div class="highlight-box" style="margin-top:8px;">
+        <div style="font-weight:700;margin-bottom:4px;">💬 评论区置顶：</div>
+        「你现在做的工作，是你大学学的专业吗？评论区聊聊」
+      </div>
+      <div style="font-size:11px;color:var(--text-light);margin-top:6px;">
+        🎬 四个场景：店门口 → 店内桌前 → 后厨锅前 → 店铺全景 &nbsp;|&nbsp;
+        🎵 BGM：轻钢琴/吉他，不要歌词，温暖治愈 &nbsp;|&nbsp;
+        👗 衣服：平时在店里的样子，围裙可以系着 &nbsp;|&nbsp;
+        📷 旧照片：可插1-2张旧照，不超过2张
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>🟠 中集：我凭什么 <span class="tag tag-orange">待拍</span></summary>
+    <div class="detail-content">
+      <div class="quote">"我不是胆子大，我是知道怎么把一件事从零做成一。"</div>
+      <div style="font-size:12px;color:var(--text-light);margin-bottom:8px;">时长 60 秒 · 单一场景 · 重点展示专业底气</div>
+
+      <table class="shot-table">
+        <tr><th>时间</th><th>画面</th><th>台词</th><th>情绪</th></tr>
+        <tr><td>0-3s</td><td>店内桌前，面前一碗银耳+一台笔记本</td><td>"上次跟大家聊了我以前是干嘛的。今天聊聊——我为什么敢从零开始开店。"</td><td>开门见山</td></tr>
+        <tr><td>3-8s</td><td>合上电脑推到一边，双手放桌上</td><td>"很多人以为我是冲动。辞了职不知道干嘛，哥哥说卖银耳吧，我就去卖了。听起来很像一时兴起，对吧？"</td><td>反问互动</td></tr>
+        <tr><td>8-15s</td><td>认真对着镜头说</td><td>"但其实不是。我在青岛那家传媒公司做了四年多的公关活动策划。那家公司名气不错，服务过很多大品牌。四年里我学到了两件事——"</td><td>自信不炫耀</td></tr>
+        <tr><td>15-22s</td><td>伸出第一根手指</td><td>"第一，怎么把一个想法变成一套可执行的方案。"</td><td>清晰</td></tr>
+        <tr><td>22-28s</td><td>伸出第二根手指</td><td>"第二，怎么把一套方案卖给一个人。"</td><td>加重语气</td></tr>
+        <tr><td>28-36s</td><td>收回手，自然地讲</td><td>"后来回临沂做地产活动策划，我们团队参加竞标，90%都是我们中标。不是吹牛——当时我的方案水平，在临沂确实是远超市面平均水平的。PPT写出来，客户一看就知道不一样。"</td><td>坦荡自信</td></tr>
+        <tr><td>36-43s</td><td>笑，语气转暖，语速稍快</td><td>"所以当我哥说'卖银耳吧'的时候，我不是脑子一热。我脑子里已经在跑了——目标人群是谁？定价怎么定？怎么让人第一次买？怎么让人第二次还买？"</td><td>还原思考</td></tr>
+        <tr><td>43-50s</td><td>端起面前的银耳，看一眼，然后看镜头</td><td>"会展策划和熬银耳，底层逻辑是一样的。只不过以前我的方案写在PPT上，现在我的方案盛在这一碗里。"</td><td>金句，放慢</td></tr>
+        <tr><td>50-56s</td><td>喝一口银耳，放下，笑</td><td>"所以我不是胆子大。我是知道怎么把一件事从零做成一。以前是活动，现在是银耳。"</td><td>从容收尾</td></tr>
+        <tr><td>56-60s</td><td>黑屏+字幕</td><td>「敢从头开始的人 / 不是不怕输 / 是知道自己能赢」</td><td>留白</td></tr>
+      </table>
+
+      <div style="font-weight:700;font-size:12px;margin:10px 0 6px;">🗣️ 口播逐句稿</div>
+      <div class="copy-block">"上次跟大家聊了我以前是干嘛的。今天聊聊——我为什么敢从零开始开店。"
+"很多人以为我是冲动。辞了职不知道干嘛，哥哥说卖银耳吧，我就去卖了。听起来很像一时兴起，对吧？"
+"但其实不是。我在青岛那家传媒公司做了四年多的公关活动策划。那家公司名气不错，服务过很多大品牌。四年里我学到了两件事——"
+"第一，怎么把一个想法变成一套可执行的方案。"
+"第二，怎么把一套方案卖给一个人。"
+"后来回临沂做地产活动策划，我们团队参加竞标，90%都是我们中标。不是吹牛——当时我的方案水平，在临沂确实是远超市面平均水平的。PPT写出来，客户一看就知道不一样。"
+"所以当我哥说'卖银耳吧'的时候，我不是脑子一热。我脑子里已经在跑了——目标人群是谁？定价怎么定？怎么让人第一次买？怎么让人第二次还买？"
+"会展策划和熬银耳，底层逻辑是一样的。只不过以前我的方案写在PPT上，现在我的方案盛在这一碗里。"
+"所以我不是胆子大。我是知道怎么把一件事从零做成一。以前是活动，现在是银耳。"</div>
+
+      <div class="highlight-box" style="margin-top:8px;">
+        <div style="font-weight:700;margin-bottom:4px;">💬 评论区置顶：</div>
+        「你做过最勇敢的决定是什么？评论区聊聊」
+      </div>
+      <div style="font-size:11px;color:var(--text-light);margin-top:6px;">
+        🎬 单一场景：桌前，银耳+笔记本 &nbsp;|&nbsp;
+        ✋ 手势：讲"两件事"用手指比划 &nbsp;|&nbsp;
+        💻 道具：笔记本屏幕放模糊方案PPT截图 &nbsp;|&nbsp;
+        👗 衣服：与上集同款，形成系列感
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>🟠 下集：我后悔吗 <span class="tag tag-orange">待拍</span></summary>
+    <div class="detail-content">
+      <div class="quote">"以前的活动散场就没了，现在的银耳有人喝了三年。"</div>
+      <div style="font-size:12px;color:var(--text-light);margin-bottom:8px;">时长 60 秒 · 傍晚暖光 · 情感收尾</div>
+
+      <table class="shot-table">
+        <tr><th>时间</th><th>画面</th><th>台词</th><th>情绪</th></tr>
+        <tr><td>0-3s</td><td>店内桌前，一碗银耳，傍晚暖光</td><td>"前两期聊了我是谁、我为什么敢从零开始。今天聊最后一个问题——"</td><td>像跟老朋友续话</td></tr>
+        <tr><td>3-6s</td><td>低头看银耳，抬头看镜头</td><td>"你后悔吗？"</td><td>停顿半秒</td></tr>
+        <tr><td>6-12s</td><td>轻轻笑，端起碗喝一口</td><td>"说实话，累的时候想过。"</td><td>诚实不回避</td></tr>
+        <tr><td>12-18s</td><td>放下碗，自然地讲</td><td>"尤其是刚开始那会儿，一天卖十几碗。老公配送完回来，我俩坐那算账——今天赚了不到一百块。"</td><td>回忆的笑</td></tr>
+        <tr><td>18-25s</td><td>顿一下</td><td>"那时候我就在想：我青岛大学毕业，竞标90%中标的方案水平，现在在这熬银耳——是不是走错了？"</td><td>语气下沉，真实自问</td></tr>
+        <tr><td>25-32s</td><td>顾客好评截图快闪（3-4张，打码）</td><td>"但每次想放弃的时候，就会有顾客发消息来——'晓慧姐，今天的银耳太好喝了''明天帮我留一碗冬瓜露'"</td><td>语气回暖</td></tr>
+        <tr><td>32-38s</td><td>切回你，眼眶微红但在笑</td><td>"或者一个老朋友推门进来，什么都不用说，我就知道他要原味银耳，不放糖。"</td><td>温暖感动</td></tr>
+        <tr><td>38-45s</td><td>端起银耳，看碗里的银耳</td><td>"以前做活动策划，一场活动散场了就没了。舞台拆了，灯光收了，好像什么都没留下。"</td><td>从容对比</td></tr>
+        <tr><td>45-52s</td><td>抬头看镜头，笑</td><td>"但现在不一样。有人喝我们家银耳喝了三年，有人因为它交了朋友，有人因为它结了婚。这些东西不会散场。"</td><td>金句放慢</td></tr>
+        <tr><td>52-58s</td><td>端碗像在跟镜头碰杯</td><td>"所以如果你问我后不后悔——不后悔。以前我的方案被客户选中，现在我的银耳被顾客喝完。成就感是一样的，甚至更直接。"</td><td>笃定收尾</td></tr>
+        <tr><td>58-60s</td><td>黑屏+字幕</td><td>「人生没有白走的路 / 会展策划和熬银耳 / 其实是一回事」</td><td>留白</td></tr>
+      </table>
+
+      <div class="highlight-box" style="margin-top:8px;">
+        <div style="font-weight:700;margin-bottom:4px;">💬 评论区置顶：</div>
+        「你有没有做过一个身边人都不理解、但你自己不后悔的决定？」
+      </div>
+      <div style="font-size:11px;color:var(--text-light);margin-top:6px;">
+        ☀️ 光线：傍晚暖光，不要白天冷白光 &nbsp;|&nbsp;
+        😢 情绪：全片最真诚，跟自己对话的感觉 &nbsp;|&nbsp;
+        🎵 BGM：钢琴独奏，比前两集更安静更慢 &nbsp;|&nbsp;
+        📸 好评截图：提前截3-4张打码好评，快闪每张≤1秒
+      </div>
+    </div>
+  </details>
+</div>
+
+<!-- 老朋友故事 × 5 -->
+<div class="card" id="oldfriend">
+  <div class="card-title">🟢 老朋友故事 × 5 完整拍摄脚本</div>
+
+  <details>
+    <summary>002 · 那个连续来了47天的大爷 <span class="tag tag-green">待拍</span></summary>
+    <div class="detail-content">
+      <div style="font-weight:700;font-size:12px;">🔖 封面钩子：</div>
+      <div style="font-size:12px;margin-bottom:8px;">有位大爷 / 连续来了47天 / 今天带了一个人来</div>
+      <table class="shot-table">
+        <tr><th>时间</th><th>画面</th><th>字幕</th></tr>
+        <tr><td>0-3s</td><td>店门口，一位大爷推门进来的背影</td><td>「有位大爷」</td></tr>
+        <tr><td>3-8s</td><td>老板娘抬头看到大爷，自然地笑</td><td>「连续来了47天」</td></tr>
+        <tr><td>8-15s</td><td>大爷坐在老位置，老板娘端银耳过去</td><td>「每天下午三点，准时到」</td></tr>
+        <tr><td>15-22s</td><td>老板娘面对镜头说话</td><td>「每次都点原味银耳，不放糖。我问他不淡吗，他说：淡了才能喝出银耳本来的味道」</td></tr>
+        <tr><td>22-28s</td><td>大爷旁边坐了一个大妈，两人一起喝银耳</td><td>「今天他带了一个人来——他老伴。大妈说：他天天回家夸你家银耳，我今天来验验货」</td></tr>
+        <tr><td>28-30s</td><td>老板娘笑 + 黑屏</td><td>「你身边有没有这样 / 默默支持你的老朋友？」</td></tr>
+      </table>
+      <div style="font-weight:700;margin-top:8px;">📱 视频号文案</div>
+      <div class="copy-block">有位大爷，连续47天，每天下午三点准时来。
+每次都点原味银耳，不放糖。
+我问他："不淡吗？"
+他说："淡了才能喝出银耳本来的味道。"
+今天他带了老伴来。大妈一进门就说："他天天回家夸你家银耳，我今天来验验货。"
+被这样默默支持着，是开店最幸福的事。
+你身边有没有一直默默支持你的人？</div>
+      <div class="highlight-box">💬 置顶：「大爷说淡了才能喝出本来的味道，你们喝银耳放糖吗？」</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>003 · 孕妈说整个孕期靠这碗银耳续命 <span class="tag tag-green">待拍</span></summary>
+    <div class="detail-content">
+      <div style="font-weight:700;font-size:12px;">🔖 封面钩子：</div>
+      <div style="font-size:12px;margin-bottom:8px;">有位孕妈 / 孕期每周来三次 / 说银耳是她续命水</div>
+      <table class="shot-table">
+        <tr><th>时间</th><th>画面</th><th>字幕</th></tr>
+        <tr><td>0-3s</td><td>一碗温热的原味银耳特写，微微冒热气</td><td>「有位孕妈」</td></tr>
+        <tr><td>3-8s</td><td>一位孕妈坐在店里靠窗位置喝银耳（侧面/背影）</td><td>「孕期每周来三次」</td></tr>
+        <tr><td>8-15s</td><td>老板娘打包银耳，多放了一勺红枣</td><td>「她说整个孕期什么都吃不下，就我们家银耳能喝进去」</td></tr>
+        <tr><td>15-22s</td><td>老板娘面对镜头说话</td><td>「每次来我都多放几颗红枣。不是规定，就是想对她好一点」</td></tr>
+        <tr><td>22-28s</td><td>孕妈起身走，老板娘送到门口</td><td>「上周她生了，发消息给我说：晓慧姐，等我出月子第一个来喝」</td></tr>
+        <tr><td>28-30s</td><td>黑屏+字幕</td><td>「一碗银耳 / 陪她走过了十个月」</td></tr>
+      </table>
+      <div class="highlight-box">💬 置顶：「你们怀孕的时候有没有特别馋的那一口？」</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>004 · 高中生攒了一周零花钱来喝 <span class="tag tag-green">待拍</span></summary>
+    <div class="detail-content">
+      <div style="font-weight:700;font-size:12px;">🔖 封面钩子：</div>
+      <div style="font-size:12px;margin-bottom:8px;">有个高中生 / 每周攒零花钱 / 周末来喝一碗烧仙草</div>
+      <table class="shot-table">
+        <tr><th>时间</th><th>画面</th><th>字幕</th></tr>
+        <tr><td>0-3s</td><td>一碗芋圆红豆烧仙草特写</td><td>「有个高中生」</td></tr>
+        <tr><td>3-8s</td><td>一个穿校服的女生坐在店里</td><td>「每周攒零花钱」</td></tr>
+        <tr><td>8-15s</td><td>老板娘在柜台偷偷多加了芋圆</td><td>「周末来喝一碗烧仙草」</td></tr>
+        <tr><td>15-22s</td><td>老板娘面对镜头说话</td><td>「有次她同学过生日，她带了三个同学来，掏出一把零钱说：今天我请客。我鼻子一酸，给她多加了半碗芋圆」</td></tr>
+        <tr><td>22-28s</td><td>老板娘笑着说</td><td>「她到现在都不知道我每次都多给她加料。这是我的小秘密」</td></tr>
+        <tr><td>28-30s</td><td>黑屏+字幕</td><td>「你们上学的时候 / 有没有攒钱去吃的那家店？」</td></tr>
+      </table>
+      <div class="highlight-box">💬 置顶：「你们上学的时候有没有攒钱去吃的那家店？」</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>005 · 银耳爱情 · 四年从私房到结婚 <span class="tag tag-green">待拍</span></summary>
+    <div class="detail-content">
+      <div style="font-weight:700;font-size:12px;">🔖 封面钩子：</div>
+      <div style="font-size:12px;margin-bottom:8px;">四年前在私房群下单的男生 / 昨天结婚了 / 新娘喝的第一碗银耳是我们家的</div>
+      <table class="shot-table">
+        <tr><th>时间</th><th>画面</th><th>字幕</th></tr>
+        <tr><td>0-3s</td><td>一碗银耳特写，旁边放一张婚礼请柬</td><td>「四年前」</td></tr>
+        <tr><td>3-8s</td><td>老照片风格：2022年私房时期在家熬银耳的画面</td><td>「那时候我还在家熬银耳，老公配送」</td></tr>
+        <tr><td>8-15s</td><td>现在的店铺画面</td><td>「有个男生在群里下单，每次都写：送给女朋友」</td></tr>
+        <tr><td>15-22s</td><td>老板娘面对镜头，眼眶微红</td><td>「四年了。从私房到开店，他一直买我们家的银耳送给她。昨天，他们结婚了」</td></tr>
+        <tr><td>22-28s</td><td>婚礼请柬翻开（打码）+ 银耳特写</td><td>「一碗19块的银耳，他送了四年，把她娶回家了」</td></tr>
+        <tr><td>28-30s</td><td>黑屏+字幕</td><td>「祝你们 / 新婚快乐 / 白头偕老」</td></tr>
+      </table>
+      <div class="highlight-box">💬 置顶：「你们收到过那种不贵但送了很久很久的礼物吗？」</div>
+    </div>
+  </details>
+</div>
+
+<!-- 儿子的镜头 × 5 -->
+<div class="card" id="son">
+  <div class="card-title">🟡 儿子的镜头 × 5 完整拍摄脚本</div>
+
+  <details>
+    <summary>001 · 妈妈回家第一件事 <span class="tag tag-yellow">待拍</span></summary>
+    <div class="detail-content">
+      <div style="font-weight:700;font-size:12px;">🔖 封面钩子：</div>
+      <div style="font-size:12px;margin-bottom:8px;">妈妈忙完一天 / 回家第一件事 / 就是吃一碗自己的银耳</div>
+      <table class="shot-table">
+        <tr><th>时间</th><th>画面</th><th>字幕</th></tr>
+        <tr><td>0-2s</td><td>门开了，妈妈进门脱鞋，疲惫的背影</td><td>「晚上九点半」</td></tr>
+        <tr><td>2-6s</td><td>妈妈走到厨房，打开冰箱拿出一碗银耳</td><td>「妈妈回来了」</td></tr>
+        <tr><td>6-10s</td><td>妈妈坐在沙发上，低头吃银耳，不说话</td><td>「忙了一天」</td></tr>
+        <tr><td>10-14s</td><td>妈妈吃了几口，闭眼靠在沙发上</td><td>「这是她今天第一次坐下来」</td></tr>
+        <tr><td>14-18s</td><td>妈妈发现儿子在拍，笑了一下："你拍啥呢"</td><td>「你拍啥呢」</td></tr>
+        <tr><td>18-22s</td><td>儿子没说话，镜头还是对着妈妈</td><td>「我妈妈做的银耳」</td></tr>
+        <tr><td>22-25s</td><td>妈妈继续吃，画面慢慢暗下来</td><td>「是世界上最好吃的」</td></tr>
+      </table>
+      <div class="highlight-box">💬 置顶：「你们下班回家第一件事是干嘛？」</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>002 · 妈妈的手 <span class="tag tag-yellow">待拍</span></summary>
+    <div class="detail-content">
+      <div style="font-weight:700;font-size:12px;">🔖 封面钩子：</div>
+      <div style="font-size:12px;margin-bottom:8px;">我儿子说 / 妈妈的手 / 是世界上最厉害的手</div>
+      <table class="shot-table">
+        <tr><th>时间</th><th>画面</th><th>字幕</th></tr>
+        <tr><td>0-2s</td><td>妈妈的手在切芒果，刀工利落</td><td>「我妈妈的手」</td></tr>
+        <tr><td>2-6s</td><td>妈妈的手在捞银耳，胶质拉丝</td><td>「什么都会做」</td></tr>
+        <tr><td>6-10s</td><td>快速切换：搓芋圆、打包、系袋子</td><td>「银耳、芋圆、烧仙草、椰奶捞」</td></tr>
+        <tr><td>10-14s</td><td>妈妈的手端着一碗银耳递给镜头</td><td>「尝尝」</td></tr>
+        <tr><td>14-18s</td><td>儿子的手接过碗，喝了一口</td><td>「好喝」</td></tr>
+        <tr><td>18-22s</td><td>妈妈的手揉了揉儿子的头发</td><td>「妈妈的手 / 是世界上最厉害的」</td></tr>
+      </table>
+      <div class="highlight-box">💬 置顶：「你们家孩子有没有说过让你破防的话？」</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>003 · 妈妈尝味道 <span class="tag tag-yellow">待拍</span></summary>
+    <div class="detail-content">
+      <div style="font-weight:700;font-size:12px;">🔖 封面钩子：</div>
+      <div style="font-size:12px;margin-bottom:8px;">每次银耳出锅 / 我妈都要先尝一口 / 她说这是规矩</div>
+      <table class="shot-table">
+        <tr><th>时间</th><th>画面</th><th>字幕</th></tr>
+        <tr><td>0-2s</td><td>一碗刚出锅的银耳冒着热气</td><td>「银耳出锅了」</td></tr>
+        <tr><td>2-6s</td><td>妈妈拿勺子舀了一勺，吹了吹</td><td>「妈妈要先尝一口」</td></tr>
+        <tr><td>6-10s</td><td>妈妈尝完，点点头，又舀一勺递给镜头</td><td>「她说这是规矩」</td></tr>
+        <tr><td>10-14s</td><td>儿子接过勺子喝了一口</td><td>「你也尝尝」</td></tr>
+        <tr><td>14-18s</td><td>儿子喝完，画面停了一下</td><td>「怎么样？」</td></tr>
+        <tr><td>18-22s</td><td>儿子画外音："嗯，今天的比昨天甜一点"</td><td>「今天的比昨天甜一点」</td></tr>
+        <tr><td>22-25s</td><td>妈妈笑："你舌头还挺灵"</td><td>「你舌头还挺灵」</td></tr>
+      </table>
+      <div class="highlight-box">💬 置顶：「你们家吃东西有没有什么'规矩'？」</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>004 · 妈妈看手机的时候 <span class="tag tag-yellow">待拍</span></summary>
+    <div class="detail-content">
+      <div style="font-weight:700;font-size:12px;">🔖 封面钩子：</div>
+      <div style="font-size:12px;margin-bottom:8px;">我偷偷拍的 / 妈妈看手机的时候 / 在笑</div>
+      <table class="shot-table">
+        <tr><th>时间</th><th>画面</th><th>字幕</th></tr>
+        <tr><td>0-2s</td><td>妈妈靠在沙发上，看手机，嘴角上扬</td><td>「妈妈在看手机」</td></tr>
+        <tr><td>2-6s</td><td>镜头慢慢拉近，妈妈没发现</td><td>「她在笑」</td></tr>
+        <tr><td>6-10s</td><td>妈妈手机屏幕特写（顾客好评）</td><td>「有顾客说今天的银耳特别好喝」</td></tr>
+        <tr><td>10-14s</td><td>妈妈还在看，笑着打字回复</td><td>「她每次看到这种消息都这样」</td></tr>
+        <tr><td>14-18s</td><td>妈妈发现被拍："你又拍我"</td><td>「你又拍我」</td></tr>
+        <tr><td>18-22s</td><td>妈妈把手机翻过来给镜头看</td><td>「我妈妈说：这些不是好评」</td></tr>
+        <tr><td>22-25s</td><td>妈妈对着镜头笑</td><td>「是朋友们在跟她说话」</td></tr>
+      </table>
+      <div class="highlight-box">💬 置顶：「你们收到过最暖的顾客消息是什么？」</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>005 · 妈妈的一天 <span class="tag tag-yellow">待拍</span></summary>
+    <div class="detail-content">
+      <div style="font-weight:700;font-size:12px;">🔖 封面钩子：</div>
+      <div style="font-size:12px;margin-bottom:8px;">我妈妈的一天 / 从早上五点半 / 到晚上九点半</div>
+      <table class="shot-table">
+        <tr><th>时间</th><th>画面</th><th>字幕</th></tr>
+        <tr><td>0-2s</td><td>清晨，窗外天还没亮，妈妈起床的背影</td><td>「早上五点半」</td></tr>
+        <tr><td>2-6s</td><td>妈妈在厨房熬银耳</td><td>「开始熬今天的第一锅银耳」</td></tr>
+        <tr><td>6-10s</td><td>快速剪辑：装碗→打包→接电话→擦桌子→切水果</td><td>「然后就是一整天」</td></tr>
+        <tr><td>10-14s</td><td>晚上回家，妈妈坐在沙发上端着一碗银耳</td><td>「晚上九点半」</td></tr>
+        <tr><td>14-18s</td><td>妈妈吃了几口，对着镜头笑了笑</td><td>「终于坐下来」</td></tr>
+        <tr><td>18-22s</td><td>妈妈对儿子说</td><td>「今天有个阿姨说我们家的银耳比她妈熬的还好喝」</td></tr>
+        <tr><td>22-25s</td><td>黑屏</td><td>「我妈妈是开糖水店的 / 她做的银耳 / 是世界上最好喝的」</td></tr>
+      </table>
+      <div class="highlight-box">💬 置顶：「你们做的是什么工作？一天下来最开心的是什么时刻？」</div>
+    </div>
+  </details>
+</div>
+
+<!-- 创业日记 × 5 -->
+<div class="card" id="diary">
+  <div class="card-title">🟠 创业日记 × 5 完整拍摄脚本</div>
+
+  <details>
+    <summary>001 · 临沂41度，街上没人但外卖爆了 <span class="tag tag-orange">待拍</span></summary>
+    <div class="detail-content">
+      <div style="font-weight:700;font-size:12px;">🔖 封面钩子：</div>
+      <div style="font-size:12px;margin-bottom:8px;">临沂41度 / 街上一个人没有 / 但外卖单子比平时多了三倍</div>
+      <div class="copy-block">"临沂这41度的天——街上一个人没有，外卖单子比平时多了三倍。"
+"我就在想啊，大家到底是怕热不出门，还是怕晒黑不出门？"
+"反正我是两个都怕。"
+"但银耳不怕热，它本来就是润的。今天你们出门了吗？"</div>
+      <div class="highlight-box">💬 置顶：「今天出门了吗？扣1出门了，扣2没出门」</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>002 · 有人问我银耳能不能加辣 <span class="tag tag-orange">待拍</span></summary>
+    <div class="detail-content">
+      <div style="font-weight:700;font-size:12px;">🔖 封面钩子：</div>
+      <div style="font-size:12px;margin-bottom:8px;">开店三年 / 收到过最离谱的要求 / 银耳能不能加辣</div>
+      <div class="copy-block">"开店三年，我收到过各种离谱的要求。银耳能不能加冰？能不能不放糖？能不能多给点红枣？这些我都理解。但上周有人问我——银耳能不能加辣。"
+"我当时愣了五秒钟，脑子里在想象一碗麻辣银耳是什么味道。"
+"最后我回他：哥，银耳加辣我是真不会，要不你来碗烧仙草？"</div>
+      <div class="highlight-box">💬 置顶：「你们遇到过最离谱的点单要求是什么？」</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>003 · 为什么我们家银耳不卖冰镇的 <span class="tag tag-orange">待拍</span></summary>
+    <div class="detail-content">
+      <div style="font-weight:700;font-size:12px;">🔖 封面钩子：</div>
+      <div style="font-size:12px;margin-bottom:8px;">很多人问我 / 为什么不卖冰镇银耳 / 今天说清楚</div>
+      <div class="copy-block">"好多人问我——晓慧，你家银耳为什么不卖冰镇的？夏天喝冰的多爽啊。"
+"我跟你们说实话——银耳这个东西，大量冰镇之后胶质会变，口感会差，而且对胃也不好。"
+"所以我家银耳建议微凉喝。不是不给你冰，是不想让你喝了不舒服。"
+"这大概就是开店的人的一点小较真吧。你们喝银耳喜欢冰的还是微凉的？"</div>
+      <div class="highlight-box">💬 置顶：「投票：你喜欢冰镇银耳扣1，微凉扣2」</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>004 · 今天蜜芋头翻车了 <span class="tag tag-orange">待拍</span></summary>
+    <div class="detail-content">
+      <div style="font-weight:700;font-size:12px;">🔖 封面钩子：</div>
+      <div style="font-size:12px;margin-bottom:8px;">开店你就开吧 / 一天一个坑 / 今天踩的坑是蜜芋头</div>
+      <div class="copy-block">"开店你就开吧——一天一个坑，坑坑不一样。今天踩的坑是蜜芋头。炖太久了，全化了。这锅废了。"
+"开店三年了还会翻车。但翻车就翻车吧，倒了重做。我宁愿倒了也不端给顾客。"
+"新的已经炖上了，今天晚一点上架。来店里的朋友等一下哈。"</div>
+      <div class="highlight-box">💬 置顶：「你们上班/开店翻过最大的车是什么？」</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>005 · 临沂的奶茶店越开越多，糖水店越来越少了 <span class="tag tag-orange">待拍</span></summary>
+    <div class="detail-content">
+      <div style="font-weight:700;font-size:12px;">🔖 封面钩子：</div>
+      <div style="font-size:12px;margin-bottom:8px;">临沂奶茶店 / 一条街开了八家 / 糖水店却越来越少了</div>
+      <div class="copy-block">"你们发现没有——临沂的奶茶店越开越多，光我们鲁商中心这一片，奶茶店比便利店还密。但糖水店越来越少了。"
+"为什么？因为糖水不赚钱啊——银耳要泡、要熬、要炖，一做就是几个小时，利润还比不上奶茶。"
+"但为什么我还要做？因为我总觉得，总得有人做那些'不赚钱但好喝'的东西。"
+"而且说实话，奶茶喝多了真的腻。银耳不会。你们觉得呢？"</div>
+      <div class="highlight-box">💬 置顶：「投票：更喜欢奶茶扣1，更喜欢糖水扣2」</div>
+    </div>
+  </details>
+</div>
+
+<!-- 封面模板指南 -->
+<div class="card" id="cover">
+  <div class="card-title">🎨 统一封面模板指南</div>
+  <div style="font-size:12px;color:var(--text-light);margin-bottom:10px;">白字 + 黑色描边 + 居中下方 · 左上角系列标签 · 右下角门店水印 · 剪映保存为预设</div>
+
+  <details>
+    <summary>剪映操作步骤（5步搞定）</summary>
+    <div class="detail-content">
+      <div style="font-weight:700;">步骤1：选一张底图</div>
+      <div style="font-size:12px;margin-bottom:10px;">从视频中截取一帧，建议选银耳特写（胶质感强）或你端碗微笑的画面</div>
+
+      <div style="font-weight:700;">步骤2：添加系列标签（左上角）</div>
+      <div style="font-size:12px;margin-bottom:10px;">字体：得意黑/系统粗体 · 字号：小（画面宽度1/10） · 颜色：白色 · 描边：黑色宽度2 · 位置：左上角，距顶和左边各5%边距</div>
+
+      <div style="font-weight:700;">步骤3：添加标题文字（画面中央偏下）</div>
+      <div style="font-size:12px;margin-bottom:10px;">字体：得意黑/系统粗体 · 字号：中（画面宽度1/6） · 颜色：白色 · 描边：黑色宽度3 · 位置：画面下方1/3处，居中 · 每行不超过8个字</div>
+
+      <div style="font-weight:700;">步骤4：添加门店水印（右下角）</div>
+      <div style="font-size:12px;margin-bottom:10px;">文字：「鲁商中心·每日一饮」 · 字体：系统常规 · 字号：小（画面宽度1/12） · 颜色：白色半透明80% · 描边：黑色宽度1 · 位置：右下角，距底和右各3%边距</div>
+
+      <div style="font-weight:700;">步骤5：保存为模板</div>
+      <div style="font-size:12px;">剪映右上角「保存为预设」→ 命名「每日一饮封面模板」。以后每期只改钩子标题即可。</div>
+    </div>
+  </details>
+
+  <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
+    <div style="display:flex;gap:8px;align-items:center;padding:8px 12px;background:#E8F5E9;border-radius:10px;font-size:12px;">
+      <span style="width:12px;height:12px;background:var(--green);border-radius:50%;flex-shrink:0;"></span>
+      <span><strong>🟢 老朋友故事</strong>：左上角「老朋友故事」· 底图：你+产品 · 钩子：白字黑描边下方1/3</span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;padding:8px 12px;background:#FFF8E1;border-radius:10px;font-size:12px;">
+      <span style="width:12px;height:12px;background:var(--yellow);border-radius:50%;flex-shrink:0;"></span>
+      <span><strong>🟡 儿子的镜头</strong>：左上角「儿子的镜头」· 底图：儿子拍的画面 · 钩子同款</span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;padding:8px 12px;background:#FFF3E0;border-radius:10px;font-size:12px;">
+      <span style="width:12px;height:12px;background:var(--orange);border-radius:50%;flex-shrink:0;"></span>
+      <span><strong>🟠 创业日记</strong>：左上角「创业日记」· 底图：你后厨工作 · 钩子同款</span>
     </div>
   </div>
 </div>
 
-<!-- 发布节奏 -->
-<div class="card">
-  <div class="card-title">📅 发布节奏</div>
-  <div class="schedule-item">
-    <div class="schedule-date">今晚 7.30</div>
-    <div class="schedule-content">老朋友故事 001</div>
-  </div>
-  <div class="schedule-item">
-    <div class="schedule-date">下周</div>
-    <div class="schedule-content">创业日记·上集：我是谁</div>
-  </div>
-  <div class="schedule-item">
-    <div class="schedule-date">穿插</div>
-    <div class="schedule-content">老朋友故事 002 / 儿子的镜头 001</div>
-  </div>
-  <div class="schedule-item">
-    <div class="schedule-date">再下周</div>
-    <div class="schedule-content">创业日记·中集：我凭什么</div>
-  </div>
-  <div class="schedule-item">
-    <div class="schedule-date">再下周</div>
-    <div class="schedule-content">创业日记·下集：我后悔吗</div>
-  </div>
+<!-- 钩子公式 -->
+<div class="card" id="hook">
+  <div class="card-title">🪝 爆款钩子速查公式</div>
+  <div style="font-size:12px;color:var(--text-light);margin-bottom:8px;">每次拍之前对照这四个钩子元素，至少用上一个：</div>
+  <div class="hook-card"><strong>🔢 数字：</strong>"47天""27块""三年""19块"</div>
+  <div class="hook-card"><strong>😮 反差：</strong>"上海→临沂""奶茶→银耳"</div>
+  <div class="hook-card"><strong>😣 痛点：</strong>"嗓子干""没食欲""41度"</div>
+  <div class="hook-card"><strong>❓ 悬念：</strong>"我一直以为…结果…"</div>
 </div>
+
+<!-- 数据指标 -->
+<div class="card" id="data">
+  <div class="card-title">📊 数据指标参考（2026年算法）</div>
+  <table class="shot-table">
+    <tr><th>指标</th><th>及格线</th><th>优质线</th></tr>
+    <tr><td>2秒跳出率</td><td>≤ 40%</td><td>≤ 30%</td></tr>
+    <tr><td>5秒完播率</td><td>≥ 35%</td><td>≥ 50%</td></tr>
+    <tr><td>整体完播率</td><td>≥ 20%</td><td>≥ 35%</td></tr>
+    <tr><td>互动率</td><td>≥ 5%</td><td>≥ 10%</td></tr>
+    <tr><td>分享率</td><td>≥ 2%</td><td>≥ 5%</td></tr>
+  </table>
+  <div class="highlight-box" style="margin-top:10px;">💡 2026年算法已从"唯完播率论"转变为<strong>"深度互动优先"</strong>——收藏率 > 复访率 > 铁粉互动 > 5秒完播 > 整体完播</div>
+</div>
+
+<!-- 爆款选题库 -->
+<div class="card" id="topics">
+  <div class="card-title">💡 爆款选题库速查</div>
+
+  <details>
+    <summary>🔴 2秒跳出率低（7个方向）</summary>
+    <div class="detail-content">
+      <table class="shot-table">
+        <tr><th>编号</th><th>方向</th><th>示例</th></tr>
+        <tr><td>A1</td><td>制作过程特写</td><td>"清晨6点，第一锅银耳下锅的瞬间"——拍银耳入水慢镜头</td></tr>
+        <tr><td>A2</td><td>反常识/冲突开场</td><td>"很多人问我为什么不卖冰镇银耳"</td></tr>
+        <tr><td>A3</td><td>价格/利益点前置</td><td>"19块9一碗的鲜炖银耳，成本到底多少？"</td></tr>
+        <tr><td>A4</td><td>提问式钩子</td><td>"临沂这天儿，开空调嗓子干得冒烟的有几个？"</td></tr>
+        <tr><td>A5</td><td>前后对比冲击</td><td>干银耳 vs 炖好的胶质银耳同框对比</td></tr>
+        <tr><td>A6</td><td>老板娘露脸+情绪</td><td>"今天熬到第6锅，手都快抬不起来了"</td></tr>
+        <tr><td>A7</td><td>声音先于画面</td><td>全程原声：银耳入盅碰撞声+倒椰奶流动声</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <details>
+    <summary>🟡 完播率高（8个方向）</summary>
+    <div class="detail-content">
+      <table class="shot-table">
+        <tr><th>编号</th><th>方向</th><th>示例</th></tr>
+        <tr><td>B1</td><td>"一天"纪实vlog</td><td>"糖水店老板娘的真实一天：5:30到21:00"</td></tr>
+        <tr><td>B2</td><td>教程/揭秘类</td><td>"冬瓜露银耳冰怎么做才不出水？3个关键步骤"</td></tr>
+        <tr><td>B3</td><td>顾客故事系列</td><td>"有个大爷连续来了47天，今天他带了人来"</td></tr>
+        <tr><td>B4</td><td>"一个产品做三年"</td><td>"2022年第一锅 vs 2026年第10086锅"</td></tr>
+        <tr><td>B5</td><td>Q&A问答合集</td><td>"开店三年被问最多的10个问题"</td></tr>
+        <tr><td>B6</td><td>"失败→成功"记录</td><td>"试了8种银耳，终于找到出胶最好的"</td></tr>
+        <tr><td>B7</td><td>"沉浸式"系列</td><td>"沉浸式熬一锅银耳：30秒看完3小时"</td></tr>
+        <tr><td>B8</td><td>产品对比测评</td><td>"超市银耳羹 vs 我们店现熬的，差在哪？"</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <details>
+    <summary>🟢 转发数据突出（8个方向）</summary>
+    <div class="detail-content">
+      <table class="shot-table">
+        <tr><th>编号</th><th>方向</th><th>示例</th></tr>
+        <tr><td>C1</td><td>情感共鸣类</td><td>"今天一个姑娘来店里，临走说了一句话…"</td></tr>
+        <tr><td>C2</td><td>本地实用信息</td><td>"临沂鲁商中心附近，夏天去哪喝点润的？"</td></tr>
+        <tr><td>C3</td><td>"坚持/匠心"故事</td><td>"为什么我们店不卖隔夜银耳？"</td></tr>
+        <tr><td>C4</td><td>养生/健康科普</td><td>"吹空调嗓子干？这碗银耳比润喉糖管用"</td></tr>
+        <tr><td>C5</td><td>"临沂人的…"系列</td><td>"临沂40度的天，这碗银耳冰比奶茶舒服"</td></tr>
+        <tr><td>C6</td><td>创业真实记录</td><td>"开糖水店三年，踩过的5个坑和5个惊喜"</td></tr>
+        <tr><td>C7</td><td>节日/节气借势</td><td>"立秋了，临沂人该喝什么？"</td></tr>
+        <tr><td>C8</td><td>UGC顾客自发性种草</td><td>"翻了一下最近三个月顾客发我的消息"</td></tr>
+      </table>
+    </div>
+  </details>
+</div>
+
+<!-- 避坑清单 -->
+<div class="card" id="pitfalls">
+  <div class="card-title">⚠️ 避坑清单</div>
+  <table class="shot-table">
+    <tr><th>踩坑行为</th><th>后果</th><th>正确做法</th></tr>
+    <tr><td>开头铺垫过长</td><td>2秒跳出率飙升</td><td>第一帧就是核心画面/问题</td></tr>
+    <tr><td>标题党</td><td>算法标记"无效钩子"</td><td>钩子与内容逻辑自洽</td></tr>
+    <tr><td>宣传治病/医疗效果</td><td>违规限流甚至封号</td><td>只说"润燥""舒缓咽干"</td></tr>
+    <tr><td>搬运/低原创度</td><td>限流</td><td>坚持实拍+真人出镜</td></tr>
+    <tr><td>多平台不调整</td><td>各平台算法不同</td><td>视频号重情感、抖音重钩子、小红书重封面</td></tr>
+  </table>
+</div>
+
+<div class="footer-note">做自己家人也放心喝的味道</div>
 
 </body>
 </html>
