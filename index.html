@@ -584,6 +584,11 @@ body {
       <div class="card-title"><span class="icon">🕐</span> 历史生成记录</div>
       <div id="copywritingHistory" class="empty"><span class="icon">📋</span>还没生成过文案呢～</div>
     </div>
+    <div class="card" style="border-left:3px solid #5C6BC0;">
+      <div class="card-title"><span class="icon">🌙</span> 晚安朋友圈 <span style="font-size:10px;color:var(--text-light);font-weight:400;">· 每日轮换</span></div>
+      <p style="font-size:12px;color:var(--text-light);margin-bottom:10px;">📅 <span id="goodnightDate"></span> · 睡前发一条，不折叠，有温度</p>
+      <div id="goodnightContent"></div>
+    </div>
   </div>
 
   <!-- ========== 模块2: 行业资讯 ========== -->
@@ -986,7 +991,7 @@ function switchTab(tab) {
       b.style.fontWeight = '500';
     }
   });
-  if (tab === 'copywriting') renderDailyCopy();
+  if (tab === 'copywriting') { renderDailyCopy(); renderGoodnight(); }
   if (tab === 'news') { renderTrend(); renderNews(); renderOps(); renderEcon(); }
   if (tab === 'skills') { renderViral(); renderHot(); renderSkills(); }
   if (tab === 'ledger') renderLedgerSummary();
@@ -1209,6 +1214,49 @@ function renderDailyCopy() {
       <div style="font-size:12px;color:var(--accent);margin-top:4px;font-weight:500;">💬 ${c.question}</div>
     </div>
   `).join('');
+}
+
+// ===== 晚安朋友圈 =====
+const GOODNIGHT_TEXTS = [
+  { type:'故事', text:'今天有个大爷喝完银耳说："姑娘，你熬得比我老伴好。"\n我说这话可别让大妈听见。\n他笑了："她走了两年了，我每周来喝一碗，就是想念那个味道。"\n晚安，被惦记的人。' },
+  { type:'故事', text:'下午来了个姑娘，一个人坐窗边喝银耳，喝完走的时候眼睛红红的。\n我没多问，多给她打包了一杯冬瓜露。\n有些时候，一碗糖水比任何安慰的话都管用。\n晚安，今天不容易的人。' },
+  { type:'故事', text:'今天有个小朋友跟他妈妈说："妈妈，这个阿姨做的银耳比姥姥做的好吃。"\n他妈赶紧捂他嘴。\n我说没事，这评价我收了。\n晚安，说实话的小孩。' },
+  { type:'感谢', text:'今天从五点半忙到现在。累，但踏实。\n谢谢每一位来的人——你们随口一句"好喝"，够我开心一整天。\n晚安，明天继续熬🥣' },
+  { type:'感谢', text:'今天有个老顾客说："晓慧，你在我就觉得安心。"\n这句话比什么数据都值钱。\n谢谢你们让我知道，坚持是有意义的。\n晚安。' },
+  { type:'感谢', text:'翻了一下今天的外卖订单，有个地址已经下单了23次。\n23次，每次都点原味银耳，不放糖。\n谢谢老铁，虽然我不知道你是谁，但我知道你喜欢什么味道。\n晚安。' },
+  { type:'日常', text:'今天芋圆煮过了，倒了半锅。\n可惜，但不后悔。对自己严格一点，才对得起来的人。\n晚安，明天那锅一定Q弹。' },
+  { type:'日常', text:'今天蜜芋头翻车了，炖太久全化了。\n开店三年了还会翻车。但翻就翻，倒了重做。\n晚安，接受不完美的自己。' },
+  { type:'日常', text:'今天实在太热了，下午熬银耳的时候差点睡着。\n赶紧喝了一杯冬瓜露续命。\n开店的人也是人啊，也会困也会累。\n晚安，今天也辛苦了的你。' },
+  { type:'好评', text:'今天收到一条消息："带我妈来喝银耳，她说这是她喝过最好喝的。"\n我妈也是我第一个顾客。她说行，我才敢卖。\n晚安，每个被妈妈爱着的人。' },
+  { type:'好评', text:'有个顾客发了条朋友圈夸我们家银耳冻，配了九张图。\n我看了三遍，每一遍都在笑。\n不是广告费给得多，是真好吃。\n晚安，用心拍照的你。' },
+  { type:'好评', text:'美团上多了一条五星好评，写了三百多字。\n我看了半天，眼眶有点湿。\n你们不知道，你们的每一句肯定，都是我继续熬下去的理由。\n晚安。' },
+  { type:'心情', text:'今天路过以前上班的写字楼，灯还亮着。\n三年前我还在里面改PPT，现在我在店里守着银耳冒泡。\n人生很奇妙——你以为走偏了，其实是走对了。\n晚安，还在加班的人。' },
+  { type:'心情', text:'今天儿子问我："妈妈你累不累？"\n我说累，但是开心。\n他又问为什么开心。\n我说因为有人在等妈妈熬的银耳呀。\n晚安，每个被等待的人。' },
+  { type:'心情', text:'收拾完店里，一个人坐在窗边喝了一碗银耳。\n这是我一整天最安静的时刻。\n不赶时间，不用回复消息，就是喝一碗自己熬的银耳。\n晚安，给自己留一点安静。' },
+  { type:'轻松', text:'又熬完一周。\n明天带儿子去吃他念叨了一周的汉堡。\n你们周末准备干嘛？我参考参考😄\n晚安～' },
+  { type:'轻松', text:'周五了！明天可以多睡半小时。\n不过生物钟不允许——到点还是醒。\n开店三年，身体比闹钟还准时。\n晚安，周末愉快～' },
+  { type:'轻松', text:'今天鲁商中心人好多，忙得脚不沾地。\n但越忙越开心——说明你们都在。\n周末了，好好休息，下周见。\n晚安🥣' },
+];
+
+function getGoodnightText() {
+  const idx = (new Date().getDate() * 7 + new Date().getDay()) % GOODNIGHT_TEXTS.length;
+  return GOODNIGHT_TEXTS[idx];
+}
+
+function renderGoodnight() {
+  document.getElementById('goodnightDate').textContent = today();
+  const data = getGoodnightText();
+  const typeLabels = { 故事:'📖', 感谢:'💛', 日常:'😅', 好评:'⭐', 心情:'💭', 轻松:'😄' };
+  document.getElementById('goodnightContent').innerHTML = `
+    <div style="margin-bottom:10px;">
+      <span style="font-size:11px;color:var(--text-light);background:#F5F0E8;padding:2px 8px;border-radius:10px;">${typeLabels[data.type]||'🌙'} ${data.type}向</span>
+    </div>
+    <div class="copy-box" id="copy-goodnight">
+      ${data.text.replace(/\n/g,'<br>')}
+      <button class="copy-btn" onclick="copyText('copy-goodnight')">📋 复制</button>
+    </div>
+    <div style="font-size:11px;color:var(--text-light);margin-top:8px;text-align:center;">⏰ 建议发布时间：22:00-22:30</div>
+  `;
 }
 
 // --- 文案模板库 ---
