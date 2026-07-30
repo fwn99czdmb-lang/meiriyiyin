@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>我的思考 · 每日一饮鲜炖银耳</title>
+<style>
+:root {
+  --primary: #8B5E3C;
+  --primary-light: #D4A574;
+  --accent: #E8915C;
+  --bg: #FAF6F0;
+  --card: #FFFFFF;
+  --text: #333333;
+  --text-light: #888888;
+  --border: #E8DDD0;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px 16px 60px;
+}
+.header {
+  text-align: center;
+  padding: 24px 0 20px;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 20px;
+}
+.header h1 { font-size: 22px; color: var(--primary); letter-spacing: 2px; }
+.header .date { font-size: 12px; color: var(--text-light); margin-top: 6px; }
+.header .back { display: inline-block; margin-top: 12px; font-size: 13px; color: var(--accent); text-decoration: none; padding: 6px 16px; border: 1px solid var(--accent); border-radius: 20px; }
+.card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 8px rgba(139,94,60,0.06);
+}
+.card-title { font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+table th { text-align: left; padding: 8px 6px; border-bottom: 2px solid var(--border); color: var(--primary); font-size: 11px; }
+table td { padding: 8px 6px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.theme-row { display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.theme-row:last-child { border-bottom: none; }
+.theme-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.theme-info { flex: 1; }
+.theme-name { font-weight: 600; font-size: 13px; }
+.theme-freq { font-size: 11px; color: var(--text-light); }
+.theme-desc { font-size: 12px; color: var(--text); margin-top: 2px; }
+.schedule-item { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.schedule-item:last-child { border-bottom: none; }
+.schedule-date { font-size: 11px; color: var(--accent); font-weight: 700; white-space: nowrap; min-width: 60px; }
+.schedule-content { font-size: 12px; }
+.note { font-size: 12px; color: var(--text); line-height: 2; }
+.file-tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 10px; margin: 2px; }
+.tag-strategy { background: #E3F2FD; color: #1565C0; }
+.tag-script { background: #FFF3E0; color: #E65100; }
+.tag-design { background: #F3E5F5; color: #6A1B9A; }
+.tag-copy { background: #E8F5E9; color: #2E7D32; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🧠 我的思考</h1>
+  <div class="date">整理时间：2026年7月30日</div>
+  <div style="font-size:12px;color:var(--text-light);margin-top:6px;">今天和WorkBuddy一起梳理了账号、内容方向、拍摄主题</div>
+  <a class="back" href="index.html">← 返回工作台</a>
+</div>
+
+<!-- 文件清单 -->
+<div class="card">
+  <div class="card-title">📁 文件清单</div>
+  <table>
+    <tr><th>文件</th><th>说明</th></tr>
+    <tr><td colspan="2" style="font-weight:600;color:var(--primary);padding-top:12px;">📋 账号诊断与策略</td></tr>
+    <tr><td>每日一饮_门店档案.md</td><td>门店基础信息</td></tr>
+    <tr><td>每日一饮_视频诊断报告.md</td><td>视频号5期内容逐条分析</td></tr>
+    <tr><td>每日一饮_抖音号诊断.md</td><td>抖音账号12条作品分析</td></tr>
+    <tr><td>每日一饮_爆款选题库.md</td><td>三大维度爆款选题方向</td></tr>
+    <tr><td>每日一饮_内容主题体系.md</td><td>三大核心主题规划</td></tr>
+    <tr><td colspan="2" style="font-weight:600;color:var(--primary);padding-top:12px;">🎬 拍摄脚本</td></tr>
+    <tr><td>15条拍摄文案_三大主题.md</td><td>老朋友故事/儿子的镜头/创业日记各5条</td></tr>
+    <tr><td>创业日记000_自我介绍脚本.md</td><td>三部曲上集：我是谁</td></tr>
+    <tr><td>创业日记_为什么敢开店.md</td><td>三部曲中集：我凭什么</td></tr>
+    <tr><td>创业日记_后悔吗.md</td><td>三部曲下集：我后悔吗</td></tr>
+    <tr><td>儿子的镜头_拍摄脚本.md</td><td>儿子拍妈妈系列脚本</td></tr>
+    <tr><td colspan="2" style="font-weight:600;color:var(--primary);padding-top:12px;">🎨 设计参考</td></tr>
+    <tr><td>每日一饮_封面模板指南.md</td><td>统一封面模板参数和制作步骤</td></tr>
+    <tr><td colspan="2" style="font-weight:600;color:var(--primary);padding-top:12px;">📝 发布文案</td></tr>
+    <tr><td>老朋友故事001_最终文案.md</td><td>今晚要发的文案</td></tr>
+    <tr><td>老朋友故事001_发布文案.md</td><td>三版文案对比</td></tr>
+    <tr><td>老朋友故事001_修改版诊断.md</td><td>视频修改前后对比</td></tr>
+  </table>
+</div>
+
+<!-- 三大核心主题 -->
+<div class="card">
+  <div class="card-title">🗺️ 三大核心主题</div>
+  <div class="theme-row">
+    <div class="theme-dot" style="background:#4CAF50;"></div>
+    <div class="theme-info">
+      <div class="theme-name">🟢 老朋友故事 <span class="theme-freq">· 每周五</span></div>
+      <div class="theme-desc">讲顾客的温暖故事</div>
+    </div>
+  </div>
+  <div class="theme-row">
+    <div class="theme-dot" style="background:#FFC107;"></div>
+    <div class="theme-info">
+      <div class="theme-name">🟡 儿子的镜头 <span class="theme-freq">· 每周三</span></div>
+      <div class="theme-desc">儿子视角拍妈妈</div>
+    </div>
+  </div>
+  <div class="theme-row">
+    <div class="theme-dot" style="background:#FF9800;"></div>
+    <div class="theme-info">
+      <div class="theme-name">🟠 创业日记 <span class="theme-freq">· 每周日</span></div>
+      <div class="theme-desc">开店日常、热点话题、三部曲</div>
+    </div>
+  </div>
+</div>
+
+<!-- 发布节奏 -->
+<div class="card">
+  <div class="card-title">📅 发布节奏</div>
+  <div class="schedule-item">
+    <div class="schedule-date">今晚 7.30</div>
+    <div class="schedule-content">老朋友故事 001</div>
+  </div>
+  <div class="schedule-item">
+    <div class="schedule-date">下周</div>
+    <div class="schedule-content">创业日记·上集：我是谁</div>
+  </div>
+  <div class="schedule-item">
+    <div class="schedule-date">穿插</div>
+    <div class="schedule-content">老朋友故事 002 / 儿子的镜头 001</div>
+  </div>
+  <div class="schedule-item">
+    <div class="schedule-date">再下周</div>
+    <div class="schedule-content">创业日记·中集：我凭什么</div>
+  </div>
+  <div class="schedule-item">
+    <div class="schedule-date">再下周</div>
+    <div class="schedule-content">创业日记·下集：我后悔吗</div>
+  </div>
+</div>
+
+</body>
+</html>
