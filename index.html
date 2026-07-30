@@ -574,7 +574,10 @@ body {
           <button class="version-tab" data-style="interact">互动引流</button>
         </div>
       </div>
-      <button class="btn btn-primary btn-block" onclick="generateCopywriting()">✨ 一键生成文案</button>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="btn btn-primary btn-block" onclick="generateCopywriting()" style="flex:1;">✨ 一键生成文案</button>
+        <span style="font-size:10px;color:var(--primary);white-space:nowrap;background:#FFF3E0;padding:4px 8px;border-radius:10px;" id="copyDayBadge">🔄 日更</span>
+      </div>
       <div id="copywritingResult" style="margin-top:12px;"></div>
     </div>
     <div class="card">
@@ -1512,21 +1515,162 @@ const COPY_TEMPLATES = {
   },
 };
 
+// ===== 每日轮换内容池 =====
+const DAILY_HOOKS = {
+  // 走心版开头标题轮换（31天）
+  warmTitles: [
+    '【慢炖一锅银耳，炖的是日子】',
+    '【有些味道，值得慢慢等】',
+    '【一碗糖水，一份心安】',
+    '【好食材会说话，不需要解释】',
+    '【每天守着这锅，守的是初心】',
+    '【不是所有银耳，都值得慢慢熬】',
+    '【从锅里到心里，就差一碗的距离】',
+    '【生活需要一点甜，但不能是添加剂给的】',
+    '【真正的滋养，从来不急不躁】',
+    '【一碗好糖水，是给生活的情书】',
+    '【慢下来，才尝得到好东西】',
+    '【时间熬出来的，机器代替不了】',
+    '【不赶时间，只熬好每一碗】',
+    '【好料+耐心=一碗让人安心的甜】',
+    '【有些坚持，喝一口就懂了】',
+    '【不是网红店，就是一家用心熬糖水的小铺】',
+    '【每一碗都是当天的新鲜，不是昨天的剩】',
+    '【比奶茶健康，比白水好喝，就是它了】',
+    '【零添加不是口号，是每天在做的日常】',
+    '【喝过就知道，好银耳是能拉丝的】',
+    '【不拼颜值拼品质，不卷营销卷良心】',
+    '【一碗银耳，润的是肺，暖的是心】',
+    '【从选料到出锅，每一步都不将就】',
+    '【你的下午茶，可以更健康一点】',
+    '【熬的是银耳，养的是生活】',
+    '【比起快，我们选择好】',
+    '【没有科技与狠活，只有食材本来的味道】',
+    '【糖水铺子千千万，用心熬的没几家】',
+    '【一碗下去，整个人都润了】',
+    '【每天现熬，不是说说而已】',
+    '【给自己的身体，选一碗干净的甜】',
+  ],
+  // 互动版结尾引导轮换（31天）
+  interactEndings: [
+    '评论区说说：你夏天最离不开的饮品是啥？👇',
+    '来聊聊：你觉得临沂夏天最需要什么降温神器？👇',
+    '你最喜欢什么口感的糖水？评论区举手🙋‍♀️',
+    '今天你喝糖水了吗？喝了的扣1，没喝的扣2～',
+    '你觉得咱家哪个产品最好喝？老顾客来安利一下👇',
+    '下午三点，你最想喝什么犒劳自己？',
+    '空调房里你的续命饮品是啥？来分享～',
+    '你觉得传统糖水PK奶茶，哪个更对你的胃？',
+    '你最喜欢的甜品口感是Q弹还是糯叽叽？👇',
+    '今天临沂多少度？热得想喝啥？',
+    '说说你最近最想喝的一款糖水👇',
+    '银耳、桃胶、芋圆——三选一你选哪个？',
+    '你平时会特意找零添加的饮品吗？',
+    '来店里你最常点的是哪一款？我猜是银耳～',
+    '有没有一种糖水，让你想起小时候？',
+    '周末了，给自己安排一碗糖水不？',
+    '你觉得夏天喝热的还是凉的好？',
+    '你家附近有好喝的糖水铺吗？',
+    '第一次来咱家是朋友推荐的吗？举个手🙋',
+    '你愿意为了零添加多花几块钱吗？',
+    '银耳冻和银耳汤，你更爱哪个？',
+    '下午茶你选糖水还是奶茶？评论区battle！',
+    '今天心情咋样？来碗甜的开心一下～',
+    '你最近最想安利给朋友的一家店是？',
+    '喝完糖水你最想干啥？我选躺平😴',
+    '这天气出门五分钟就化了，来碗冰的续命吧！',
+    '你觉得什么样的糖水才算好糖水？',
+    '你心中的夏日甜品TOP1是什么？',
+    '来店里坐坐，想听你讲讲今天的故事～',
+    '吃货集合！你最近发现了什么宝藏糖水？',
+    '这个月的新品你最期待什么口味？',
+  ],
+  // 精简版结尾引导轮换（15天）
+  shortEndings: [
+    '🥣 今天这锅刚出锅！',
+    '🥣 趁鲜来一碗～',
+    '🥣 每日现熬，趁热喝！',
+    '🥣 今日已出锅，路过捎一杯？',
+    '🥣 新鲜出锅，胶质拉丝～',
+    '🍈 今日有货，来晚了真没有！',
+    '🍓 每日限量，手慢无～',
+    '🍠 手工现做，趁鲜来！',
+    '🕒 下午茶时间，该犒劳自己了～',
+    '💛 好料+时间，喝过就知道。',
+    '✨ 不将就，每一碗都对得起你。',
+    '🔥 最近人气爆棚的一款！',
+    '💎 料足实在，一碗就饱～',
+    '🌿 零添加·每日现熬·干净',
+    '🏠 鲁商中心，等你来坐坐～',
+  ],
+};
+
+// 获取今日轮换内容
+function getDailyWarmTitle() {
+  const idx = new Date().getDate() % DAILY_HOOKS.warmTitles.length;
+  return DAILY_HOOKS.warmTitles[idx];
+}
+function getDailyInteractEnding() {
+  const idx = new Date().getDate() % DAILY_HOOKS.interactEndings.length;
+  return DAILY_HOOKS.interactEndings[idx];
+}
+function getDailyShortEnding() {
+  const idx = new Date().getDate() % DAILY_HOOKS.shortEndings.length;
+  return DAILY_HOOKS.shortEndings[idx];
+}
+
 function generateCopywriting() {
   const product = STORE.currentProduct;
   const style = STORE.currentStyle;
   const templates = COPY_TEMPLATES[product];
   if (!templates) return;
 
+  const dayLabel = `${new Date().getMonth()+1}月${new Date().getDate()}日`;
   let html = '';
   const styles = style === 'all' ? ['warm','short','interact'] : [style];
   const labels = { warm: '💛 走心氛围感版', short: '⚡ 精简短文案版', interact: '💬 互动引流版' };
 
   styles.forEach(s => {
-    const text = templates[s];
+    let text = templates[s];
+
+    // 每日轮换：走心版替换开头标题
+    if (s === 'warm') {
+      const oldTitle = text.match(/^【[^】]+】/);
+      if (oldTitle) {
+        text = text.replace(oldTitle[0], getDailyWarmTitle());
+      }
+    }
+    // 每日轮换：互动版替换结尾引导
+    if (s === 'interact') {
+      // 替换最后一行评论区引导
+      text = text.replace(/评论区说说[：:][^👇\n]*👇/, getDailyInteractEnding());
+      text = text.replace(/来聊聊[：:][^👇\n]*👇/, getDailyInteractEnding());
+      text = text.replace(/举个手[🙋]*👇/, getDailyInteractEnding());
+      // 如果没匹配到标准模式，替换最后一行
+      if (!text.includes(getDailyInteractEnding().split('：')[0])) {
+        const lines = text.trim().split('\n');
+        // 最后一行通常是引导互动
+        const lastLine = lines[lines.length - 1];
+        if (lastLine.includes('👇') || lastLine.includes('？') || lastLine.includes('🙋')) {
+          lines[lines.length - 1] = getDailyInteractEnding();
+          text = lines.join('\n');
+        }
+      }
+    }
+    // 每日轮换：精简版替换结尾
+    if (s === 'short') {
+      const lines = text.trim().split('\n');
+      // 最后一行通常是引导语
+      const lastLine = lines[lines.length - 1];
+      if (lastLine.includes('📍')) {
+        // 在地址前面插入轮换结尾
+        text = text.replace(/📍/, getDailyShortEnding() + '\n📍');
+      }
+    }
+
     html += `
       <div style="margin-bottom:14px;">
-        <div style="font-weight:600;font-size:13px;margin-bottom:6px;color:var(--primary);">${labels[s]}</div>
+        <div style="font-weight:600;font-size:13px;margin-bottom:6px;color:var(--primary);">${labels[s]} <span style="font-size:10px;color:var(--text-light);font-weight:400;">${dayLabel}更新</span></div>
         <div class="copy-box" id="copy-${s}">
           ${text}
           <button class="copy-btn" onclick="copyText('copy-${s}')">📋 复制</button>
@@ -1535,6 +1679,9 @@ function generateCopywriting() {
   });
 
   document.getElementById('copywritingResult').innerHTML = html;
+  // 更新日更标签
+  const badge = document.getElementById('copyDayBadge');
+  if (badge) badge.textContent = '🔄 ' + dayLabel + '版';
 
   // 保存历史
   const record = { date: today(), product, style, time: new Date().toLocaleTimeString() };
@@ -1542,7 +1689,7 @@ function generateCopywriting() {
   if (STORE.copyHistory.length > 50) STORE.copyHistory.pop();
   save('copyHistory');
   renderCopyHistory();
-  showToast('✅ 文案生成好啦！');
+  showToast('✅ 文案生成好啦！（每日轮换版）');
 }
 
 function copyText(id) {
